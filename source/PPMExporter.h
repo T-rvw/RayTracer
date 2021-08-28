@@ -1,5 +1,8 @@
 // Portable PixelMap file format exporter
 #pragma once
+
+#include "XYZ.h"
+
 #include <cstdint>
 #include <filesystem>
 
@@ -24,10 +27,11 @@ public:
 	
 	PPMExporter(const PPMExporter&) = delete;
 	PPMExporter(PPMExporter&&) = delete;
-	PPMExporter& operator =(const PPMExporter&) = delete;
-	PPMExporter& operator =(PPMExporter&&) = delete;
+	PPMExporter& operator=(const PPMExporter&) = delete;
+	PPMExporter& operator=(PPMExporter&&) = delete;
 	
 	void fillColor(size_t index, uint8_t r, uint8_t g, uint8_t b);
+	void fillColor(size_t index, const XYZ& color);
 	PPMResult generate(std::filesystem::path filePath, bool bOverwrite = false);
 	
 private:

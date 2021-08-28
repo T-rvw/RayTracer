@@ -43,6 +43,15 @@ void PPMExporter::fillColor(size_t index, uint8_t r, uint8_t g, uint8_t b)
 	m_vecPixelMap[rgbIndex + 2]	= b;
 }
 
+void PPMExporter::fillColor(size_t index, const XYZ& color)
+{
+	uint8_t r = static_cast<uint8_t>(255.999 * color.x());
+	uint8_t g = static_cast<uint8_t>(255.999 * color.y());
+	uint8_t b = static_cast<uint8_t>(255.999 * color.z());
+
+	fillColor(index, r, g, b);
+}
+
 PPMResult PPMExporter::generate(std::filesystem::path filePath, bool bOverwrite)
 {
 	if (filePath.extension().compare("ppm") == std::string::npos ||
