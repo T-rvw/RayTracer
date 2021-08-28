@@ -1,6 +1,6 @@
 # RayTracingRender
 
-Pratices in the book <<Ray Tracing in One Weekend>>.
+Pratices in the book << Ray Tracing in One Weekend >>.
 
 ## Build
 
