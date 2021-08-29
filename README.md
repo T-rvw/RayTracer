@@ -14,6 +14,4 @@ Linux + gmake : `./premake/premake gmake2`
 
 Mac + xcode : `./premake/premake xcode4`
 
-codelite : `./premake/premake codelite`
-
 If you want more build options, please see [Premake document](https://premake.github.io/docs/Using-Premake). RayTracingRender uses Premake as its build tool.
