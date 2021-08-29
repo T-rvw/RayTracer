@@ -75,6 +75,9 @@ private:
     XYZPrecision m_value[3];
 };
 
+// type alias
+using Color = XYZ;
+
 inline XYZ operator+(const XYZ& lhs, const XYZ& rhs)
 {
     return XYZ(lhs.x() + rhs.x(), lhs.y() + rhs.y(), lhs.z() + rhs.z());
