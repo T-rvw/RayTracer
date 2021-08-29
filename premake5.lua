@@ -53,5 +53,5 @@ setCppProject("core")
 	kind "StaticLib"
 
 setExampleProject("example1_output_image")
-
 setExampleProject("example2_blue_to_white")
+setExampleProject("example3_red_sphere")
