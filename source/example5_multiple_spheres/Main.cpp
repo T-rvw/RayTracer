@@ -8,17 +8,16 @@
 
 Color getRayColor(const Ray& ray)
 {
-    std::vector<Sphere*> vecSpheres;
-    Sphere sphere1(XYZ(-0.35, 0.0, -1.0), 0.3);
-    Sphere sphere2(XYZ(+0.35, 0.0, -1.0), 0.3);
-    vecSpheres.push_back(&sphere1);
-    vecSpheres.push_back(&sphere2);
+    std::vector<Sphere> vecSpheres;
+    vecSpheres.reserve(2);
+    vecSpheres.emplace_back(XYZ(-0.35, 0.0, -1.0), 0.25);
+    vecSpheres.emplace_back(XYZ(-0.35, 0.0, -1.0), 0.25);
 
     for (size_t ii = 0; ii < vecSpheres.size(); ++ii)
     {
-        Sphere* pSphere = vecSpheres[ii];
+        const Sphere& sphere = vecSpheres[ii];
 
-        std::optional<HitRecord> optHitRecord = pSphere->hit(ray);
+        std::optional<HitRecord> optHitRecord = sphere.hit(ray);
         if (optHitRecord.has_value())
         {
             const HitRecord& hitRecord = optHitRecord.value();

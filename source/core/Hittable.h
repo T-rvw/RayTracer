@@ -27,16 +27,16 @@ private:
 };
 
 // Interface
-class Hitable
+class Hittable
 {
 public:
-    Hitable() = default;
-    virtual ~Hitable() = default;
+    Hittable() = default;
+    virtual ~Hittable() = default;
 
-    Hitable(const Hitable&) = delete;
-    Hitable(Hitable&&) = delete;
-    Hitable& operator=(const Hitable&) = delete;
-    Hitable& operator=(Hitable&&) = delete;
+    Hittable(const Hittable&) = delete;
+    Hittable(Hittable&&) = delete;
+    Hittable& operator=(const Hittable&) = delete;
+    Hittable& operator=(Hittable&&) = delete;
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const = 0;
 };

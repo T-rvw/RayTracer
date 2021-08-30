@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Hitable.h"
+#include "Hittable.h"
 
-class Sphere : public Hitable
+class Sphere : public Hittable
 {
 public:
     Sphere() = delete;
@@ -10,6 +10,7 @@ public:
     virtual ~Sphere() = default;
 
     Sphere(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); };
+    Sphere(Sphere&& rhs) = default;
     Sphere& operator=(const Sphere&) = default;
     Sphere& operator=(Sphere&&) = default;
 
