@@ -22,7 +22,7 @@ public:
     XYZ(XYZ&&) = default;
     XYZ& operator=(const XYZ&) = default;
     XYZ& operator=(XYZ&&) = default;
-    
+
     XYZPrecision x() const { return m_value[0]; }
     XYZPrecision y() const { return m_value[1]; }
     XYZPrecision z() const { return m_value[2]; }
@@ -67,8 +67,8 @@ public:
 #endif
 
     XYZPrecision lengthSquare() const
-    { 
-        return m_value[0] * m_value[0] + 
+    {
+        return m_value[0] * m_value[0] +
                m_value[1] * m_value[1] +
                m_value[2] * m_value[2];
     }

@@ -13,12 +13,12 @@ public:
 	Ray(Ray&&) = default;
 	Ray& operator=(const Ray&) = default;
 	Ray& operator=(Ray&&) = default;
-	
+
 	XYZ origin() const { return m_origin; }
 	XYZ direction() const { return m_direction; }
-	
+
 	XYZ at(double t) const { return m_origin + t * m_direction; }
-	
+
 private:
 	XYZ m_origin;
 	XYZ m_direction;

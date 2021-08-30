@@ -38,13 +38,18 @@ project(projectName)
 		"source/"..projectName.."/**.h",
 		"source/"..projectName.."/**.cpp",
 	}
+
+	includedirs {
+		"source/core/",
+		"source/core/geometry/",
+		"source/core/math/"
+	}
 end
 
 local function setExampleProject(projectName)
 	setCppProject(projectName)
 	kind "ConsoleApp"
 	
-	includedirs { "source/core/"}
 	links { "core" }
 end
 
