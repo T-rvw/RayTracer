@@ -1,3 +1,5 @@
+#include "HittableList.h"
+#include "MathUtils.h"
 #include "PPMExporter.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -6,25 +8,15 @@
 #include <iostream>
 #include <vector>
 
-Color getRayColor(const Ray& ray)
+Color getRayColor(const Ray& ray, const HittableList& world)
 {
-    std::vector<Sphere> vecSpheres;
-    vecSpheres.reserve(2);
-    vecSpheres.emplace_back(XYZ(-0.35, 0.0, -1.0), 0.25);
-    vecSpheres.emplace_back(XYZ(-0.35, 0.0, -1.0), 0.25);
-
-    for (size_t ii = 0; ii < vecSpheres.size(); ++ii)
+    std::optional<HitRecord> optHitRecord = world.hit(ray, 0, DOUBLE_INFINITY);
+    if (optHitRecord.has_value())
     {
-        const Sphere& sphere = vecSpheres[ii];
-
-        std::optional<HitRecord> optHitRecord = sphere.hit(ray);
-        if (optHitRecord.has_value())
-        {
-            const HitRecord& hitRecord = optHitRecord.value();
-            const XYZ& normal = hitRecord.normal();
-            // Map normal's xyz to rgb
-            return 0.5 * Color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
-        }
+        const HitRecord& hitRecord = optHitRecord.value();
+        const XYZ& normal = hitRecord.normal();
+        // Map normal's xyz to rgb
+        return 0.5 * Color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
     }
 
     // background
@@ -39,6 +31,12 @@ int main()
     constexpr uint16_t imageWidth = 400;
     constexpr uint16_t imageHeight = static_cast<uint16_t>(imageWidth / aspectRatio);
     PPMExporter ppmExporter(imageWidth, imageHeight);
+
+    // World
+    HittableList hittableList;
+    hittableList.reserve(2);
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 0.0, -1.0), 0.5));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -100.5, -1.0), 100.0));
 
 	// Camera
 	double viewPortHeight = 2.0;
@@ -56,15 +54,15 @@ int main()
     {
         for (int ii = 0; ii < imageWidth; ++ii)
         {
-			double u = static_cast<double>(ii) / (imageWidth - 1);
-			double v = static_cast<double>(jj) / (imageHeight - 1);
-            
-			Ray ray(origin, leftDownCorner + u * horizontal + v * vertical - origin);
-            ppmExporter.fillColor(pixelIndex, getRayColor(ray));
+            double u = static_cast<double>(ii) / (imageWidth - 1);
+            double v = static_cast<double>(jj) / (imageHeight - 1);
+
+            Ray ray(origin, leftDownCorner + u * horizontal + v * vertical - origin);
+            ppmExporter.fillColor(pixelIndex, getRayColor(ray, hittableList));
             std::cout << "Fill color pixel placed at " << pixelIndex << std::endl;
             ++pixelIndex;
         }
-    }    
+    }
 	
     PPMResult result = ppmExporter.generate("test.ppm");
     if (PPMResult::TotalSuccess == result)
