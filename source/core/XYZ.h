@@ -9,17 +9,19 @@ typedef double XYZPrecision;
 typedef float XYZPrecision;
 #endif
 
+constexpr double DOUBLE_EPS = 0.0000001;
+
 class XYZ final
 {
 public:
     XYZ() : m_value{ 0, 0, 0 } {}
     XYZ(XYZPrecision x, XYZPrecision y, XYZPrecision z) : m_value{ x, y, z } {}
+    ~XYZ() = default;
 
     XYZ(const XYZ&) = default;
-    XYZ& operator=(const XYZ&) = default;
     XYZ(XYZ&&) = default;
+    XYZ& operator=(const XYZ&) = default;
     XYZ& operator=(XYZ&&) = default;
-    ~XYZ() = default;
     
     XYZPrecision x() const { return m_value[0]; }
     XYZPrecision y() const { return m_value[1]; }

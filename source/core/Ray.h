@@ -7,11 +7,12 @@ class Ray final
 public:
 	Ray() = default;
 	Ray(const XYZ& origin, const XYZ& direction) : m_origin(origin), m_direction(direction) {}
+	~Ray() = default;
+
 	Ray(const Ray&) = default;
 	Ray(Ray&&) = default;
 	Ray& operator=(const Ray&) = default;
 	Ray& operator=(Ray&&) = default;
-	~Ray() = default;
 	
 	XYZ origin() const { return m_origin; }
 	XYZ direction() const { return m_direction; }
