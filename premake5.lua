@@ -41,8 +41,8 @@ project(projectName)
 
 	includedirs {
 		"Source/Core/",
-		"Source/Core/geometry/",
-		"Source/Core/math/"
+		"Source/Core/Geometry/",
+		"Source/Core/Math/"
 	}
 end
 
