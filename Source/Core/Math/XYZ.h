@@ -164,3 +164,11 @@ inline XYZ reflect(const XYZ& rayIn, const XYZ& normal)
 {
     return rayIn - dot(rayIn, normal) * 2 * normal;
 }
+
+inline XYZ refract(const XYZ& uv, const XYZ& normal, double etaiOverEtat)
+{
+    double cosTheta = fmin(dot(-uv, normal), 1.0);
+    XYZ rayOutPerp = etaiOverEtat * (uv + cosTheta * normal);
+    XYZ rayOutParallel = -sqrt(fabs(1.0 - rayOutPerp.lengthSquare())) * normal;
+    return rayOutPerp + rayOutParallel;
+}

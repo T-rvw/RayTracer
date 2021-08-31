@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Dielectric.h"
 #include "HittableList.h"
 #include "Lambertian.h"
 #include "MathUtils.h"
@@ -52,8 +53,8 @@ int main()
 
     // World
     auto groudMaterial = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
-    auto centerMaterial = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
-    auto leftMaterial = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.3);
+    auto centerMaterial = std::make_shared<Dielectric>(1.5);
+    auto leftMaterial = std::make_shared<Dielectric>(1.5);
     auto rightMaterial = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 1.0);
     
     HittableList hittableList;

@@ -7,7 +7,7 @@ bool Metal::scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuati
 {
 	XYZ normal = hitRecord.normal();
 	XYZ reflected = reflect(unit(ray.direction()), normal);
-	scattered = Ray(hitRecord.hitPoint(), reflected);
+	scattered = Ray(hitRecord.hitPoint(), reflected + m_fuzz * unit(randomInUnitSphere()));
 	attenuation = m_albedo;
 	return true;
 }
