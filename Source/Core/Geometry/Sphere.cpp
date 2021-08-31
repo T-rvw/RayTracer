@@ -36,5 +36,5 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
     XYZ hitPoint = ray.at(root);
     XYZ normal = (hitPoint - m_center) / m_radius;
     bool isFront = dot(ray.direction(), normal) < 0;
-    return HitRecord(std::move(hitPoint), isFront ? std::move(normal) : -normal, root, isFront);
+    return HitRecord(std::move(hitPoint), isFront ? std::move(normal) : -normal, root, isFront, this);
 }

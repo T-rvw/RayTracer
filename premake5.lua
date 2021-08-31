@@ -42,12 +42,14 @@ project(projectName)
 	includedirs {
 		"Source/Core/",
 		"Source/Core/Geometry/",
-		"Source/Core/Math/"
+		"Source/Core/Material/",
+		"Source/Core/Math/",
 	}
 end
 
 local function setExampleProject(projectName)
 	setCppProject(projectName)
+	print(projectName)
 	kind "ConsoleApp"
 	
 	links { "Core" }
@@ -57,10 +59,9 @@ end
 setCppProject("Core")
 	kind "StaticLib"
 
-setExampleProject("Example1_output_image")
-setExampleProject("Example2_blue_to_white")
-setExampleProject("Example3_red_sphere")
-setExampleProject("Example4_surface_normal")
-setExampleProject("Example5_multiple_spheres")
-setExampleProject("example6_antialiasing")
-setExampleProject("Example7_diffuse_material")
+-- Examples
+local allExamples = os.matchdirs("Source/Example*")
+for k, v in ipairs(allExamples) do
+	print("Make exmaple project : "..path.getname(v))
+	setExampleProject(path.getname(v))
+end

@@ -138,3 +138,29 @@ inline XYZ unit(XYZ xyz)
 {
     return xyz / xyz.length();
 }
+
+inline XYZ randomInUnitSphere()
+{
+    while (true)
+    {
+        XYZ p = XYZ::random(-1.0, 1.0);
+        if (p.lengthSquare() >= 1.0)
+        {
+            continue;
+        }
+
+        return p;
+    }
+}
+
+inline bool isZero(const XYZ& xyz)
+{
+    return fabs(xyz.x()) < DOUBLE_EPS &&
+           fabs(xyz.y()) < DOUBLE_EPS &&
+           fabs(xyz.z()) < DOUBLE_EPS;
+}
+
+inline XYZ reflect(const XYZ& rayIn, const XYZ& normal)
+{
+    return rayIn - dot(rayIn, normal) * 2 * normal;
+}

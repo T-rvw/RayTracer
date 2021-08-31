@@ -22,7 +22,8 @@ public:
     void reserve(size_t expectedSize) { m_vecHittableObjects.reserve(expectedSize); }
     void appendOne(std::shared_ptr<Hittable> pHittableObject) { m_vecHittableObjects.push_back(pHittableObject); }
 
-    virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const;
+    virtual std::shared_ptr<Material> material() const override { return nullptr; }
+    virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const override;
 
 private:
     std::vector<std::shared_ptr<Hittable>> m_vecHittableObjects;
