@@ -30,8 +30,8 @@ project(projectName)
 	editAndContinue("Off")
 	floatingpoint("Strict")
 	language("C++")
-	location("Build/"..workSpaceName.."/"..projectName)
-	targetdir("Build/bin/%{cfg.buildcfg}"..cpuArch)
+	location("Build/"..projectName)
+	targetdir("Build/Bin/"..projectName.."/%{cfg.buildcfg}"..cpuArch)
 	warnings("Extra")
 	
 	files {
