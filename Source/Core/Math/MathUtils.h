@@ -43,3 +43,11 @@ inline double clamp(double x, double min, double max)
 {
     return x < min ? min : (x > max ? max : x);
 }
+
+// Use Schlick's approximation for reflectance.
+inline double reflectance(double cosine, double reflectionIndex)
+{
+    double r0 = (1.0 - reflectionIndex) / (1.0 + reflectionIndex);
+    r0 = r0 * r0;
+    return r0 + (1 - r0) * pow((1 - cosine), 5);
+}
