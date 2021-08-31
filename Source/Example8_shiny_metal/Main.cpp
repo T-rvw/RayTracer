@@ -60,8 +60,8 @@ int main()
     hittableList.reserve(4);
     hittableList.appendOne(std::make_shared<Sphere>(XYZ(+0.0, -100.5, -1.0), 100.0, groudMaterial));
     hittableList.appendOne(std::make_shared<Sphere>(XYZ(+0.0,    0.0, -1.0),   0.5, centerMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-1.0,    0.0, -1.0),   0.5, leftMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(+1.0,    0.0, -1.0),   0.5, rightMaterial));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-1.2,    0.0, -1.0),   0.5, leftMaterial));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(+1.2,    0.0, -1.0),   0.5, rightMaterial));
 
 	// Camera
     Camera camera;
