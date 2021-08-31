@@ -30,7 +30,7 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
         return Color(0.0, 0.0, 0.0);
     }
 
-    std::optional<HitRecord> optHitRecord = world.hit(ray, 0, DOUBLE_INFINITY);
+    std::optional<HitRecord> optHitRecord = world.hit(ray, DOUBLE_EPS, DOUBLE_INFINITY);
     if (optHitRecord.has_value())
     {
         const HitRecord& hitRecord = optHitRecord.value();
@@ -83,12 +83,12 @@ int main()
                 pixelColor += getRayColor(ray, hittableList, maxRecursiveDepth);
             }
 
-            // sample && gamma-correct for gamma=2.0.
+            // sample && gamma-correct(1/2).
             {
                 double sampleScale = 1.0 / samplesPerPixel;
-                pixelColor[0] = clamp(sqrt(pixelColor.x() * sampleScale), 0.0, 1.0);
-                pixelColor[1] = clamp(sqrt(pixelColor.y() * sampleScale), 0.0, 1.0);
-                pixelColor[2] = clamp(sqrt(pixelColor.z() * sampleScale), 0.0, 1.0);
+                pixelColor[0] = clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
+                pixelColor[1] = clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
+                pixelColor[2] = clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
             }
 
             ppmExporter.fillColor(pixelIndex, pixelColor);

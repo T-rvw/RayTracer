@@ -11,7 +11,7 @@ typedef double XYZPrecision;
 typedef float XYZPrecision;
 #endif
 
-constexpr double DOUBLE_EPS = 0.0000001;
+constexpr double DOUBLE_EPS = 0.00001;
 
 class XYZ final
 {
