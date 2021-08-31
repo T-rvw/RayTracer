@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MathUtils.h"
+
 #include <cmath>
 
 #define XYZ_DOUBLE
@@ -71,6 +73,16 @@ public:
         return m_value[0] * m_value[0] +
                m_value[1] * m_value[1] +
                m_value[2] * m_value[2];
+    }
+
+    inline static XYZ random()
+    {
+        return XYZ(randomDouble(), randomDouble(), randomDouble());
+    }
+
+    inline static XYZ random(double min, double max)
+    {
+        return XYZ(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
     }
 
 private:
