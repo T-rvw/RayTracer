@@ -51,7 +51,7 @@ int main()
 {
     // Config
     constexpr int samplesPerPixel = 100;
-    constexpr int maxRecursiveDepth = 2;
+    constexpr int maxRecursiveDepth = 10;
 
     // World
     HittableList hittableList;
@@ -83,12 +83,12 @@ int main()
                 pixelColor += getRayColor(ray, hittableList, maxRecursiveDepth);
             }
 
-            // sample
+            // sample && gamma-correct for gamma=2.0.
             {
                 double sampleScale = 1.0 / samplesPerPixel;
-                pixelColor[0] = clamp(pixelColor.x() * sampleScale, 0.0, 1.0);
-                pixelColor[1] = clamp(pixelColor.y() * sampleScale, 0.0, 1.0);
-                pixelColor[2] = clamp(pixelColor.z() * sampleScale, 0.0, 1.0);
+                pixelColor[0] = clamp(sqrt(pixelColor.x() * sampleScale), 0.0, 1.0);
+                pixelColor[1] = clamp(sqrt(pixelColor.y() * sampleScale), 0.0, 1.0);
+                pixelColor[2] = clamp(sqrt(pixelColor.z() * sampleScale), 0.0, 1.0);
             }
 
             ppmExporter.fillColor(pixelIndex, pixelColor);
