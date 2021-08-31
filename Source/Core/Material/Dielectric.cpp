@@ -13,9 +13,10 @@ bool Dielectric::scatter(const Ray& ray, const HitRecord& hitRecord, Color& atte
 	double cosTheta = fmin(dot(unitDirection, normal), 1.0);
 	double sinTheta = sqrt(1.0 - cosTheta * cosTheta);
 
+	constexpr bool bUseReflectance = false;
 	XYZ direction;
 	if (refractionRatio * sinTheta > 1.0 ||
-		reflectance(cosTheta, refractionRatio) > randomDouble())
+		(bUseReflectance && reflectance(cosTheta, refractionRatio) > randomDouble()))
 	{
 		direction = reflect(unitDirection, normal);
 	}
