@@ -37,8 +37,20 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
         const XYZ& hitPoint = hitRecord.hitPoint();
         const XYZ& normal = hitRecord.normal();
 
-        XYZ target = hitPoint + normal + randomInUnitSphere();
-        return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
+        constexpr bool bUseLambertian = false;
+        constexpr bool bUseHemisphereScatter = false;
+        XYZ randomReflection = randomInUnitSphere();
+        if constexpr (!bUseHemisphereScatter)
+        {
+            XYZ target = hitPoint + normal + (bUseLambertian ? unit(randomReflection) : randomReflection);
+            return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
+        }
+        else
+        {
+            double reflectionDirection = dot(randomReflection, normal) > 0.0 ? 1.0 : -1.0;
+            XYZ target = hitPoint + reflectionDirection * randomReflection;
+            return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
+        }
     }
 
     // background
