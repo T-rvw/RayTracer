@@ -1,6 +1,6 @@
 # RayTracer
 
-Pratices in the book << Ray Tracing in One Weekend >>.
+Pratices in the book [<< Ray Tracing in One Weekend >>](https://raytracing.github.io/books/RayTracingInOneWeekend.html).
 
 Easy to make and build in different platforms powered by Premake.
 
