@@ -41,7 +41,7 @@ int main()
 
     // PPMExporter
     constexpr uint16_t imageWidth = 400;
-    constexpr uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
+    uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
     PPMExporter ppmExporter(imageWidth, imageHeight);
 
 	// Render

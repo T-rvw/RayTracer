@@ -1,10 +1,13 @@
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(double verticalFov, double aspectRatio) :
+	m_aspectRatio(aspectRatio)
 {
-	constexpr double viewPortHeight = 2.0;
+	double theta = degrees2Radians(verticalFov);
+	double h = tan(theta * 0.5);
+	double viewPortHeight = 2.0 * h;
 	constexpr double focalLength = 1.0;
-	double viewPortWidth = aspectRatio() * viewPortHeight;
+	double viewPortWidth = aspectRatio * viewPortHeight;
 	
 	m_origin = XYZ(0.0, 0.0, 0.0);
 	m_horizontal = XYZ(viewPortWidth, 0.0, 0.0);

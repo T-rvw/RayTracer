@@ -5,7 +5,7 @@
 class Camera final
 {
 public:
-	Camera();
+	Camera(double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
 	~Camera() = default;
 
 	Camera(const Camera&) = delete;
@@ -13,7 +13,7 @@ public:
 	Camera& operator=(const Camera&) = delete;
 	Camera& operator=(Camera&&) = delete;
 	
-	constexpr double aspectRatio() const { return 16.0 / 9.0; }
+	double aspectRatio() const { return m_aspectRatio; }
 
 	Ray getRay(double u, double v) const
 	{ 
@@ -21,8 +21,9 @@ public:
 	}
 
 private:
-	XYZ m_origin;
-	XYZ m_leftDownCorner;
-	XYZ m_horizontal;
-	XYZ m_vertical;
+	XYZ		m_origin;
+	XYZ		m_leftDownCorner;
+	XYZ		m_horizontal;
+	XYZ		m_vertical;
+	double	m_aspectRatio;
 };

@@ -1,6 +1,9 @@
 #include "Camera.h"
+#include "Dielectric.h"
 #include "HittableList.h"
+#include "Lambertian.h"
 #include "MathUtils.h"
+#include "Metal.h"
 #include "PPMExporter.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -20,22 +23,19 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
     if (optHitRecord.has_value())
     {
         const HitRecord& hitRecord = optHitRecord.value();
-        const XYZ& hitPoint = hitRecord.hitPoint();
-        const XYZ& normal = hitRecord.normal();
+        if (const Hittable* pHitObject = hitRecord.hitObject())
+        {
+            Ray scattered;
+            Color attenuation;
+            if (std::shared_ptr<Material> pMaterial = pHitObject->material())
+            {
+                if (pMaterial->scatter(ray, hitRecord, attenuation, scattered))
+                {
+                    return attenuation * getRayColor(scattered, world, depth - 1);
+                }
 
-        constexpr bool bUseLambertian = false;
-        constexpr bool bUseHemisphereScatter = false;
-        XYZ randomReflection = randomInUnitSphere();
-        if constexpr (!bUseHemisphereScatter)
-        {
-            XYZ target = hitPoint + normal + (bUseLambertian ? unit(randomReflection) : randomReflection);
-            return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
-        }
-        else
-        {
-            double reflectionDirection = dot(randomReflection, normal) > 0.0 ? 1.0 : -1.0;
-            XYZ target = hitPoint + reflectionDirection * randomReflection;
-            return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
+                return Color(0.0, 0.0, 0.0);
+            }
         }
     }
 
@@ -48,21 +48,25 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
 int main()
 {
     // Config
+    double radians = cos(PI * 0.25);
     constexpr int samplesPerPixel = 100;
     constexpr int maxRecursiveDepth = 10;
 
     // World
+    auto leftMaterial = std::make_shared<Lambertian>(Color(0.0, 0.0, 1.0));
+    auto rightMaterial = std::make_shared<Lambertian>(Color(1.0, 0.0, 0.0));
+    
     HittableList hittableList;
     hittableList.reserve(2);
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 0.0, -1.0), 0.5));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -100.5, -1.0), 100.0));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-radians, 0.0, -1.0), radians, leftMaterial));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(+radians, 0.0, -1.0), radians, rightMaterial));
 
 	// Camera
     Camera camera;
 
     // PPMExporter
     constexpr uint16_t imageWidth = 400;
-    constexpr uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
+    uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
     PPMExporter ppmExporter(imageWidth, imageHeight);
 
 	// Render
