@@ -144,12 +144,22 @@ inline XYZ randomInUnitSphere()
     while (true)
     {
         XYZ p = XYZ::random(-1.0, 1.0);
-        if (p.lengthSquare() >= 1.0)
+        if (p.lengthSquare() < 1.0)
         {
-            continue;
+            return p;
         }
+    }
+}
 
-        return p;
+inline XYZ randomInUnitDisk()
+{
+    while (true)
+    {
+        XYZ p = XYZ(randomDouble(-1.0, 1.0), randomDouble(-1.0, 1.0), 0.0);
+        if (p.lengthSquare() < 1.0)
+        {
+            return p;
+        }
     }
 }
 
