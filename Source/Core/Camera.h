@@ -6,6 +6,7 @@ class Camera final
 {
 public:
 	Camera(double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
+	Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
 	~Camera() = default;
 
 	Camera(const Camera&) = delete;
