@@ -48,34 +48,60 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
 int main()
 {
     // Config
-    constexpr int samplesPerPixel = 100;
+    constexpr int samplesPerPixel = 500;
     constexpr int maxRecursiveDepth = 10;
 
     // World
-    auto groupMaterial = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
-    auto centerMaterial = std::make_shared<Lambertian>(Color(0.1, 0.2, 0.5));
-    auto leftMaterial = std::make_shared<Dielectric>(1.5);
-    auto rightMaterial = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0.0);
-    
+    auto groupMaterial = std::make_shared<Lambertian>(Color(0.5, 0.5, 0.5));
+
     HittableList hittableList;
-    hittableList.reserve(5);
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ( 0.0, -100.5, -1.0), 100.0, groupMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ( 0.0,    0.0, -1.0),   0.5, centerMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-1.0,    0.0, -1.0),   0.5, leftMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-1.0,    0.0, -1.0), -0.45, leftMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ( 1.0,    0.0, -1.0),   0.5, rightMaterial));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ( 0.0, -1000, 0.0), 1000.0, groupMaterial));
+
+    for (int ii = -11; ii < 11; ++ii)
+    {
+        for (int jj = -11; jj < 11; ++jj)
+        {
+            double chooseMaterial = randomDouble();
+            XYZ center(ii + 0.9 * randomDouble(), 0.2, jj + 0.9 * randomDouble());
+
+            if ((center - XYZ(4.0, 0.2, 0.0)).length() > 0.9)
+            {
+                std::shared_ptr<Material> sphereMaterial;
+                if (chooseMaterial < 0.8)
+                {
+                    XYZ albedo = XYZ(randomDouble() * randomDouble(), randomDouble() * randomDouble(), randomDouble() * randomDouble());
+                    sphereMaterial = std::make_shared<Lambertian>(albedo);
+                }
+                else if (chooseMaterial < 0.95)
+                {
+                    XYZ albedo = XYZ(randomDouble(0.5, 1.0), randomDouble(0.5, 1.0), randomDouble(0.5, 1.0));
+                    double fuzz = randomDouble(0.0, 0.5);
+                    sphereMaterial = std::make_shared<Metal>(albedo, fuzz);
+                }
+                else
+                {
+                    sphereMaterial = std::make_shared<Dielectric>(1.5);
+                }
+                hittableList.appendOne(std::make_shared<Sphere>(center, 0.2, sphereMaterial));
+            }
+        }
+    }
+
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 1.0, 0.0), 1.0, std::make_shared<Dielectric>(1.5)));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-4.0, 1.0, 0.0), 1.0, std::make_shared<Lambertian>(XYZ(0.4, 0.2, 0.1))));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(4.0, 1.0, 0.0), 1.0, std::make_shared<Metal>(XYZ(0.7, 0.6, 0.5), 0.0)));
 
 	// Camera
-    XYZ lookFrom = XYZ(3.0, 3.0, 2.0);
-    XYZ lookAt = XYZ(0.0, 0.0, -1.0);
+    XYZ lookFrom = XYZ(13.0, 2.0, 3.0);
+    XYZ lookAt = XYZ(0.0, 0.0, 0.0);
     XYZ vup = XYZ(0.0, 1.0, 0.0);
-    double distToFocus = (lookFrom - lookAt).length();
-    double aperture = 2.0;
+    double distToFocus = 10.0;
+    double aperture = 0.1;
 
-    Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, 16.0 / 9.0);
+    Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, 3.0 / 2.0);
 
     // PPMExporter
-    constexpr uint16_t imageWidth = 400;
+    constexpr uint16_t imageWidth = 1200;
     uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
     PPMExporter ppmExporter(imageWidth, imageHeight);
 
