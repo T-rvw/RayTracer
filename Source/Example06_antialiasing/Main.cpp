@@ -45,7 +45,8 @@ int main()
     PPMExporter ppmExporter(imageWidth, imageHeight);
 
 	// Render
-    size_t pixelIndex = 0;
+    size_t pixelNumber = imageHeight * imageWidth;
+#pragma omp parallel for
     for (int jj = imageHeight - 1; jj >= 0; --jj)
     {
         for (int ii = 0; ii < imageWidth; ++ii)
@@ -68,10 +69,11 @@ int main()
                 pixelColor[2] = clamp(pixelColor.z() * sampleScale, 0.0, 1.0);
             }
 
+            // (imageHeight - 1 - jj) * imageWidth + ii;
+            size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
             ppmExporter.fillColor(pixelIndex, pixelColor);
 
             std::cout << "Fill color pixel placed at " << pixelIndex << std::endl;
-            ++pixelIndex;
         }
     }
 	

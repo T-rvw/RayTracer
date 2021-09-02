@@ -49,7 +49,8 @@ int main()
 	XYZ leftDownCorner = origin - horizontal * 0.5 - vertical * 0.5 - XYZ(0.0, 0.0, focalLength);
 
 	// Render
-    size_t pixelIndex = 0;
+    size_t pixelNumber = imageHeight * imageWidth;
+#pragma omp parallel for
     for (int jj = imageHeight - 1; jj >= 0; --jj)
     {
         for (int ii = 0; ii < imageWidth; ++ii)
@@ -58,9 +59,11 @@ int main()
             double v = static_cast<double>(jj) / (imageHeight - 1);
 
             Ray ray(origin, leftDownCorner + u * horizontal + v * vertical - origin);
+
+            // (imageHeight - 1 - jj) * imageWidth + ii;
+            size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
             ppmExporter.fillColor(pixelIndex, getRayColor(ray, hittableList));
             std::cout << "Fill color pixel placed at " << pixelIndex << std::endl;
-            ++pixelIndex;
         }
     }
 	

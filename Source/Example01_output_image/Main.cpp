@@ -8,7 +8,8 @@ int main()
     constexpr uint16_t imageHeight = 256;
     PPMExporter ppmExporter(imageWidth, imageHeight);
 
-    size_t pixelIndex = 0;
+    size_t pixelNumber = imageHeight * imageWidth;
+#pragma omp parallel for
     for (int jj = imageHeight - 1; jj >= 0; --jj)
     {
         for (int ii = 0; ii < imageWidth; ++ii)
@@ -17,9 +18,10 @@ int main()
                       static_cast<double>(jj) / (imageHeight - 1),
                       0.25);
 
+            // (imageHeight - 1 - jj) * imageWidth + ii;
+            size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
             ppmExporter.fillColor(pixelIndex, color);
             std::cout << "Fill color pixel placed at " << pixelIndex << std::endl;
-            ++pixelIndex;
         }
     }
 
