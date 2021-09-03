@@ -21,7 +21,7 @@ int main()
             // (imageHeight - 1 - jj) * imageWidth + ii;
             size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
             ppmExporter.fillColor(pixelIndex, color);
-            std::cout << "Fill color pixel placed at " << pixelIndex << std::endl;
+            std::cout << std::format("Fill color pixel placed at {}\n", pixelIndex);
         }
     }
 
