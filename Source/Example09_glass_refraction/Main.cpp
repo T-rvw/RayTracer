@@ -4,7 +4,7 @@
 #include "Lambertian.h"
 #include "MathUtils.h"
 #include "Metal.h"
-#include "PPMExporter.h"
+#include "ImageExporter.h"
 #include "Ray.h"
 #include "Sphere.h"
 
@@ -47,6 +47,13 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth)
 
 int main()
 {
+    // ImageExporter
+    constexpr int imageWidth = 400;
+    constexpr int imageHeight = 225;
+    constexpr int pixelNumber = imageHeight * imageWidth;
+    constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
+    ImageExporter imageExporter(imageWidth, imageHeight);
+
     // Config
     constexpr int samplesPerPixel = 100;
     constexpr int maxRecursiveDepth = 50;
@@ -66,15 +73,10 @@ int main()
     hittableList.appendOne(std::make_shared<Sphere>(XYZ(+1.0,    0.0, -1.0),   +0.5, rightMaterial));
 
 	// Camera
-    Camera camera;
-
-    // PPMExporter
-    constexpr uint16_t imageWidth = 400;
-    uint16_t imageHeight = static_cast<uint16_t>(imageWidth / camera.aspectRatio());
-    PPMExporter ppmExporter(imageWidth, imageHeight);
+    Camera camera(90.0, aspectRatio);
 
 	// Render
-    size_t pixelNumber = imageHeight * imageWidth;
+    int curPixelCount = 0;
 #pragma omp parallel for
     for (int jj = imageHeight - 1; jj >= 0; --jj)
     {
@@ -100,24 +102,19 @@ int main()
 
             // (imageHeight - 1 - jj) * imageWidth + ii;
             size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
-            ppmExporter.fillColor(pixelIndex, pixelColor);
+            imageExporter.fillColor(pixelIndex, pixelColor);
 
-            std::cout << std::format("Fill color pixel placed at {}\n", pixelIndex);
+            std::cout << std::format("Fill color pixel placed at {}, progress = {}/{}\n", pixelIndex, ++curPixelCount, pixelNumber);
         }
     }
 	
-    PPMResult result = ppmExporter.generate("test.ppm");
-    if (PPMResult::TotalSuccess == result)
+    if (imageExporter.generate("test.png"))
     {
-        std::cout << "Succeed to generate ppm totally." << std::endl;
+        std::cout << "Succeed to generate image." << std::endl;
     }
-    else if (PPMResult::PartialSuccess == result)
+    else
     {
-        std::cout << "Succeed to generate ppm partially." << std::endl;
-    }
-    else if (PPMResult::Failure == result)
-    {
-        std::cout << "Failed to generate ppm." << std::endl;
+        std::cout << "Failed to generate image." << std::endl;
     }
 
     return 0;
