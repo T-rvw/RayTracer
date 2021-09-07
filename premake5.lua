@@ -33,35 +33,55 @@ project(projectName)
 	location("Build/"..projectName)
 	targetdir("Build/Bin/"..projectName.."/%{cfg.buildcfg}"..cpuArch)
 	warnings("Extra")
-	
-	files {
-		"Source/"..projectName.."/**.h",
-		"Source/"..projectName.."/**.cpp",
-	}
-
-	includedirs {
-		"Source/Core/",
-		"Source/Core/Geometry/",
-		"Source/Core/Material/",
-		"Source/Core/Math/",
-	}
+	print("Make project : "..projectName)
 end
 
 local function setExampleProject(projectName)
 	setCppProject(projectName)
-	print(projectName)
 	kind "ConsoleApp"
 	
-	links { "Core" }
+	links
+	{
+		"Core",
+	}
+	
+	files
+	{
+		"Source/Examples/"..projectName.."/*.*",
+	}
+	
+	includedirs
+	{
+		"Source/Core/",
+		"Source/Core/Geometry/",
+		"Source/Core/Material/",
+		"Source/Core/Math/",
+		"Source/External/",
+	}
 end
 
--- Projects
+-- Core
 setCppProject("Core")
 	kind "StaticLib"
+	
+	files
+	{
+		"Source/External/**.*",
+		"Source/Core/**.*",
+	}
+	
+	includedirs
+	{
+		"Source/Core/*.h",
+		"Source/Core/Geometry/*.h",
+		"Source/Core/Material/*.h",
+		"Source/Core/Math/*.h",
+		"Source/External/*.h",
+	}
 
 -- Examples
-local allExamples = os.matchdirs("Source/Example*")
-for k, v in ipairs(allExamples) do
-	print("Make exmaple project : "..path.getname(v))
-	setExampleProject(path.getname(v))
+local allExamples = os.matchdirs("Source/Examples/Example*")
+for _, v in ipairs(allExamples) do
+	local projectName = path.getname(v)
+	setExampleProject(projectName)
 end
