@@ -12,12 +12,9 @@
 class ExampleDefocusBlur : public ExampleBase
 {
 public:
-    ExampleDefocusBlur(int width, int height) :
-        ExampleBase(width, height)
-    {
-    }
+    ExampleDefocusBlur(int width, int height) : ExampleBase(width, height) {}
 
-    Color getRayColor(const Ray& ray, const HittableList& world, int depth)
+    virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
     {
         // If we've exceeded the ray bounce limit, no more light is gathered.
         if (depth <= 0)
@@ -54,10 +51,6 @@ public:
 
 int main()
 {
-    // ImageExporter
-    constexpr int imageWidth = 400;
-    constexpr int imageHeight = 225;
-
     // World
     auto groupMaterial = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
     auto centerMaterial = std::make_shared<Lambertian>(Color(0.1, 0.2, 0.5));
@@ -77,11 +70,15 @@ int main()
     XYZ lookAt = XYZ(0.0, 0.0, -1.0);
     XYZ vup = XYZ(0.0, 1.0, 0.0);
     double distToFocus = (lookFrom - lookAt).length();
-    double aperture = 2.0;
+    constexpr double aperture = 2.0;
+
+    // ImageExporter
+    constexpr int imageWidth = 400;
+    constexpr int imageHeight = 225;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, aspectRatio);
 
-	// Render
+    // Init example and run
     ExampleDefocusBlur example(imageWidth, imageHeight);
     example.setSampleTimes(100);
     example.setMaxRecursiveDepth(50);

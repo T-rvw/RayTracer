@@ -12,12 +12,9 @@
 class ExampleLotsOfSpheres : public ExampleBase
 {
 public:
-    ExampleLotsOfSpheres(int width, int height) :
-        ExampleBase(width, height)
-    {
-    }
+    ExampleLotsOfSpheres(int width, int height) : ExampleBase(width, height) {}
 
-    Color getRayColor(const Ray& ray, const HittableList& world, int depth)
+    virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
     {
         // If we've exceeded the ray bounce limit, no more light is gathered.
         if (depth <= 0)
@@ -54,10 +51,6 @@ public:
 
 int main()
 {
-    // ImageExporter
-    constexpr int imageWidth = 1200;
-    constexpr int imageHeight = 800;
-
     // World
     auto groupMaterial = std::make_shared<Lambertian>(Color(0.5, 0.5, 0.5));
 
@@ -105,10 +98,12 @@ int main()
     double distToFocus = 10.0;
     double aperture = 0.1;
 
+    constexpr int imageWidth = 1200;
+    constexpr int imageHeight = 800;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, aspectRatio);
 
-    // Example init
+    // Init example and run
     ExampleLotsOfSpheres example(imageWidth, imageHeight);
     example.setSampleTimes(500);
     example.setMaxRecursiveDepth(50);
