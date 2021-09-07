@@ -19,7 +19,7 @@ public:
             const HitRecord& hitRecord = optHitRecord.value();
             const XYZ& normal = hitRecord.normal();
             // Map normal's xyz to rgb
-            return 0.5 * Color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+            return 0.5 * Color(normal.x() + 1.0, normal.y() + 1.0, normal.z() + 1.0);
         }
 
         // background
@@ -45,7 +45,7 @@ int main()
 
     // Init example and run
     ExampleAntialiasing example(imageWidth, imageHeight);
-    example.setSampleTimes(0);
+    example.setSampleTimes(100);
     example.process(camera, hittableList);
     example.generate("test.png");
 

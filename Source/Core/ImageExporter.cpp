@@ -41,7 +41,7 @@ bool ImageExporter::generate(std::filesystem::path filePath, bool bOverwrite)
 	if (std::filesystem::exists(filePath) && !bOverwrite)
 	{
 		time_t curTimeStamp = ::time(nullptr);
-		filePath = std::format("{}_{}.{}", filePath.stem().string(), curTimeStamp, filePath.extension().string());
+		filePath = std::format("{}_{}{}", filePath.stem().string(), curTimeStamp, filePath.extension().string());
 	}
 
 	stbi_write_bmp(filePath.string().c_str(), m_imageWidth, m_imageHeight, 3, m_imageData);

@@ -52,14 +52,12 @@ Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double
 
 Ray Camera::getRay(double u, double v) const
 {
-	if (0.0 == m_lensRadius)
-	{
-		return Ray(m_origin, m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin);
-	}
-	else
-	{
-		XYZ rd = m_lensRadius * randomInUnitDisk();
-		XYZ offset = m_u * rd.x() + m_v * rd.y();
-		return Ray(m_origin + offset, m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin - offset);
-	}
+	//if (0.0 == m_lensRadius)
+	//{
+	//	return Ray(m_origin, m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin);
+	//}
+
+	XYZ rd = m_lensRadius * randomInUnitDisk();
+	XYZ offset = m_u * rd.x() + m_v * rd.y();
+	return Ray(m_origin + offset, m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin - offset);
 }

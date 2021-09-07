@@ -63,7 +63,7 @@ public:
     }
 
 #ifdef XYZ_DOUBLE
-    XYZPrecision length() const { return sqrt(lengthSquare()); }
+    XYZPrecision length() const { return std::sqrt(lengthSquare()); }
 #else
     XYZPrecision length() const { return sqrtf(lengthSquare()); }
 #endif
@@ -179,6 +179,6 @@ inline XYZ refract(const XYZ& uv, const XYZ& normal, double etaiOverEtat)
 {
     double cosTheta = fmin(dot(-uv, normal), 1.0);
     XYZ rayOutPerp = etaiOverEtat * (uv + cosTheta * normal);
-    XYZ rayOutParallel = -sqrt(fabs(1.0 - rayOutPerp.lengthSquare())) * normal;
+    XYZ rayOutParallel = -std::sqrt(fabs(1.0 - rayOutPerp.lengthSquare())) * normal;
     return rayOutPerp + rayOutParallel;
 }

@@ -11,7 +11,7 @@ bool Dielectric::scatter(const Ray& ray, const HitRecord& hitRecord, Color& atte
 	XYZ unitDirection = unit(ray.direction());
 	XYZ normal = hitRecord.normal();
 	double cosTheta = fmin(dot(unitDirection, normal), 1.0);
-	double sinTheta = sqrt(1.0 - cosTheta * cosTheta);
+	double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
 
 	constexpr bool bUseReflectance = false;
 	XYZ direction;

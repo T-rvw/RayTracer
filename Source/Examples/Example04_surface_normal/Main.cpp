@@ -17,7 +17,7 @@ std::optional<double> hitSphere(const XYZ& center, double radius, const Ray& ray
         return std::nullopt;
     }
 
-    return (-half_b - sqrt(discriminant)) / a;
+    return (-half_b - std::sqrt(discriminant)) / a;
 }
 
 Color getRayColor(const Ray& ray)

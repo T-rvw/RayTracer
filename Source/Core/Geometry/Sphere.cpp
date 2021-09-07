@@ -8,18 +8,18 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
     double c = ray2Sphere.lengthSquare() - m_radius * m_radius;
     double discriminant = half_b * half_b - a * c;
 
-    if (discriminant < 0.0 - DOUBLE_EPS)
+    if (discriminant < DOUBLE_EPS)
     {
         return std::nullopt;
     }
 
     // Find the nearest root that lies in the acceptable range.
-    double discriminantSqrt = sqrt(discriminant);
+    double discriminantSqrt = std::sqrt(discriminant);
     double root = (-half_b - discriminantSqrt) / a;
     if (root < minT || root > maxT)
     {
         // Only one root.
-        if (discriminant < 0.0 + DOUBLE_EPS)
+        if (discriminant < DOUBLE_EPS)
         {
             return std::nullopt;
         }

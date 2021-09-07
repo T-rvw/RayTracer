@@ -40,15 +40,13 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
                 pixelColor += getRayColor(ray, world, m_maxRecursiveDepth);
             }
 
-            // sample && gamma-correct(1/2).
-            {
-                double sampleScale = 1.0 / m_sampleTimes;
-                pixelColor[0] = clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
-                pixelColor[1] = clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
-                pixelColor[2] = clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
-            }
+            // sample && gamma-correct(1/2)
+            double sampleScale = 1.0 / m_sampleTimes;
+            pixelColor[0] = clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
+            pixelColor[1] = clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
+            pixelColor[2] = clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
 
-            // (imageHeight - 1 - jj) * imageWidth + ii;
+            // size_t pixelIndex = (imageHeight - 1 - jj) * imageWidth + ii;
             size_t pixelIndex = m_pixelNumber - (jj + 1) * m_imageWidth + ii;
             m_imageExporter.fillColor(pixelIndex, pixelColor);
 
