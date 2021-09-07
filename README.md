@@ -1,12 +1,8 @@
 # RayTracer
 
-Pratices in the book [<< Ray Tracing in One Weekend >>](https://raytracing.github.io/books/RayTracingInOneWeekend.html).
-
 Easy to make and build in different platforms powered by Premake.
 
 Well organized example projects to help you understand.
-
-Use C++17 new features to implement.
 
 ## Build
 
@@ -21,3 +17,9 @@ Linux + gmake : `./premake5 gmake2`
 Mac + xcode : `./premake5 xcode4`
 
 If you want more build options, please see [Premake document](https://premake.github.io/docs/Using-Premake).
+
+## Reference links
+
+[Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+
+[Ray Tracing: The Next Week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
