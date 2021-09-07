@@ -8,12 +8,12 @@ bool Lambertian::scatter([[maybe_unused]] const Ray& ray, const HitRecord& hitRe
 	XYZ normal = hitRecord.normal();
 
 	XYZ scatterDirection = normal + unit(randomInUnitSphere());
-	if (isZero(scatterDirection))
+	if (scatterDirection.isZero())
 	{
 		scatterDirection = hitRecord.normal();
 	}
 	
-	scattered = Ray(hitRecord.hitPoint(), scatterDirection);
+	scattered = Ray(hitRecord.hitPoint(), scatterDirection, ray.delayTime());
 	attenuation = m_albedo;
 	return true;
 }

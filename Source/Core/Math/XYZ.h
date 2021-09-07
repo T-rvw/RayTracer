@@ -4,20 +4,13 @@
 
 #include <cmath>
 
-#define XYZ_DOUBLE
-#ifdef XYZ_DOUBLE
-typedef double XYZPrecision;
-#else
-typedef float XYZPrecision;
-#endif
-
 constexpr double DOUBLE_EPS = 0.00001;
 
 class XYZ final
 {
 public:
     XYZ() : m_value{ 0, 0, 0 } {}
-    XYZ(XYZPrecision x, XYZPrecision y, XYZPrecision z) : m_value{ x, y, z } {}
+    XYZ(double x, double y, double z) : m_value{ x, y, z } {}
     ~XYZ() = default;
 
     XYZ(const XYZ&) = default;
@@ -25,12 +18,12 @@ public:
     XYZ& operator=(const XYZ&) = default;
     XYZ& operator=(XYZ&&) = default;
 
-    XYZPrecision x() const { return m_value[0]; }
-    XYZPrecision y() const { return m_value[1]; }
-    XYZPrecision z() const { return m_value[2]; }
+    double x() const { return m_value[0]; }
+    double y() const { return m_value[1]; }
+    double z() const { return m_value[2]; }
 
-    XYZPrecision operator[](int index) const { return m_value[index]; }
-    XYZPrecision& operator[](int index) { return m_value[index]; }
+    double operator[](int index) const { return m_value[index]; }
+    double& operator[](int index) { return m_value[index]; }
     XYZ operator-() const { return XYZ(-x(), -y(), -z()); }
 
     XYZ& operator+=(const XYZ& rhs)
@@ -49,7 +42,7 @@ public:
         return *this;
     }
 
-    XYZ& operator*=(XYZPrecision t)
+    XYZ& operator*=(double t)
     {
         m_value[0] *= t;
         m_value[1] *= t;
@@ -57,36 +50,47 @@ public:
         return *this;
     }
 
-    XYZ& operator/=(XYZPrecision t)
+    XYZ& operator/=(double t)
     {
         return *this *= (1 / t);
     }
 
-#ifdef XYZ_DOUBLE
-    XYZPrecision length() const { return std::sqrt(lengthSquare()); }
-#else
-    XYZPrecision length() const { return sqrtf(lengthSquare()); }
-#endif
+    XYZ& inverse()
+    {
+        m_value[0] = -x();
+        m_value[1] = -y();
+        m_value[2] = -z();
+        return *this;
+    }
 
-    XYZPrecision lengthSquare() const
+    bool isZero() const
+    {
+        return std::abs(x()) < DOUBLE_EPS &&
+               std::abs(y()) < DOUBLE_EPS &&
+               std::abs(z()) < DOUBLE_EPS;
+    }
+
+    double length() const { return std::sqrt(lengthSquare()); }
+
+    double lengthSquare() const
     {
         return m_value[0] * m_value[0] +
                m_value[1] * m_value[1] +
                m_value[2] * m_value[2];
     }
 
-    inline static XYZ random()
+    static XYZ random()
     {
         return XYZ(randomDouble(), randomDouble(), randomDouble());
     }
 
-    inline static XYZ random(double min, double max)
+    static XYZ random(double min, double max)
     {
         return XYZ(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
     }
 
 private:
-    XYZPrecision m_value[3];
+    double m_value[3];
 };
 
 // type alias
@@ -120,6 +124,13 @@ inline XYZ operator*(const XYZ& lhs, double t)
 inline XYZ operator/(const XYZ& lhs, double t)
 {
     return (1 / t) * lhs;
+}
+
+inline bool operator==(const XYZ& lhs, const XYZ& rhs)
+{
+    return lhs.x() == rhs.x() &&
+           lhs.y() == rhs.y() &&
+           lhs.z() == rhs.z();
 }
 
 inline double dot(const XYZ& lhs, const XYZ& rhs)
@@ -161,13 +172,6 @@ inline XYZ randomInUnitDisk()
             return p;
         }
     }
-}
-
-inline bool isZero(const XYZ& xyz)
-{
-    return fabs(xyz.x()) < DOUBLE_EPS &&
-           fabs(xyz.y()) < DOUBLE_EPS &&
-           fabs(xyz.z()) < DOUBLE_EPS;
 }
 
 inline XYZ reflect(const XYZ& rayIn, const XYZ& normal)

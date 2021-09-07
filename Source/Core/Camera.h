@@ -16,6 +16,7 @@ public:
 	Camera& operator=(Camera&&) = delete;
 	
 	double aspectRatio() const { return m_aspectRatio; }
+	void setShutterTime(double minTime, double maxTime) { m_shutterMinTime = minTime; m_shutterMaxTime = maxTime; }
 
 	Ray getRay(double u, double v) const;
 
@@ -27,4 +28,6 @@ private:
 	double	m_aspectRatio;
 	XYZ		m_u, m_v, m_w;
 	double	m_lensRadius = 0.0;
+	double	m_shutterMinTime = 0.0;
+	double	m_shutterMaxTime = 0.0;
 };

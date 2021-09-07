@@ -8,13 +8,7 @@ class Sphere : public Hittable
 {
 public:
     Sphere() = delete;
-    Sphere(XYZ center, double radius, std::shared_ptr<Material> pMaterial = nullptr) :
-        m_center(center),
-        m_radius(radius),
-        m_pMaterial(pMaterial)
-    {
-
-    };
+    Sphere(XYZ center, double radius, std::shared_ptr<Material> pMaterial = nullptr);
     virtual ~Sphere() = default;
 
     Sphere(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); }
@@ -22,7 +16,15 @@ public:
     Sphere& operator=(const Sphere&) = default;
     Sphere& operator=(Sphere&&) = default;
 
-    XYZ center() const { return m_center; }
+    bool isStatic() const { return m_moveBeginTime == m_moveEndTime || m_center == m_moveEndPos; }
+    void setMoveInfo(XYZ endPos, double beginTime, double endTime)
+    {
+        m_moveEndPos = std::move(endPos);
+        m_moveBeginTime = beginTime;
+        m_moveEndTime = endTime;
+    };
+
+    XYZ center(double curTime = 0.0) const;
     double radius() const { return m_radius; }
     virtual std::shared_ptr<Material> material() const override { return m_pMaterial; }
 
@@ -31,5 +33,8 @@ public:
 private:
     XYZ                         m_center;
     double                      m_radius;
+    XYZ                         m_moveEndPos;
+    double                      m_moveBeginTime = 0.0;
+    double                      m_moveEndTime = 0.0;
     std::shared_ptr<Material>   m_pMaterial;
 };

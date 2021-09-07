@@ -1,8 +1,27 @@
 #include "Sphere.h"
 
+#include <cmath>
+
+Sphere::Sphere(XYZ center, double radius, std::shared_ptr<Material> pMaterial) :
+    m_center(center),
+    m_radius(radius),
+    m_pMaterial(pMaterial)
+{
+}
+
+XYZ Sphere::center(double curTime) const
+{
+    if (isStatic())
+    {
+        return m_center;
+    }
+
+    return m_center + ((curTime - m_moveBeginTime) / (m_moveEndTime - m_moveBeginTime)) * (m_moveEndPos - m_center);
+}
+
 std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) const
 {
-    XYZ ray2Sphere = ray.origin() - m_center;
+    XYZ ray2Sphere = ray.origin() - center(ray.delayTime());
     double a = ray.direction().lengthSquare();
     double half_b = dot(ray2Sphere, ray.direction());
     double c = ray2Sphere.lengthSquare() - m_radius * m_radius;
@@ -34,7 +53,7 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
 
     // Return final hit result.
     XYZ hitPoint = ray.at(root);
-    XYZ normal = (hitPoint - m_center) / m_radius;
-    bool isFront = dot(ray.direction(), normal) < 0;
-    return HitRecord(std::move(hitPoint), isFront ? std::move(normal) : -normal, root, isFront, this);
+    XYZ outwardNormal = (hitPoint - center(ray.delayTime())) / m_radius;
+    bool isFront = dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
+    return HitRecord(std::move(hitPoint), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), root, isFront, this);
 }
