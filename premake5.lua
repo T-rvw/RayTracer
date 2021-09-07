@@ -63,6 +63,7 @@ end
 -- Core
 setCppProject("Core")
 	kind "StaticLib"
+	openmp "On"
 	
 	files
 	{
