@@ -72,11 +72,11 @@ setCppProject("Core")
 	
 	includedirs
 	{
-		"Source/Core/*.h",
-		"Source/Core/Geometry/*.h",
-		"Source/Core/Material/*.h",
-		"Source/Core/Math/*.h",
-		"Source/External/*.h",
+		"Source/Core/",
+		"Source/Core/Geometry/",
+		"Source/Core/Material/",
+		"Source/Core/Math/",
+		"Source/External/",
 	}
 
 -- Examples
