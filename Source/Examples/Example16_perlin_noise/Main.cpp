@@ -55,8 +55,10 @@ int main()
 {
     // World
     HittableList hittableList;
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, std::make_shared<Lambertian>(std::make_shared<NoiseTexture>())));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2, 0.0), 2.0, std::make_shared<Lambertian>(std::make_shared<NoiseTexture>())));
+    constexpr double noiseScale = 4.0;
+    std::shared_ptr<NoiseTexture> pNoiseTexture = std::make_shared<NoiseTexture>(noiseScale);
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, std::make_shared<Lambertian>(pNoiseTexture)));
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2, 0.0), 2.0, std::make_shared<Lambertian>(pNoiseTexture)));
 
     // Camera
     XYZ lookFrom = XYZ(13.0, 2.0, 3.0);

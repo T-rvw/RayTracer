@@ -16,8 +16,9 @@ public:
 	Perlin& operator=(Perlin&&) = delete;
 
 	double noise(const XYZ& p) const;
+	double trubulence(const XYZ& p, int depth = 7) const;
 
 private:
-	std::vector<int>		m_vecPermX, m_vecPermY, m_vecPermZ;
-	std::vector<double> 	m_vecRanfloat;
+	std::vector<int>	m_vecPermX, m_vecPermY, m_vecPermZ;
+	std::vector<XYZ> 	m_vecRandom;
 };
