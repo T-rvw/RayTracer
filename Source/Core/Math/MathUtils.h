@@ -19,6 +19,11 @@ inline double radians2Degrees(double radians)
     return radians * 180.0 / PI;
 }
 
+inline int randomInt(int min, int max)
+{
+    return min + rand() % (max - min);
+}
+
 inline double randomDouble()
 {
     // [0, 1)

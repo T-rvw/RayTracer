@@ -53,8 +53,8 @@ public:
 int main()
 {
     // World
-    std::shared_ptr<CheckerTexture> pCheckerMaterial = std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
-    std::shared_ptr<Lambertian> pGroupMaterial = std::make_shared<Lambertian>(pCheckerMaterial);
+    std::shared_ptr<CheckerTexture> pCheckerTexture = std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
+    std::shared_ptr<Lambertian> pGroupMaterial = std::make_shared<Lambertian>(pCheckerTexture);
 
     HittableList hittableList;
     hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, pGroupMaterial));

@@ -33,6 +33,10 @@ project(projectName)
 	location("Build/"..projectName)
 	targetdir("Build/Bin/"..projectName.."/%{cfg.buildcfg}"..cpuArch)
 	warnings("Extra")
+	flags
+	{
+		"FatalWarnings" -- treat warnings as errors
+	}
 	print("Make project : "..projectName)
 end
 
