@@ -30,6 +30,8 @@ public:
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT = -10000000.0, double maxT = +10000000.0) const override;
 
+    virtual UV uv(const XYZ& point) const override;
+
 private:
     XYZ                         m_center;
     double                      m_radius;

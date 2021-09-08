@@ -1,3 +1,4 @@
+#include "HitRecord.h"
 #include "Sphere.h"
 
 #include <cmath>
@@ -56,4 +57,32 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
     XYZ outwardNormal = (hitPoint - center(ray.delayTime())) / m_radius;
     bool isFront = dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
     return HitRecord(std::move(hitPoint), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), root, isFront, this);
+}
+
+UV Sphere::uv(const XYZ& point) const
+{
+    // u : [0, 1] start from -x -> +z -> +x -> -z -> -x
+    // v : [0, 1] start from -y -> -z -> +y -> +z -> -y
+
+    // y = -cos(vAngle)
+    // cos(vAngle) = -y
+    double vAngle = std::acos(-point.y());
+
+    // Project to x-z plane
+    // length = sin(vAngle)
+    // z = length * cos(uAngle - PI * 0.5)
+    // z = length * cos(PI * 0.5 - uAngle)
+    // z = length * sin(uAngle)
+    // z = sin(vAngle) * sin(uAngle)
+    // x = length * sin(uAngle - PI * 0.5)
+    // x = length * -sin(0.5 * PI - uAngle)
+    // x = length * -cos(uAngle)
+    // x = -sin(vAngle) * cos(uAngle)
+    // x / z = -cos(uAngle)
+    // uAngle = atan(-x / z)
+    double uAngle = std::atan2(-point.x(), point.z());
+
+    // u = uAngle / 2 * PI
+    // v = vAngle / PI
+    return UV((uAngle * 0.5) / PI, vAngle / PI);
 }

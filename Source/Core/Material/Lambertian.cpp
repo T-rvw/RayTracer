@@ -14,6 +14,7 @@ bool Lambertian::scatter([[maybe_unused]] const Ray& ray, const HitRecord& hitRe
 	}
 	
 	scattered = Ray(hitRecord.hitPoint(), scatterDirection, ray.delayTime());
-	attenuation = m_albedo;
+	UV hitPointUV = hitRecord.hitPointUV();
+	attenuation = m_pAlbedo->value(hitPointUV.x(), hitPointUV.y(), hitRecord.hitPoint());
 	return true;
 }

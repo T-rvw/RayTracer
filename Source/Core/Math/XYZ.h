@@ -2,10 +2,6 @@
 
 #include "MathUtils.h"
 
-#include <cmath>
-
-constexpr double DOUBLE_EPS = 0.00001;
-
 class XYZ final
 {
 public:

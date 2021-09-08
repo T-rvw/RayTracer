@@ -1,5 +1,5 @@
 local cpuArch = "x64"
-local workSpaceName = "RayTracingRender"
+local workSpaceName = "RayTracer"
 
 -- Workspace
 workspace(workSpaceName)
