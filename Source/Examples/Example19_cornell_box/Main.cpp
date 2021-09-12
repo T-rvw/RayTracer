@@ -92,14 +92,14 @@ int main()
     double distToFocus = 10.0;
     double aperture = 0.1;
 
-    constexpr int imageWidth = 300;
-    constexpr int imageHeight = 300;
+    constexpr int imageWidth = 600;
+    constexpr int imageHeight = 600;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 40.0, aspectRatio);
 
     // Init example and run
     ExampleEmissiveLight example(imageWidth, imageHeight);
-    example.setSampleTimes(200);
+    example.setSampleTimes(10000);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);
     example.generate("test.png");
