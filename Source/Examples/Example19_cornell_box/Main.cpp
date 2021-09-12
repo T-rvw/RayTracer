@@ -79,8 +79,11 @@ int main()
     // Top light
     hittableList.appendOne(std::make_shared<AARect>(XYZ(213.0, 0.0, 227.0), XYZ(343.0, 0.0, 332.0), 'y', 554.0, light));
 
-    //std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
-    //hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0, std::make_shared<Lambertian>(pEarthTexture)));
+    std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(378.0, 80.0, 279.5), 80.0, std::make_shared<Lambertian>(pEarthTexture)));
+
+    XYZ albedo = XYZ(0.5, 0.5, 0.5);
+    hittableList.appendOne(std::make_shared<Sphere>(XYZ(168.0, 60.0, 179.5), 60.0, std::make_shared<Metal>(albedo, 0.0)));
 
     // Camera
     XYZ lookFrom = XYZ(278.0, 278.0, -800.0);
@@ -89,8 +92,8 @@ int main()
     double distToFocus = 10.0;
     double aperture = 0.1;
 
-    constexpr int imageWidth = 600;
-    constexpr int imageHeight = 600;
+    constexpr int imageWidth = 300;
+    constexpr int imageHeight = 300;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 40.0, aspectRatio);
 
