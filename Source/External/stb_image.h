@@ -2389,6 +2389,7 @@ stbi_inline static stbi_uc stbi__clamp(int x)
    return (stbi_uc) x;
 }
 
+#define stbs__f2f(x)  ((short) (((x) * 4096 + 0.5)))
 #define stbi__f2f(x)  ((int) (((x) * 4096 + 0.5)))
 #define stbi__fsh(x)  ((x) * 4096)
 
@@ -2578,14 +2579,14 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
          dct_bfly32o(row3,row4, x3,x4,bias,shift); \
       }
 
-   __m128i rot0_0 = dct_const(stbi__f2f(0.5411961f), stbi__f2f(0.5411961f) + stbi__f2f(-1.847759065f));
-   __m128i rot0_1 = dct_const(stbi__f2f(0.5411961f) + stbi__f2f( 0.765366865f), stbi__f2f(0.5411961f));
-   __m128i rot1_0 = dct_const(stbi__f2f(1.175875602f) + stbi__f2f(-0.899976223f), stbi__f2f(1.175875602f));
-   __m128i rot1_1 = dct_const(stbi__f2f(1.175875602f), stbi__f2f(1.175875602f) + stbi__f2f(-2.562915447f));
-   __m128i rot2_0 = dct_const(stbi__f2f(-1.961570560f) + stbi__f2f( 0.298631336f), stbi__f2f(-1.961570560f));
-   __m128i rot2_1 = dct_const(stbi__f2f(-1.961570560f), stbi__f2f(-1.961570560f) + stbi__f2f( 3.072711026f));
-   __m128i rot3_0 = dct_const(stbi__f2f(-0.390180644f) + stbi__f2f( 2.053119869f), stbi__f2f(-0.390180644f));
-   __m128i rot3_1 = dct_const(stbi__f2f(-0.390180644f), stbi__f2f(-0.390180644f) + stbi__f2f( 1.501321110f));
+   __m128i rot0_0 = dct_const(stbs__f2f(0.5411961f), stbs__f2f(0.5411961f) + stbs__f2f(-1.847759065f));
+   __m128i rot0_1 = dct_const(stbs__f2f(0.5411961f) + stbs__f2f( 0.765366865f), stbs__f2f(0.5411961f));
+   __m128i rot1_0 = dct_const(stbs__f2f(1.175875602f) + stbs__f2f(-0.899976223f), stbs__f2f(1.175875602f));
+   __m128i rot1_1 = dct_const(stbs__f2f(1.175875602f), stbs__f2f(1.175875602f) + stbs__f2f(-2.562915447f));
+   __m128i rot2_0 = dct_const(stbs__f2f(-1.961570560f) + stbs__f2f( 0.298631336f), stbs__f2f(-1.961570560f));
+   __m128i rot2_1 = dct_const(stbs__f2f(-1.961570560f), stbs__f2f(-1.961570560f) + stbs__f2f( 3.072711026f));
+   __m128i rot3_0 = dct_const(stbs__f2f(-0.390180644f) + stbs__f2f( 2.053119869f), stbs__f2f(-0.390180644f));
+   __m128i rot3_1 = dct_const(stbs__f2f(-0.390180644f), stbs__f2f(-0.390180644f) + stbs__f2f( 1.501321110f));
 
    // rounding biases in column/row passes, see stbi__idct_block for explanation.
    __m128i bias_0 = _mm_set1_epi32(512);

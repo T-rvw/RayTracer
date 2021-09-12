@@ -80,9 +80,12 @@ UV Sphere::uv(const XYZ& point) const
     // x = -sin(vAngle) * cos(uAngle)
     // x / z = -cos(uAngle)
     // uAngle = atan(-x / z)
-    double uAngle = std::atan2(-point.x(), point.z());
+    double uAngle = std::atan2(-point.z(), point.x()) + PI;
 
     // u = uAngle / 2 * PI
     // v = vAngle / PI
-    return UV((uAngle * 0.5) / PI, vAngle / PI);
+    double u = (uAngle * 0.5) / PI;
+    double v = vAngle / PI;
+
+    return UV(u, v);
 }

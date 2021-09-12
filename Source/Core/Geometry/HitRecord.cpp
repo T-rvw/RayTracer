@@ -10,6 +10,6 @@ HitRecord::HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const 
 {
     if (m_pHitObject)
     {
-        m_hitPointUV = m_pHitObject->uv(hitPoint);
+        m_hitPointUV = m_pHitObject->uv(normal);
     }
 }
