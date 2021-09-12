@@ -63,31 +63,40 @@ int main()
 {
     // World
     HittableList hittableList;
-    std::shared_ptr<NoiseTexture> pNoiseTexture = std::make_shared<NoiseTexture>(4.0);
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, std::make_shared<Lambertian>(pNoiseTexture)));
 
-    std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0, std::make_shared<Lambertian>(pEarthTexture)));
+    auto red   = std::make_shared<Lambertian>(Color(0.65, 0.05, 0.05));
+    auto white = std::make_shared<Lambertian>(Color(0.73, 0.73, 0.73));
+    auto green = std::make_shared<Lambertian>(Color(0.12, 0.45, 0.15));
+    auto light = std::make_shared<DiffuseLight>(Color(30.0, 30.0, 30.0));
 
-    std::shared_ptr<DiffuseLight> pDiffLightMaterial = std::make_shared<DiffuseLight>(Color(4.0, 4.0, 4.0));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), 'z', - 2.0, pDiffLightMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 8.0, 0.0), 2.0, pDiffLightMaterial));
+    // Five walls
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 555.0, green));
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 0.0, red));
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 0.0, white));
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 555.0, white));
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 555.0, 0.0), 'z', 555.0, white));
+
+    // Top light
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(213.0, 0.0, 227.0), XYZ(343.0, 0.0, 332.0), 'y', 554.0, light));
+
+    //std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
+    //hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0, std::make_shared<Lambertian>(pEarthTexture)));
 
     // Camera
-    XYZ lookFrom = XYZ(26.0, 3.0, 6.0);
-    XYZ lookAt = XYZ(0.0, 2.0, 0.0);
+    XYZ lookFrom = XYZ(278.0, 278.0, -800.0);
+    XYZ lookAt = XYZ(278.0, 278.0, 0.0);
     XYZ vup = XYZ(0.0, 1.0, 0.0);
     double distToFocus = 10.0;
     double aperture = 0.1;
 
-    constexpr int imageWidth = 400;
-    constexpr int imageHeight = 225;
+    constexpr int imageWidth = 600;
+    constexpr int imageHeight = 600;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
-    Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, aspectRatio);
+    Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 40.0, aspectRatio);
 
     // Init example and run
     ExampleEmissiveLight example(imageWidth, imageHeight);
-    example.setSampleTimes(400);
+    example.setSampleTimes(200);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);
     example.generate("test.png");

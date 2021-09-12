@@ -8,7 +8,7 @@ class AARect : public Hittable
 {
 public:
     AARect() = delete;
-    AARect(XYZ p0, XYZ p1, double k, std::shared_ptr<Material> pMaterial = nullptr);
+    AARect(XYZ p0, XYZ p1, char kIndex, double k, std::shared_ptr<Material> pMaterial = nullptr);
     virtual ~AARect() = default;
 
     //AARect(const AARect& rhs) {  }

@@ -3,17 +3,19 @@
 
 #include <cmath>
 
-AARect::AARect(XYZ p0, XYZ p1, double k, std::shared_ptr<Material> pMaterial) :
+constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
+constexpr int axisIndexArrSize = sizeof(axisIndexArr);
+
+AARect::AARect(XYZ p0, XYZ p1, char kIndex, double k, std::shared_ptr<Material> pMaterial) :
     m_p0(p0),
 	m_p1(p1),
     m_k(k),
     m_pMaterial(pMaterial)
 {
-	for (int ii = 0; ii < 3; ++ii)
+	for (int ii = 0; ii < axisIndexArrSize; ++ii)
 	{
-		if (std::abs(m_p0[ii]) < DOUBLE_EPS && std::abs(m_p1[ii]) < DOUBLE_EPS)
+		if (kIndex == axisIndexArr[ii])
 		{
-			// find axis vertical to rect
 			m_verticalAxisIndex = ii;
 			break;
 		}
