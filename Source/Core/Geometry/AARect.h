@@ -4,17 +4,17 @@
 
 #include <memory>
 
-class Rect2D : public Hittable
+class AARect : public Hittable
 {
 public:
-    Rect2D() = delete;
-    Rect2D(double x0, double x1, double y0, double y1, double z, std::shared_ptr<Material> pMaterial = nullptr);
-    virtual ~Rect2D() = default;
+    AARect() = delete;
+    AARect(XYZ p0, XYZ p1, double k, std::shared_ptr<Material> pMaterial = nullptr);
+    virtual ~AARect() = default;
 
-    //Rect2D(const Rect2D& rhs) {  }
-    Rect2D(Rect2D&& rhs) = default;
-    Rect2D& operator=(const Rect2D&) = default;
-    Rect2D& operator=(Rect2D&&) = default;
+    //AARect(const AARect& rhs) {  }
+    AARect(AARect&& rhs) = default;
+    AARect& operator=(const AARect&) = default;
+    AARect& operator=(AARect&&) = default;
 
     bool isStatic() const { return m_moveBeginTime == m_moveEndTime; }
     void setMoveInfo(XYZ endPos, double beginTime, double endTime)
@@ -32,7 +32,9 @@ public:
     virtual UV uv(const XYZ& point) const override;
 
 private:
-    double						m_x0, m_y0, m_x1, m_y1, m_z;
+    XYZ						    m_p0, m_p1;
+    double						m_k;
+    int                         m_verticalAxisIndex;
     XYZ                         m_moveEndPos;
     double                      m_moveBeginTime = 0.0;
     double                      m_moveEndTime = 0.0;

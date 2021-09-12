@@ -1,3 +1,4 @@
+#include "AARect.h"
 #include "Camera.h"
 #include "CheckerTexture.h"
 #include "Dielectric.h"
@@ -9,7 +10,6 @@
 #include "MathUtils.h"
 #include "Metal.h"
 #include "NoiseTexture.h"
-#include "Rect2D.h"
 #include "Sphere.h"
 #include "TurbulenceTexture.h"
 
@@ -73,7 +73,7 @@ int main()
     //hittableList.appendOne(std::make_shared<Sphere>(XYZ(0, 2.0, 0), 2.0, std::make_shared<Lambertian>(pNoiseTexture)));
 
     std::shared_ptr<DiffuseLight> pDiffLightMaterial = std::make_shared<DiffuseLight>(Color(4.0, 4.0, 4.0));
-    hittableList.appendOne(std::make_shared<Rect2D>(3.0, 5.0, 1.0, 3.0, -2.0, pDiffLightMaterial));
+    hittableList.appendOne(std::make_shared<AARect>(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), -2.0, pDiffLightMaterial));
     hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 8.0, 0.0), 2.0, pDiffLightMaterial));
 
     // Camera
