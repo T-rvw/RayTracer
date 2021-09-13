@@ -1,20 +1,21 @@
 #pragma once
 
 #include "Hittable.h"
+#include "HittableList.h"
 
 #include <memory>
 
-class AARect : public Hittable
+class Box : public Hittable
 {
 public:
-    AARect() = delete;
-    AARect(XYZ p0, XYZ p1, char kIndex, double k, std::shared_ptr<Material> pMaterial = nullptr);
-    virtual ~AARect() = default;
+    Box() = delete;
+    Box(XYZ p0, XYZ p1, std::shared_ptr<Material> pMaterial = nullptr);
+    virtual ~Box() = default;
 
     //AARect(const AARect& rhs) {  }
-    AARect(AARect&& rhs) = default;
-    AARect& operator=(const AARect&) = default;
-    AARect& operator=(AARect&&) = default;
+    Box(Box&& rhs) = default;
+    Box& operator=(const Box&) = default;
+    Box& operator=(Box&&) = default;
 
     bool isStatic() const { return m_moveBeginTime == m_moveEndTime; }
     void setMoveInfo(XYZ endPos, double beginTime, double endTime)
@@ -28,14 +29,13 @@ public:
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT = -10000000.0, double maxT = +10000000.0) const override;
 
-    virtual UV uv(const XYZ& point) const;
-
 private:
     XYZ						    m_p0, m_p1;
-    double						m_k;
-    int                         m_verticalAxisIndex;
+    HittableList                m_hittableList;
+
     XYZ                         m_moveEndPos;
     double                      m_moveBeginTime = 0.0;
     double                      m_moveEndTime = 0.0;
+
     std::shared_ptr<Material>   m_pMaterial;
 };

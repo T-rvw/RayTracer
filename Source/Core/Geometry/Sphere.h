@@ -26,11 +26,11 @@ public:
 
     XYZ center(double curTime = 0.0) const;
     double radius() const { return m_radius; }
-    virtual std::shared_ptr<Material> material() const override { return m_pMaterial; }
+    virtual std::shared_ptr<Material> material() const { return m_pMaterial; }
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT = -10000000.0, double maxT = +10000000.0) const override;
 
-    virtual UV uv(const XYZ& point) const override;
+    virtual UV uv(const XYZ& point) const;
 
 private:
     XYZ                         m_center;
