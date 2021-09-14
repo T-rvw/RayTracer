@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hittable.h"
+#include "GeometryBase.h"
 #include "Metal.h"
 
 bool Metal::scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const

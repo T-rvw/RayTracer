@@ -6,11 +6,10 @@
 constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
 constexpr int axisIndexArrSize = sizeof(axisIndexArr);
 
-AARect::AARect(XYZ p0, XYZ p1, char kIndex, double k, std::shared_ptr<Material> pMaterial) :
+AARect::AARect(XYZ p0, XYZ p1, char kIndex, double k) :
     m_p0(p0),
 	m_p1(p1),
-    m_k(k),
-    m_pMaterial(pMaterial)
+    m_k(k)
 {
 	for (int ii = 0; ii < axisIndexArrSize; ++ii)
 	{

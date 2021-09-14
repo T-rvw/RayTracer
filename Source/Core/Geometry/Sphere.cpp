@@ -3,20 +3,14 @@
 
 #include <cmath>
 
-Sphere::Sphere(XYZ center, double radius, std::shared_ptr<Material> pMaterial) :
+Sphere::Sphere(XYZ center, double radius) :
     m_center(center),
-    m_radius(radius),
-    m_pMaterial(pMaterial)
+    m_radius(radius)
 {
 }
 
 XYZ Sphere::center(double curTime) const
 {
-    if (isStatic())
-    {
-        return m_center;
-    }
-
     return m_center + ((curTime - m_moveBeginTime) / (m_moveEndTime - m_moveBeginTime)) * (m_moveEndPos - m_center);
 }
 

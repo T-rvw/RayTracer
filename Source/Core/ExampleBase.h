@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "HittableList.h"
 #include "ImageExporter.h"
+#include "Material.h"
 #include "Ray.h"
 
 class Ray;
@@ -23,7 +24,7 @@ public:
     void setSampleTimes(int sampleTimes) { m_sampleTimes = sampleTimes; }
     void setMaxRecursiveDepth(int depth) { m_maxRecursiveDepth = depth; }
 
-    virtual Color getRayColor(const Ray& ray, const HittableList& world, int curDepth) = 0;
+    virtual Color getRayColor(const Ray& ray, const HittableList& world, int curDepth);
     void generate(const char* fileName);
     void process(const Camera& camera, const HittableList& world);
 

@@ -1,77 +1,28 @@
 #include "AARect.h"
 #include "Camera.h"
-#include "CheckerTexture.h"
-#include "Dielectric.h"
 #include "DiffuseLight.h"
-#include "ExampleBase.h"
+#include "ExampleEmissive.h"
 #include "ImageTexture.h"
 #include "Lambertian.h"
-#include "MarbledTexture.h"
-#include "MathUtils.h"
-#include "Metal.h"
 #include "NoiseTexture.h"
 #include "Sphere.h"
-#include "TurbulenceTexture.h"
 
 #include <iostream>
 #include <vector>
-
-class ExampleEmissiveLight: public ExampleBase
-{
-public:
-    ExampleEmissiveLight(int width, int height) : ExampleBase(width, height) {}
-
-    virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
-    {
-        // If we've exceeded the ray bounce limit, no more light is gathered.
-        if (depth <= 0)
-        {
-            return Color(0.0, 0.0, 0.0);
-        }
-
-        std::optional<HitRecord> optHitRecord = world.hit(ray, DOUBLE_EPS, DOUBLE_INFINITY);
-        if (!optHitRecord.has_value())
-        {
-            // background
-            return Color(0.0, 0.0, 0.0);
-        }
-
-        Color attenuation;
-        Color emitted;
-        Ray scattered;
-        const HitRecord& hitRecord = optHitRecord.value();
-        if (const Hittable* pHitObject = hitRecord.hitObject())
-        {
-            if (std::shared_ptr<Material> pMaterial = pHitObject->material())
-            {
-                XYZ hitPoint = hitRecord.hitPoint();
-                UV uv = pHitObject->uv(hitPoint);
-                emitted = pMaterial->emitted(uv.x(), uv.y(), hitPoint);
-
-                if (!pMaterial->scatter(ray, hitRecord, attenuation, scattered))
-                {
-                    return emitted;
-                }
-            }
-        }
-
-        return emitted + attenuation * getRayColor(scattered, world, depth - 1);
-    }
-};
 
 int main()
 {
     // World
     HittableList hittableList;
     std::shared_ptr<NoiseTexture> pNoiseTexture = std::make_shared<NoiseTexture>(4.0);
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, std::make_shared<Lambertian>(pNoiseTexture)));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(std::make_shared<Lambertian>(pNoiseTexture));
 
     std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0, std::make_shared<Lambertian>(pEarthTexture)));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0)).setMaterial(std::make_shared<Lambertian>(pEarthTexture));
 
     std::shared_ptr<DiffuseLight> pDiffLightMaterial = std::make_shared<DiffuseLight>(Color(4.0, 4.0, 4.0));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), 'z', - 2.0, pDiffLightMaterial));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 8.0, 0.0), 2.0, pDiffLightMaterial));
+    hittableList.add(std::make_shared<AARect>(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), 'z', - 2.0)).setMaterial(pDiffLightMaterial);
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 8.0, 0.0), 2.0)).setMaterial(pDiffLightMaterial);
 
     // Camera
     XYZ lookFrom = XYZ(26.0, 3.0, 6.0);
@@ -86,7 +37,7 @@ int main()
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, aspectRatio);
 
     // Init example and run
-    ExampleEmissiveLight example(imageWidth, imageHeight);
+    ExampleEmissive example(imageWidth, imageHeight);
     example.setSampleTimes(400);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);

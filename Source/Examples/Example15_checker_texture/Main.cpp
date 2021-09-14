@@ -27,7 +27,7 @@ public:
         if (optHitRecord.has_value())
         {
             const HitRecord& hitRecord = optHitRecord.value();
-            if (const Hittable* pHitObject = hitRecord.hitObject())
+            if (const GeometryBase* pHitObject = hitRecord.hitObject())
             {
                 Ray scattered;
                 Color attenuation;
@@ -57,7 +57,7 @@ int main()
     std::shared_ptr<Lambertian> pGroupMaterial = std::make_shared<Lambertian>(pCheckerTexture);
 
     HittableList hittableList;
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, pGroupMaterial));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(pGroupMaterial);
 
     for (int ii = -11; ii < 11; ++ii)
     {
@@ -87,20 +87,21 @@ int main()
                     sphereMaterial = std::make_shared<Dielectric>(1.5);
                 }
 
-                std::shared_ptr<Sphere> pSphere = std::make_shared<Sphere>(center, 0.2, sphereMaterial);
+                std::shared_ptr<Sphere> pSphere = std::make_shared<Sphere>(center, 0.2);
+                pSphere->setMaterial(sphereMaterial);
                 if (isMoveable)
                 {
                     XYZ endCenterPos = center + XYZ(0.0, randomDouble(0.0, 0.5), 0.0);
                     pSphere->setMoveInfo(endCenterPos, 0.0, 1.0);
                 }
-                hittableList.appendOne(pSphere);
+                hittableList.add(pSphere);
             }
         }
     }
 
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 1.0, 0.0), 1.0, std::make_shared<Dielectric>(1.5)));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(-4.0, 1.0, 0.0), 1.0, std::make_shared<Lambertian>(XYZ(0.4, 0.2, 0.1))));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(4.0, 1.0, 0.0), 1.0, std::make_shared<Metal>(XYZ(0.7, 0.6, 0.5), 0.0)));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 1.0, 0.0), 1.0)).setMaterial(std::make_shared<Dielectric>(1.5));
+    hittableList.add(std::make_shared<Sphere>(XYZ(-4.0, 1.0, 0.0), 1.0)).setMaterial(std::make_shared<Lambertian>(XYZ(0.4, 0.2, 0.1)));
+    hittableList.add(std::make_shared<Sphere>(XYZ(4.0, 1.0, 0.0), 1.0)).setMaterial(std::make_shared<Metal>(XYZ(0.7, 0.6, 0.5), 0.0));
 
     // Camera
     XYZ lookFrom = XYZ(13.0, 2.0, 3.0);

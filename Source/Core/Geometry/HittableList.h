@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Hittable.h"
+#include "GeometryBase.h"
 
-#include <memory>
 #include <vector>
 
-// Interface
-class HittableList : public Hittable
+class HittableList
 {
 public:
     HittableList() = default;
-    HittableList(std::shared_ptr<Hittable> pHittableObject) { appendOne(pHittableObject); }
+    HittableList(std::shared_ptr<GeometryBase> pHittableObject) { add(pHittableObject); }
     virtual ~HittableList() = default;
 
     HittableList(const HittableList&) = delete;
@@ -18,12 +16,15 @@ public:
     HittableList& operator=(const HittableList&) = delete;
     HittableList& operator=(HittableList&&) = delete;
 
+    size_t size() { return m_vecHittableObjects.size(); }
+    std::shared_ptr<GeometryBase> operator[](int index){ return m_vecHittableObjects[index]; }
+
     void clear() { m_vecHittableObjects.clear(); }
     void reserve(size_t expectedSize) { m_vecHittableObjects.reserve(expectedSize); }
-    void appendOne(std::shared_ptr<Hittable> pHittableObject) { m_vecHittableObjects.push_back(pHittableObject); }
-
-    virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const override;
+    GeometryBase& add(std::shared_ptr<GeometryBase> pHittableObject) { m_vecHittableObjects.push_back(pHittableObject); return *(pHittableObject.get()); }
+    
+    std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const;
 
 private:
-    std::vector<std::shared_ptr<Hittable>> m_vecHittableObjects;
+    std::vector<std::shared_ptr<GeometryBase>> m_vecHittableObjects;
 };

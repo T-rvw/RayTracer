@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Hittable.h"
+#include "GeometryBase.h"
 #include "Lambertian.h"
 
-bool Lambertian::scatter([[maybe_unused]] const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const
+bool Lambertian::scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const
 {
 	XYZ normal = hitRecord.normal();
 

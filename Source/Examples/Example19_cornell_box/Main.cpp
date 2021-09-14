@@ -4,7 +4,7 @@
 #include "CheckerTexture.h"
 #include "Dielectric.h"
 #include "DiffuseLight.h"
-#include "ExampleBase.h"
+#include "ExampleEmissive.h"
 #include "ImageTexture.h"
 #include "Lambertian.h"
 #include "MarbledTexture.h"
@@ -17,49 +17,6 @@
 #include <iostream>
 #include <vector>
 
-class ExampleEmissiveLight: public ExampleBase
-{
-public:
-    ExampleEmissiveLight(int width, int height) : ExampleBase(width, height) {}
-
-    virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
-    {
-        // If we've exceeded the ray bounce limit, no more light is gathered.
-        if (depth <= 0)
-        {
-            return Color(0.0, 0.0, 0.0);
-        }
-
-        std::optional<HitRecord> optHitRecord = world.hit(ray, DOUBLE_EPS, DOUBLE_INFINITY);
-        if (!optHitRecord.has_value())
-        {
-            // background
-            return Color(0.0, 0.0, 0.0);
-        }
-
-        Color attenuation;
-        Color emitted;
-        Ray scattered;
-        const HitRecord& hitRecord = optHitRecord.value();
-        if (const Hittable* pHitObject = hitRecord.hitObject())
-        {
-            if (std::shared_ptr<Material> pMaterial = pHitObject->material())
-            {
-                XYZ hitPoint = hitRecord.hitPoint();
-                UV uv = pHitObject->uv(hitPoint);
-                emitted = pMaterial->emitted(uv.x(), uv.y(), hitPoint);
-
-                if (!pMaterial->scatter(ray, hitRecord, attenuation, scattered))
-                {
-                    return emitted;
-                }
-            }
-        }
-
-        return emitted + attenuation * getRayColor(scattered, world, depth - 1);
-    }
-};
-
 int main()
 {
     // World
@@ -71,17 +28,17 @@ int main()
     auto light = std::make_shared<DiffuseLight>(Color(30.0, 30.0, 30.0));
 
     // Five walls
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 555.0, green));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 0.0, red));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 0.0, white));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 555.0, white));
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 555.0, 0.0), 'z', 555.0, white));
+    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 555.0)).setMaterial(green);
+    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 0.0)).setMaterial(red);
+    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 0.0)).setMaterial(white);
+    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 555.0)).setMaterial(white);
+    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 555.0, 0.0), 'z', 555.0)).setMaterial(white);
 
     // Top light
-    hittableList.appendOne(std::make_shared<AARect>(XYZ(213.0, 0.0, 227.0), XYZ(343.0, 0.0, 332.0), 'y', 554.0, light));
+    hittableList.add(std::make_shared<AARect>(XYZ(213.0, 0.0, 227.0), XYZ(343.0, 0.0, 332.0), 'y', 554.0)).setMaterial(light);
 
-    hittableList.appendOne(std::make_shared<Box>(XYZ(130.0, 0, 65.0), XYZ(295.0, 165.0, 230.0), white));
-    hittableList.appendOne(std::make_shared<Box>(XYZ(265.0, 0, 295.0), XYZ(430.0, 330.0, 460.0), white));
+    hittableList.add(std::make_shared<Box>(XYZ(130.0, 0, 65.0), XYZ(295.0, 165.0, 230.0))).setMaterial(white);
+    hittableList.add(std::make_shared<Box>(XYZ(265.0, 0, 295.0), XYZ(430.0, 330.0, 460.0))).setMaterial(white);
 
     // Camera
     XYZ lookFrom = XYZ(278.0, 278.0, -800.0);
@@ -96,7 +53,7 @@ int main()
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 40.0, aspectRatio);
 
     // Init example and run
-    ExampleEmissiveLight example(imageWidth, imageHeight);
+    ExampleEmissive example(imageWidth, imageHeight);
     example.setSampleTimes(10000);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);

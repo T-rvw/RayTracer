@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hittable.h"
+#include "GeometryBase.h"
 #include "Dielectric.h"
 
 bool Dielectric::scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const

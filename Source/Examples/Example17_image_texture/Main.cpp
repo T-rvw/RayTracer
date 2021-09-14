@@ -14,54 +14,15 @@
 #include <iostream>
 #include <vector>
 
-class ExampleImageTexture : public ExampleBase
-{
-public:
-    ExampleImageTexture(int width, int height) : ExampleBase(width, height) {}
-
-    virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
-    {
-        // If we've exceeded the ray bounce limit, no more light is gathered.
-        if (depth <= 0)
-        {
-            return Color(0.0, 0.0, 0.0);
-        }
-
-        std::optional<HitRecord> optHitRecord = world.hit(ray, DOUBLE_EPS, DOUBLE_INFINITY);
-        if (optHitRecord.has_value())
-        {
-            const HitRecord& hitRecord = optHitRecord.value();
-            if (const Hittable* pHitObject = hitRecord.hitObject())
-            {
-                Ray scattered;
-                Color attenuation;
-                if (std::shared_ptr<Material> pMaterial = pHitObject->material())
-                {
-                    if (pMaterial->scatter(ray, hitRecord, attenuation, scattered))
-                    {
-                        return attenuation * getRayColor(scattered, world, depth - 1);
-                    }
-
-                    return Color(0.0, 0.0, 0.0);
-                }
-            }
-        }
-
-        // background
-        XYZ unitDir = unit(ray.direction());
-        double factor = 0.5 * (unitDir.y() + 1.0);
-        return (1.0 - factor) * Color(1.0, 1.0, 1.0) + factor * Color(0.5, 0.7, 1.0);
-    }
-};
-
 int main()
 {
     // World
     HittableList hittableList;
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0, std::make_shared<Lambertian>(std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9)))));
+    auto pCheckerTexture = std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(std::make_shared<Lambertian>(pCheckerTexture));
 
     std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 1.2, 0.0), 1.0, std::make_shared<Lambertian>(pEarthTexture)));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 1.2, 0.0), 1.0)).setMaterial(std::make_shared<Lambertian>(pEarthTexture));
 
     // Camera
     XYZ lookFrom = XYZ(13.0, 2.0, 3.0);
@@ -76,7 +37,7 @@ int main()
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 20.0, aspectRatio);
 
     // Init example and run
-    ExampleImageTexture example(imageWidth, imageHeight);
+    ExampleBase example(imageWidth, imageHeight);
     example.setSampleTimes(100);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);

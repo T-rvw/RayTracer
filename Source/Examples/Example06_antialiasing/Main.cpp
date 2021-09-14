@@ -34,8 +34,8 @@ int main()
     // World
     HittableList hittableList;
     hittableList.reserve(2);
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, 0.0, -1.0), 0.5));
-    hittableList.appendOne(std::make_shared<Sphere>(XYZ(0.0, -100.5, -1.0), 100.0));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 0.0, -1.0), 0.5));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -100.5, -1.0), 100.0));
 
 	// Camera
     constexpr int imageWidth = 400;

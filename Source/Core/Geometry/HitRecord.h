@@ -6,13 +6,13 @@
 #include <memory>
 #include <optional>
 
-class Hittable;
+class GeometryBase;
 
 class HitRecord
 {
 public:
     HitRecord() = delete;
-    HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const Hittable* pHitObject);
+    HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const GeometryBase* pHitObject);
     ~HitRecord() = default;
 
     HitRecord(const HitRecord&) = default;
@@ -25,7 +25,7 @@ public:
     const XYZ& normal() const { return m_normal; }
     double rayT() const { return m_rayT; }
     bool isFront() const { return m_isFront; }
-    const Hittable* hitObject() const { return m_pHitObject; }
+    const GeometryBase* hitObject() const { return m_pHitObject; }
 
 private:
     XYZ                 m_hitPoint;
@@ -33,5 +33,5 @@ private:
     XYZ                 m_normal;
     double              m_rayT;
     bool                m_isFront;
-    const Hittable*     m_pHitObject;
+    const GeometryBase*     m_pHitObject;
 };
