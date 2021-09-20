@@ -1,5 +1,7 @@
 # RayTracer
 
+![RayTracer](https://github.com/T-rvw/RayTracer/actions/workflows/main.yml/badge.svg?branch=main)
+
 Easy to make and build in different platforms powered by [Premake](https://github.com/premake/premake-core).
 
 Well organized example projects to help you understand.
@@ -17,6 +19,12 @@ Linux + gmake : `./premake5 gmake2`
 Mac + xcode : `./premake5 xcode4`
 
 If you want more build options, please see [Premake document](https://premake.github.io/docs/Using-Premake).
+
+## Performance
+
+By default, we opened OpenMP compile option to support parallel calculation in multiple threads.
+
+Also, please use release build to render complex images to save your time.
 
 ## Reference links
 
