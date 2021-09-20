@@ -1,0 +1,29 @@
+name: main
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate VS2019 Project
+      run: ${{github.workspace}}/Generate_vs2019_sln.bat
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build Debugx64
+      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=Debug /p:Platform=x64
+      
+    - name: Build Releasex64
+      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=Release /p:Platform=x64
+      
+    - name: Build RelWithDbgInfo
+      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=RelWithDbgInfo /p:Platform=x64
