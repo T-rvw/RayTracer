@@ -56,10 +56,10 @@ local function setExampleProject(projectName)
 	
 	includedirs
 	{
-		"Source/Core/",
-		"Source/Core/Geometry/",
-		"Source/Core/Material/",
-		"Source/Core/Math/",
+		"Source/Core/Include/",
+		"Source/Core/Include/Geometry/",
+		"Source/Core/Include/Material/",
+		"Source/Core/Include/Math/",
 		"Source/External/",
 	}
 end
@@ -68,7 +68,7 @@ end
 setCppProject("Core")
 	kind "StaticLib"
 	openmp "On"
-	
+
 	files
 	{
 		"Source/External/**.*",
@@ -77,10 +77,10 @@ setCppProject("Core")
 	
 	includedirs
 	{
-		"Source/Core/",
-		"Source/Core/Geometry/",
-		"Source/Core/Material/",
-		"Source/Core/Math/",
+		"Source/Core/Include/",
+		"Source/Core/Include/Geometry/",
+		"Source/Core/Include/Material/",
+		"Source/Core/Include/Math/",
 		"Source/External/",
 	}
 
