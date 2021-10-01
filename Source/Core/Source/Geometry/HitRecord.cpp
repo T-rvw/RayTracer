@@ -1,5 +1,4 @@
 #include "GeometryBase.h"
-#include "HitRecord.h"
 
 HitRecord::HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const GeometryBase* pHitObject) :
     m_hitPoint(hitPoint),

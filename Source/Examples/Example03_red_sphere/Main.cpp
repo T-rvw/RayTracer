@@ -1,6 +1,5 @@
 #include "ImageExporter.h"
 #include "Ray.h"
-#include "XYZ.h"
 
 #include <iostream>
 

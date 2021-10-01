@@ -1,13 +1,7 @@
 #include "Camera.h"
-#include "Dielectric.h"
 #include "ExampleBase.h"
 #include "Lambertian.h"
-#include "MathUtils.h"
-#include "Metal.h"
 #include "Sphere.h"
-
-#include <iostream>
-#include <vector>
 
 int main()
 {

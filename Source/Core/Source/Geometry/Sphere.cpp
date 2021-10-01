@@ -1,8 +1,6 @@
 #include "HitRecord.h"
 #include "Sphere.h"
 
-#include <cmath>
-
 Sphere::Sphere(XYZ center, double radius) :
     m_center(center),
     m_radius(radius)

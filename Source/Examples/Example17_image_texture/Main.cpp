@@ -1,18 +1,9 @@
 #include "Camera.h"
 #include "CheckerTexture.h"
-#include "Dielectric.h"
 #include "ExampleBase.h"
 #include "ImageTexture.h"
 #include "Lambertian.h"
-#include "MarbledTexture.h"
-#include "MathUtils.h"
-#include "Metal.h"
-#include "NoiseTexture.h"
 #include "Sphere.h"
-#include "TurbulenceTexture.h"
-
-#include <iostream>
-#include <vector>
 
 int main()
 {

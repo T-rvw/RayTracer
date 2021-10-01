@@ -7,9 +7,6 @@
 #include "NoiseTexture.h"
 #include "Sphere.h"
 
-#include <iostream>
-#include <vector>
-
 int main()
 {
     // World

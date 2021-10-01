@@ -1,13 +1,10 @@
 #pragma once
 
 #include "HitRecord.h"
-#include "Ray.h"
-#include "XY.h"
+#include "Material.h"
 
 #include <memory>
 #include <optional>
-
-class Material;
 
 class GeometryBase
 {

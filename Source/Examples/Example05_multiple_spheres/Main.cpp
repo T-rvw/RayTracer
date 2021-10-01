@@ -1,12 +1,9 @@
 #include "HittableList.h"
-#include "MathUtils.h"
 #include "ImageExporter.h"
 #include "Ray.h"
 #include "Sphere.h"
-#include "XYZ.h"
 
 #include <iostream>
-#include <vector>
 
 Color getRayColor(const Ray& ray, const HittableList& world)
 {

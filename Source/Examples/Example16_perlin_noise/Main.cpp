@@ -7,9 +7,6 @@
 #include "Sphere.h"
 #include "TurbulenceTexture.h"
 
-#include <iostream>
-#include <vector>
-
 int main()
 {
     // World

@@ -1,21 +1,9 @@
 #include "AARect.h"
 #include "Box.h"
 #include "Camera.h"
-#include "CheckerTexture.h"
-#include "Dielectric.h"
 #include "DiffuseLight.h"
 #include "ExampleEmissive.h"
-#include "ImageTexture.h"
 #include "Lambertian.h"
-#include "MarbledTexture.h"
-#include "MathUtils.h"
-#include "Metal.h"
-#include "NoiseTexture.h"
-#include "Sphere.h"
-#include "TurbulenceTexture.h"
-
-#include <iostream>
-#include <vector>
 
 int main()
 {

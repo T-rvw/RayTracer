@@ -1,10 +1,6 @@
 #include "Camera.h"
 #include "ExampleBase.h"
-#include "MathUtils.h"
 #include "Sphere.h"
-
-#include <iostream>
-#include <vector>
 
 class ExampleAntialiasing : public ExampleBase
 {

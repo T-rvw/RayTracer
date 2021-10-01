@@ -3,11 +3,6 @@
 #include "Camera.h"
 #include "HittableList.h"
 #include "ImageExporter.h"
-#include "Material.h"
-#include "Ray.h"
-
-class Ray;
-class HittableList;
 
 class ExampleBase
 {

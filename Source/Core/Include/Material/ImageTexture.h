@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Texture.h"
-#include "XYZ.h"
 
 #include <memory>
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "SolidColor.h"
-#include "XYZ.h"
 
 #include <memory>
 

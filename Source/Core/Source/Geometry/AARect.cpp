@@ -1,8 +1,6 @@
 #include "HitRecord.h"
 #include "AARect.h"
 
-#include <cmath>
-
 constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
 constexpr int axisIndexArrSize = sizeof(axisIndexArr);
 

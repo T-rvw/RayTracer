@@ -2,8 +2,6 @@
 #include "AARect.h"
 #include "Box.h"
 
-#include <cmath>
-
 Box::Box(XYZ p0, XYZ p1) :
     m_p0(p0),
 	m_p1(p1)
