@@ -20,8 +20,10 @@ public:
     HitRecord& operator=(const HitRecord&) = default;
     HitRecord& operator=(HitRecord&&) = default;
 
+    XYZ& hitPointForWrite() { return m_hitPoint; }
     const XYZ& hitPoint() const { return m_hitPoint; }
     UV hitPointUV() const { return m_hitPointUV; }
+    XYZ& normalForWrite() { return m_normal; }
     const XYZ& normal() const { return m_normal; }
     double rayT() const { return m_rayT; }
     bool isFront() const { return m_isFront; }
