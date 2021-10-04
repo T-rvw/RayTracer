@@ -9,6 +9,11 @@ Sphere::Sphere(XYZ center, double radius) :
 
 XYZ Sphere::center(double curTime) const
 {
+    if (std::fabs(m_moveBeginTime - m_moveEndTime) < DOUBLE_EPS)
+    {
+        return m_center;
+    }
+
     return m_center + ((curTime - m_moveBeginTime) / (m_moveEndTime - m_moveBeginTime)) * (m_moveEndPos - m_center);
 }
 
