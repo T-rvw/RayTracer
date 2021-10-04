@@ -78,12 +78,12 @@ public:
                m_value[2] * m_value[2];
     }
 
-    static double XYZ::dot(const XYZ& lhs, const XYZ& rhs)
+    static double dot(const XYZ& lhs, const XYZ& rhs)
     {
         return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z();
     }
 
-    static XYZ XYZ::cross(const XYZ& lhs, const XYZ& rhs)
+    static XYZ cross(const XYZ& lhs, const XYZ& rhs)
     {
         return XYZ(lhs.y() * rhs.z() - lhs.z() * rhs.y(),
                    lhs.z() * rhs.x() - lhs.x() * rhs.z(),

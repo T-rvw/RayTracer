@@ -1,8 +1,8 @@
 #include "ConstantMedium.h"
 
 ConstantMedium::ConstantMedium(std::shared_ptr<GeometryBase> pBoundary, double density)
-    : m_pBoundary(pBoundary),
-    m_negativeInverseDensity(-1 / density)
+    : m_negativeInverseDensity(-1 / density),
+    m_pBoundary(pBoundary)
 {
 }
 

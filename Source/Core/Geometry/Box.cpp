@@ -40,11 +40,8 @@ std::optional<AABB> Box::boundingBox(double /*t0*/, double /*t1*/) const
 
 void Box::setMaterial(std::shared_ptr<Material> pMaterial)
 {
-    for (int ii = 0; ii < m_hittableList.size(); ++ii)
+    for (size_t ii = 0; ii < m_hittableList.size(); ++ii)
     {
-        if (m_hittableList[ii])
-        {
-            m_hittableList[ii]->setMaterial(pMaterial);
-        }
+        m_hittableList[ii]->setMaterial(pMaterial);
     }
 }

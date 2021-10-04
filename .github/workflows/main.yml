@@ -7,14 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-windows:
     runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Generate VS2019 Project
-      run: ${{github.workspace}}/Generate_vs2019_sln.bat
+      run: ${{github.workspace}}/generate_vs2019.bat
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2

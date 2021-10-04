@@ -1,5 +1,3 @@
-#pragma once
-
 #include "HitRecord.h"
 #include "Isotropic.h"
 

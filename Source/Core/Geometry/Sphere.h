@@ -11,7 +11,7 @@ public:
 
     Sphere(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); }
     Sphere(Sphere&& rhs) = default;
-    Sphere& operator=(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); }
+    Sphere& operator=(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); return *this; }
     Sphere& operator=(Sphere&&) = default;
 
     XYZ center(double curTime = 0.0) const;

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "GeometryBase.h"
 #include "Metal.h"
 

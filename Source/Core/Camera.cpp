@@ -23,9 +23,9 @@ Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov, dou
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
-	m_w = std::move((m_origin - lookAt).normalize());
-	m_u = std::move(XYZ::cross(viewportUp, m_w).normalize());
-	m_v = std::move(XYZ::cross(m_w, m_u));
+	m_w = (m_origin - lookAt).normalize();
+	m_u = XYZ::cross(viewportUp, m_w).normalize();
+	m_v = XYZ::cross(m_w, m_u);
 
 	m_horizontal = viewPortWidth * m_u;
 	m_vertical = viewPortHeight * m_v;
@@ -41,9 +41,9 @@ Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
-	m_w = std::move((m_origin - lookAt).normalize());
-	m_u = std::move(XYZ::cross(viewportUp, m_w).normalize());
-	m_v = std::move(XYZ::cross(m_w, m_u));
+	m_w = (m_origin - lookAt).normalize();
+	m_u = XYZ::cross(viewportUp, m_w).normalize();
+	m_v = XYZ::cross(m_w, m_u);
 
 	m_horizontal = focusDist * viewPortWidth * m_u;
 	m_vertical = focusDist * viewPortHeight * m_v;

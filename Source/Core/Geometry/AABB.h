@@ -11,7 +11,7 @@ public:
 
     AABB(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; }
     AABB(AABB&& rhs) = default;
-    AABB& operator=(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; }
+    AABB& operator=(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; return *this;}
     AABB& operator=(AABB&&) = default;
 
     bool hit(const Ray& ray, double minT, double maxT) const;

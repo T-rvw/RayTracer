@@ -12,13 +12,13 @@ public:
     virtual ~HittableList() = default;
 
     HittableList(const HittableList&) = delete;
-    HittableList(HittableList&&) = delete;
+    HittableList(HittableList&&) = default;
     HittableList& operator=(const HittableList&) = delete;
-    HittableList& operator=(HittableList&&) = delete;
+    HittableList& operator=(HittableList&&) = default;
 
     size_t size() const { return m_vecHittableObjects.size(); }
     std::vector<std::shared_ptr<GeometryBase>>& objects() { return m_vecHittableObjects; }
-    std::shared_ptr<GeometryBase> operator[](int index) const { return m_vecHittableObjects[index]; }
+    std::shared_ptr<GeometryBase> operator[](size_t index) const { return m_vecHittableObjects[index]; }
 
     void clear() { m_vecHittableObjects.clear(); }
     void reserve(size_t expectedSize) { m_vecHittableObjects.reserve(expectedSize); }

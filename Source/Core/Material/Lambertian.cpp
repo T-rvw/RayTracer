@@ -1,5 +1,3 @@
-#pragma once
-
 #include "GeometryBase.h"
 #include "Lambertian.h"
 

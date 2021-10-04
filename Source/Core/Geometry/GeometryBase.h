@@ -11,9 +11,9 @@ public:
     virtual ~GeometryBase() = default;
 
     GeometryBase(const GeometryBase&) = delete;
-    GeometryBase(GeometryBase&&) = delete;
+    GeometryBase(GeometryBase&&) = default;
     GeometryBase& operator=(const GeometryBase&) = delete;
-    GeometryBase& operator=(GeometryBase&&) = delete;
+    GeometryBase& operator=(GeometryBase&&) = default;
 
     virtual void setMaterial(std::shared_ptr<Material> pMaterial) { m_pMaterial = pMaterial; }
     std::shared_ptr<Material> material() const { return m_pMaterial; }

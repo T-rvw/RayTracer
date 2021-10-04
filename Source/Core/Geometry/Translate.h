@@ -6,8 +6,8 @@ class Translate final : public GeometryBase
 {
 public:
     explicit Translate(std::shared_ptr<GeometryBase> pObject, XYZ offset)
-        : m_pObject(pObject),
-        m_offset(std::move(offset))
+        : m_offset(std::move(offset)),
+        m_pObject(pObject)
     {
     }
 
