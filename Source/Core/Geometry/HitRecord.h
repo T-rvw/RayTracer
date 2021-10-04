@@ -3,9 +3,6 @@
 #include "Ray.h"
 #include "XY.h"
 
-#include <memory>
-#include <optional>
-
 class GeometryBase;
 
 class HitRecord
@@ -26,6 +23,7 @@ public:
     XYZ& normalForWrite() { return m_normal; }
     const XYZ& normal() const { return m_normal; }
     double rayT() const { return m_rayT; }
+    double& rayTForWrite() { return m_rayT; }
     bool isFront() const { return m_isFront; }
     const GeometryBase* hitObject() const { return m_pHitObject; }
 

@@ -2,8 +2,6 @@
 
 #include "Texture.h"
 
-#include <memory>
-
 class ImageTexture : public Texture
 {
 public:

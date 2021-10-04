@@ -4,9 +4,6 @@
 #include "HitRecord.h"
 #include "Material.h"
 
-#include <memory>
-#include <optional>
-
 class GeometryBase
 {
 public:
@@ -18,11 +15,6 @@ public:
     GeometryBase& operator=(const GeometryBase&) = delete;
     GeometryBase& operator=(GeometryBase&&) = delete;
 
-    virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const = 0;
-    virtual std::optional<AABB> boundingBox(double t0, double t1) const = 0;
-
-    virtual UV uv(const XYZ& /*point*/) const = 0;
-
     virtual void setMaterial(std::shared_ptr<Material> pMaterial) { m_pMaterial = pMaterial; }
     std::shared_ptr<Material> material() const { return m_pMaterial; }
 
@@ -32,6 +24,11 @@ public:
         m_moveBeginTime = beginTime;
         m_moveEndTime = endTime;
     }
+
+    // Pure virtual methods 
+    virtual std::optional<AABB> boundingBox(double t0, double t1) const = 0;
+    virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const = 0;
+    virtual UV uv(const XYZ& /*point*/) const = 0;
 
 protected:
     // move parameters

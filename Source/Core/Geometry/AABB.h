@@ -9,7 +9,7 @@ public:
     AABB(XYZ p0, XYZ p1);
     virtual ~AABB() = default;
 
-    AABB(const AABB& rhs) = delete;
+    AABB(const AABB& rhs);
     AABB(AABB&& rhs) = default;
     AABB& operator=(const AABB&) = default;
     AABB& operator=(AABB&&) = default;

@@ -3,6 +3,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <memory>
+#include <optional>
 #include <random>
 
 constexpr double DOUBLE_EPS = 0.000000001;

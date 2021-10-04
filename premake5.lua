@@ -56,10 +56,10 @@ local function setExampleProject(projectName)
 	
 	includedirs
 	{
-		"Source/Core/Include/",
-		"Source/Core/Include/Geometry/",
-		"Source/Core/Include/Material/",
-		"Source/Core/Include/Math/",
+		"Source/Core/",
+		"Source/Core/Geometry/",
+		"Source/Core/Material/",
+		"Source/Core/Math/",
 		"Source/External/",
 	}
 end
@@ -77,10 +77,10 @@ setCppProject("Core")
 	
 	includedirs
 	{
-		"Source/Core/Include/",
-		"Source/Core/Include/Geometry/",
-		"Source/Core/Include/Material/",
-		"Source/Core/Include/Math/",
+		"Source/Core/",
+		"Source/Core/Geometry/",
+		"Source/Core/Material/",
+		"Source/Core/Math/",
 		"Source/External/",
 	}
 

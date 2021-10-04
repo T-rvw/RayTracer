@@ -1,6 +1,7 @@
 #include "ExampleBase.h"
 #include "GeometryBase.h"
 
+#include <atomic>
 #include <iostream>
 
 ExampleBase::ExampleBase(int imageWidth, int imageHeight) :
@@ -25,7 +26,7 @@ void ExampleBase::generate(const char* fileName)
 
 void ExampleBase::process(const Camera& camera, const HittableList& world)
 {
-    int curPixelCount = 0;
+    std::atomic<int> curPixelCount = 0;
 #pragma omp parallel for
     for (int jj = m_imageHeight - 1; jj >= 0; --jj)
     {
