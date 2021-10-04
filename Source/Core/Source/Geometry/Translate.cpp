@@ -22,3 +22,18 @@ UV Translate::uv(const XYZ& point) const
 {
     return m_pObject->uv(point);
 }
+
+std::optional<AABB> Translate::boundingBox(double t0, double t1) const
+{
+    std::optional optBox = m_pObject->boundingBox(t0, t1);
+    if (!optBox.has_value())
+    {
+        return optBox;
+    }
+
+    AABB& box = optBox.value();
+    box.minForWrite() += m_offset;
+    box.maxForWrite() += m_offset;
+
+    return optBox;
+}

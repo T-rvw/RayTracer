@@ -25,6 +25,11 @@ UV Box::uv(const XYZ& /*point*/) const
     return UV(0.0, 0.0);
 }
 
+std::optional<AABB> Box::boundingBox(double /*t0*/, double /*t1*/) const
+{
+    return AABB(m_p0, m_p1);
+}
+
 void Box::setMaterial(std::shared_ptr<Material> pMaterial)
 {
     for (int ii = 0; ii < m_hittableList.size(); ++ii)

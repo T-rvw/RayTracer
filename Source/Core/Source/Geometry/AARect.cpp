@@ -4,10 +4,10 @@
 constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
 constexpr int axisIndexArrSize = sizeof(axisIndexArr);
 
-AARect::AARect(XYZ p0, XYZ p1, char kIndex, double k) :
+AARect::AARect(XYZ p0, XYZ p1, char kIndex, double depth) :
     m_p0(p0),
 	m_p1(p1),
-    m_k(k)
+    m_depth(depth)
 {
 	for (int ii = 0; ii < axisIndexArrSize; ++ii)
 	{
@@ -29,7 +29,7 @@ std::optional<HitRecord> AARect::hit(const Ray& ray, double minT, double maxT) c
 	// x0 < ray_x < x1, y0 < ray_y < y1
 	// t = (ray_z - origin_z) / direction_z
 	// Intersect : m_z == ray_z
-	double t = (m_k - origin[m_verticalAxisIndex]) / direction[m_verticalAxisIndex];
+	double t = (m_depth - origin[m_verticalAxisIndex]) / direction[m_verticalAxisIndex];
 	if(t < minT || t > maxT)
 	{
 		return std::nullopt;
@@ -39,7 +39,7 @@ std::optional<HitRecord> AARect::hit(const Ray& ray, double minT, double maxT) c
 	// ray_y = origin_y + direction_y * t
 	// Check other two axises
 	XYZ hitPoint;
-	hitPoint[m_verticalAxisIndex] = m_k;
+	hitPoint[m_verticalAxisIndex] = m_depth;
 
 	for (int ii = 0; ii < 3; ++ii)
 	{
@@ -79,4 +79,10 @@ UV AARect::uv(const XYZ& point) const
 	}
 
     return uv;
+}
+
+std::optional<AABB> AARect::boundingBox(double /*t0*/, double /*t1*/) const
+{
+	return AABB(XYZ(m_p0.x(), m_p0.y(), m_depth - 0.0001),
+				XYZ(m_p1.x(), m_p1.y(), m_depth + 0.0001));
 }

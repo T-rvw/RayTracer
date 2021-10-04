@@ -24,6 +24,7 @@ public:
     GeometryBase& add(std::shared_ptr<GeometryBase> pHittableObject) { m_vecHittableObjects.push_back(pHittableObject); return *(pHittableObject.get()); }
     
     std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const;
+    std::optional<AABB> boundingBox(double t0, double t1) const;
 
 private:
     std::vector<std::shared_ptr<GeometryBase>> m_vecHittableObjects;

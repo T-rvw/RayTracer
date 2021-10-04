@@ -81,3 +81,15 @@ UV Sphere::uv(const XYZ& point) const
 
     return UV(u, v);
 }
+
+std::optional<AABB> Sphere::boundingBox(double t0, double t1) const
+{
+    XYZ radiusScale(m_radius, m_radius, m_radius);
+    AABB box0(center(t0) - radiusScale,
+              center(t0) + radiusScale);
+
+    AABB box1(center(t1) - radiusScale,
+              center(t1) + radiusScale);
+
+    return AABB::merge(box0, box1);
+}

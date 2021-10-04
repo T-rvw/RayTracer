@@ -15,8 +15,8 @@ public:
 	Ray& operator=(const Ray&) = default;
 	Ray& operator=(Ray&&) = default;
 
-	XYZ origin() const { return m_origin; }
-	XYZ direction() const { return m_direction; }
+	const XYZ& origin() const { return m_origin; }
+	const XYZ& direction() const { return m_direction; }
 	double delayTime() const { return m_delayTime; }
 
 	XYZ at(double t) const { return m_origin + t * m_direction; }

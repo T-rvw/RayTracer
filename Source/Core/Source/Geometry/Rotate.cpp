@@ -53,3 +53,8 @@ UV Rotate::uv(const XYZ& point) const
 {
     return m_pObject->uv(point);
 }
+
+std::optional<AABB> Rotate::boundingBox(double t0, double t1) const
+{
+    return m_pObject->boundingBox(t0, t1);
+}

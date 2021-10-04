@@ -19,6 +19,7 @@ public:
     
     virtual void setMaterial(std::shared_ptr<Material> pMaterial) override;
     virtual UV uv(const XYZ& point) const override;
+    virtual std::optional<AABB> boundingBox(double t0, double t1) const override;
 
 private:
     XYZ						    m_p0, m_p1;

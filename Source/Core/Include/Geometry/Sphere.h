@@ -19,6 +19,7 @@ public:
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT = -10000000.0, double maxT = +10000000.0) const override;
     virtual UV uv(const XYZ& point) const override;
+    virtual std::optional<AABB> boundingBox(double t0, double t1) const override;
 
 private:
     XYZ                         m_center;

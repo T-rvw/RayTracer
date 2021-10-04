@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AABB.h"
 #include "HitRecord.h"
 #include "Material.h"
 
@@ -18,6 +19,7 @@ public:
     GeometryBase& operator=(GeometryBase&&) = delete;
 
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const = 0;
+    virtual std::optional<AABB> boundingBox(double t0, double t1) const = 0;
 
     virtual UV uv(const XYZ& /*point*/) const = 0;
 
