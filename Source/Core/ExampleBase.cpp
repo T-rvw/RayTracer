@@ -26,6 +26,7 @@ void ExampleBase::generate(const char* fileName)
 
 void ExampleBase::process(const Camera& camera, const HittableList& world)
 {
+    uint64_t beginTimeStamp = ::time(nullptr);
     std::atomic<int> curPixelCount = 0;
 #pragma omp parallel for
     for (int jj = m_imageHeight - 1; jj >= 0; --jj)
@@ -53,9 +54,12 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
             size_t pixelIndex = m_pixelNumber - (jj + 1) * m_imageWidth + ii;
             m_imageExporter.fillColor(pixelIndex, pixelColor);
 
-            printf("Fill color pixel placed at %d, progress = %d/%d\n", static_cast<int>(pixelIndex), ++curPixelCount, m_pixelNumber);
+            printf("Fill color pixel placed at %d, progress = %d/%d.\n", static_cast<int>(pixelIndex), ++curPixelCount, m_pixelNumber);
         }
     }
+
+    uint64_t endTimeStamp = ::time(nullptr);
+    printf("Finish processing, costs %d seconds.\n", static_cast<int>(endTimeStamp - beginTimeStamp));
 }
 
 Color ExampleBase::getRayColor(const Ray& ray, const HittableList& world, int curDepth)
