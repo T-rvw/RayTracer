@@ -53,7 +53,7 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
             size_t pixelIndex = m_pixelNumber - (jj + 1) * m_imageWidth + ii;
             m_imageExporter.fillColor(pixelIndex, pixelColor);
 
-            std::cout << std::format("Fill color pixel placed at {}, progress = {}/{}\n", pixelIndex, ++curPixelCount, m_pixelNumber);
+            printf("Fill color pixel placed at %d, progress = %d/%d\n", static_cast<int>(pixelIndex), ++curPixelCount, m_pixelNumber);
         }
     }
 }

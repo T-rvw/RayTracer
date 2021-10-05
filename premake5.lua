@@ -26,7 +26,7 @@ workspace(workSpaceName)
 
 local function setCppProject(projectName)
 project(projectName)
-	cppdialect("C++20")
+	cppdialect("C++17")
 	editAndContinue("Off")
 	floatingpoint("Strict")
 	language("C++")

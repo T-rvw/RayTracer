@@ -23,7 +23,7 @@ int main()
             size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
             imageExporter.fillColor(pixelIndex, color);
 
-            std::cout << std::format("Fill color pixel placed at {}, progress = {}/{}\n", pixelIndex, ++curPixelCount, pixelNumber);
+            printf("Fill color pixel placed at %d, progress = %d/%d\n", static_cast<int>(pixelIndex), ++curPixelCount, pixelNumber);
         }
     }
 
