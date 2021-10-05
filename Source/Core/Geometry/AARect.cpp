@@ -5,8 +5,8 @@ constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
 constexpr int axisIndexArrSize = sizeof(axisIndexArr);
 
 AARect::AARect(XYZ p0, XYZ p1, char kIndex, double depth) :
-    m_p0(p0),
-	m_p1(p1),
+    m_p0(std::move(p0)),
+	m_p1(std::move(p1)),
     m_depth(depth)
 {
 	for (int ii = 0; ii < axisIndexArrSize; ++ii)

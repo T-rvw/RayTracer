@@ -22,9 +22,9 @@ Perlin::Perlin()
 	
 	for(int ii = perlinPointCount - 1; ii > 0 ; --ii)
 	{
-		std::swap(m_vecPermX[ii], m_vecPermX[randomInt(0, ii)]);
-		std::swap(m_vecPermY[ii], m_vecPermY[randomInt(0, ii)]);
-		std::swap(m_vecPermZ[ii], m_vecPermZ[randomInt(0, ii)]);
+		std::swap(m_vecPermX[ii], m_vecPermX[MathUtils::randomInt(0, ii)]);
+		std::swap(m_vecPermY[ii], m_vecPermY[MathUtils::randomInt(0, ii)]);
+		std::swap(m_vecPermZ[ii], m_vecPermZ[MathUtils::randomInt(0, ii)]);
 	}
 }
 

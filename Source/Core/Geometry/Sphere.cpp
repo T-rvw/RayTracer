@@ -2,7 +2,7 @@
 #include "Sphere.h"
 
 Sphere::Sphere(XYZ center, double radius) :
-    m_center(center),
+    m_center(std::move(center)),
     m_radius(radius)
 {
 }

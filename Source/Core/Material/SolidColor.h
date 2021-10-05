@@ -6,7 +6,7 @@ class SolidColor : public Texture
 {
 public:
     SolidColor() = default;
-    SolidColor(Color color) : m_color(color) {}
+    SolidColor(Color color) : m_color(std::move(color)) {}
     virtual ~SolidColor() = default;
 
     SolidColor(const SolidColor&) = delete;

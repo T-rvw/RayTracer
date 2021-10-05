@@ -36,7 +36,7 @@ int main()
                 auto x1 = x0 + w;
                 auto z1 = z0 + w;
     
-                auto pBox = std::make_shared<Box>(XYZ(x0, 0.0, z0), XYZ(x1, randomDouble(1.0, 101.0), z1));
+                auto pBox = std::make_shared<Box>(XYZ(x0, 0.0, z0), XYZ(x1, MathUtils::randomDouble(1.0, 101.0), z1));
                 boxes.add(pBox).setMaterial(ground);
             }
         }

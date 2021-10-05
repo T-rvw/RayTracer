@@ -70,12 +70,12 @@ public:
 
     static XY random()
     {
-        return XY(randomDouble(), randomDouble());
+        return XY(MathUtils::randomDouble(), MathUtils::randomDouble());
     }
 
     static XY random(double min, double max)
     {
-        return XY(randomDouble(min, max), randomDouble(min, max));
+        return XY(MathUtils::randomDouble(min, max), MathUtils::randomDouble(min, max));
     }
 
 private:

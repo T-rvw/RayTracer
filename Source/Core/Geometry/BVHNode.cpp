@@ -1,30 +1,18 @@
 #include "BVHNode.h"
 
-bool compareBox(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs, int axis)
+namespace
 {
-    std::optional<AABB> optLhsAABB = lhs->boundingBox(0, 0);
-    std::optional<AABB> optRhsAABB = rhs->boundingBox(0, 0);
-    if (!optLhsAABB.has_value() || !optRhsAABB.has_value())
+    bool compareBox(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs, int axis)
     {
-        return false;
+        std::optional<AABB> optLhsAABB = lhs->boundingBox(0.0, 0.0);
+        std::optional<AABB> optRhsAABB = rhs->boundingBox(0.0, 0.0);
+        if (!optLhsAABB.has_value() || !optRhsAABB.has_value())
+        {
+            return false;
+        }
+
+        return optLhsAABB.value().min()[axis] < optRhsAABB.value().min()[axis];
     }
-
-    return optLhsAABB.value().min()[axis] < optRhsAABB.value().min()[axis];
-}
-
-bool compareBoxInAxisX(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
-{
-    return compareBox(lhs, rhs, 0);
-}
-
-bool compareBoxInAxisY(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
-{
-    return compareBox(lhs, rhs, 1);
-}
-
-bool compareBoxInAxisZ(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
-{
-    return compareBox(lhs, rhs, 2);
 }
 
 BVHNode::BVHNode(HittableList& hitList, double t0, double t1)
@@ -34,8 +22,8 @@ BVHNode::BVHNode(HittableList& hitList, double t0, double t1)
 
 BVHNode::BVHNode(std::vector<std::shared_ptr<GeometryBase>>& vecHitObjects, size_t start, size_t end, double t0, double t1)
 {
-    int axis = randomInt(0, 2);
-    auto comparator = axis == 0 ? compareBoxInAxisX : (axis == 1 ? compareBoxInAxisY : compareBoxInAxisZ);
+    int axis = MathUtils::randomInt(0, 2);
+    auto comparator = std::bind(compareBox, std::placeholders::_1, std::placeholders::_2, axis);
     size_t objectSpan = end - start;
 
     if (1 == objectSpan)

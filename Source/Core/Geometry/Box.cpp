@@ -3,8 +3,8 @@
 #include "Box.h"
 
 Box::Box(XYZ p0, XYZ p1) :
-    m_p0(p0),
-	m_p1(p1)
+    m_p0(std::move(p0)),
+	m_p1(std::move(p1))
 {
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p0.x()));
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p1.x()));

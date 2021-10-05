@@ -15,7 +15,7 @@ std::optional<HitRecord> ConstantMedium::hit(const Ray& ray, double minT, double
 {
     std::optional<HitRecord> optHitResult1;
 
-    optHitResult1 = m_pBoundary->hit(ray, -HUGE_VAL, HUGE_VAL);
+    optHitResult1 = m_pBoundary->hit(ray, -DOUBLE_INFINITY, DOUBLE_INFINITY);
     if (!optHitResult1.has_value())
     {
         return std::nullopt;
@@ -24,7 +24,7 @@ std::optional<HitRecord> ConstantMedium::hit(const Ray& ray, double minT, double
     std::optional<HitRecord> optHitResult2;
     HitRecord& hitRecord1 = optHitResult1.value();
     
-    optHitResult2 = m_pBoundary->hit(ray, hitRecord1.rayT() + 0.0001, HUGE_VAL);
+    optHitResult2 = m_pBoundary->hit(ray, hitRecord1.rayT() + 0.0001, DOUBLE_INFINITY);
     if (!optHitResult2.has_value())
     {
         return std::nullopt;
@@ -54,7 +54,7 @@ std::optional<HitRecord> ConstantMedium::hit(const Ray& ray, double minT, double
     double rayLength = ray.direction().length();
     double deltaT = hitRecord2.rayT() - hitRecord1.rayT();
     double distanceInsideBoundary = deltaT * rayLength;
-    double hitDistance = m_negativeInverseDensity * std::log(randomDouble());
+    double hitDistance = m_negativeInverseDensity * std::log(MathUtils::randomDouble());
 
     if (hitDistance > distanceInsideBoundary)
     {

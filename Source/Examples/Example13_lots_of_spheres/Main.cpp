@@ -17,21 +17,21 @@ int main()
     {
         for (int jj = -11; jj < 11; ++jj)
         {
-            double chooseMaterial = randomDouble();
-            XYZ center(ii + 0.9 * randomDouble(), 0.2, jj + 0.9 * randomDouble());
+            double chooseMaterial = MathUtils::randomDouble();
+            XYZ center(ii + 0.9 * MathUtils::randomDouble(), 0.2, jj + 0.9 * MathUtils::randomDouble());
 
             if ((center - XYZ(4.0, 0.2, 0.0)).length() > 0.9)
             {
                 std::shared_ptr<Material> sphereMaterial;
                 if (chooseMaterial < 0.8)
                 {
-                    XYZ albedo = XYZ(randomDouble() * randomDouble(), randomDouble() * randomDouble(), randomDouble() * randomDouble());
+                    XYZ albedo = XYZ(MathUtils::randomDouble() * MathUtils::randomDouble(), MathUtils::randomDouble() * MathUtils::randomDouble(), MathUtils::randomDouble() * MathUtils::randomDouble());
                     sphereMaterial = std::make_shared<Lambertian>(albedo);
                 }
                 else if (chooseMaterial < 0.95)
                 {
-                    XYZ albedo = XYZ(randomDouble(0.5, 1.0), randomDouble(0.5, 1.0), randomDouble(0.5, 1.0));
-                    double fuzz = randomDouble(0.0, 0.5);
+                    XYZ albedo = XYZ(MathUtils::randomDouble(0.5, 1.0), MathUtils::randomDouble(0.5, 1.0), MathUtils::randomDouble(0.5, 1.0));
+                    double fuzz = MathUtils::randomDouble(0.0, 0.5);
                     sphereMaterial = std::make_shared<Metal>(albedo, fuzz);
                 }
                 else

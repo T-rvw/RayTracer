@@ -3,7 +3,7 @@
 Camera::Camera(double verticalFov, double aspectRatio) :
 	m_aspectRatio(aspectRatio)
 {
-	double theta = degrees2Radians(verticalFov);
+	double theta = MathUtils::degrees2Radians(verticalFov);
 	double h = tan(theta * 0.5);
 	double viewPortHeight = 2.0 * h;
 	constexpr double focalLength = 1.0;
@@ -18,7 +18,7 @@ Camera::Camera(double verticalFov, double aspectRatio) :
 Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov, double aspectRatio) :
 	m_aspectRatio(aspectRatio)
 {
-	double theta = degrees2Radians(verticalFov);
+	double theta = MathUtils::degrees2Radians(verticalFov);
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
@@ -35,7 +35,7 @@ Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov, dou
 Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double focusDist, double verticalFov, double aspectRatio) :
 	m_aspectRatio(aspectRatio)
 {
-	double theta = degrees2Radians(verticalFov);
+	double theta = MathUtils::degrees2Radians(verticalFov);
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
@@ -55,6 +55,6 @@ Ray Camera::getRay(double u, double v) const
 	XYZ rd = m_lensRadius * randomInUnitDisk();
 	XYZ offset = m_u * rd.x() + m_v * rd.y();
 	XYZ rayDirection = m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin - offset;
-	double rayDelayTime = randomDouble(m_shutterMinTime, m_shutterMaxTime);
+	double rayDelayTime = MathUtils::randomDouble(m_shutterMinTime, m_shutterMaxTime);
 	return Ray(m_origin + offset, rayDirection, rayDelayTime);
 }

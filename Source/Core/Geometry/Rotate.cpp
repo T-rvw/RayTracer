@@ -3,7 +3,7 @@
 Rotate::Rotate(std::shared_ptr<GeometryBase> pGeometry, double angle)
     : m_pObject(pGeometry)
 {
-    double radians = degrees2Radians(angle);
+    double radians = MathUtils::degrees2Radians(angle);
     m_sinTheta = std::sin(radians);
     m_cosTheta = std::cos(radians);
 }

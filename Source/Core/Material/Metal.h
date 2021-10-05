@@ -6,7 +6,7 @@ class Metal : public Material
 {
 public:
     Metal() = delete;
-    Metal(Color albedo, double fuzz = 0.0) : m_albedo(albedo), m_fuzz(fuzz) {}
+    Metal(Color albedo, double fuzz = 0.0) : m_albedo(std::move(albedo)), m_fuzz(fuzz) {}
     virtual ~Metal() = default;
 
     Metal(const Metal&) = delete;

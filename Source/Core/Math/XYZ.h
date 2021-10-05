@@ -77,12 +77,12 @@ public:
 
     static XYZ random()
     {
-        return XYZ(randomDouble(), randomDouble(), randomDouble());
+        return XYZ(MathUtils::randomDouble(), MathUtils::randomDouble(), MathUtils::randomDouble());
     }
 
     static XYZ random(double min, double max)
     {
-        return XYZ(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
+        return XYZ(MathUtils::randomDouble(min, max), MathUtils::randomDouble(min, max), MathUtils::randomDouble(min, max));
     }
 
 private:
@@ -162,7 +162,7 @@ inline XYZ randomInUnitDisk()
 {
     while (true)
     {
-        XYZ p = XYZ(randomDouble(-1.0, 1.0), randomDouble(-1.0, 1.0), 0.0);
+        XYZ p = XYZ(MathUtils::randomDouble(-1.0, 1.0), MathUtils::randomDouble(-1.0, 1.0), 0.0);
         if (p.lengthSquare() < 1.0)
         {
             return p;

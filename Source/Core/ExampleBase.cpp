@@ -38,17 +38,17 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
             for (int sampleTimes = 0; sampleTimes < m_sampleTimes; ++sampleTimes)
             {
                 // Generate random rays in a cluster
-                double u = static_cast<double>(ii + randomDouble()) / (m_imageWidth - 1);
-                double v = static_cast<double>(jj + randomDouble()) / (m_imageHeight - 1);
+                double u = static_cast<double>(ii + MathUtils::randomDouble()) / (m_imageWidth - 1);
+                double v = static_cast<double>(jj + MathUtils::randomDouble()) / (m_imageHeight - 1);
                 Ray ray = camera.getRay(u, v);
                 pixelColor += getRayColor(ray, world, m_maxRecursiveDepth);
             }
 
             // sample && gamma-correct(1/2)
             double sampleScale = 1.0 / m_sampleTimes;
-            pixelColor[0] = clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
-            pixelColor[1] = clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
-            pixelColor[2] = clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
+            pixelColor[0] = std::clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
+            pixelColor[1] = std::clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
+            pixelColor[2] = std::clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
 
             // size_t pixelIndex = (imageHeight - 1 - jj) * imageWidth + ii;
             size_t pixelIndex = m_pixelNumber - (jj + 1) * m_imageWidth + ii;
