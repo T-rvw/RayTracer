@@ -4,7 +4,7 @@ local workSpaceName = "RayTracer"
 -- Workspace
 workspace(workSpaceName)
 	architecture(cpuArch)
-	configurations { "Debug", "Release", "RelWithDbgInfo" }
+	configurations { "Release", "RelWithDbgInfo", "Debug" }
 	location("Build")
 	startproject("Example1_output_image")
 	

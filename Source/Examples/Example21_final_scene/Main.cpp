@@ -119,8 +119,8 @@ int main()
     XYZ lookAt = XYZ(278.0, 278.0, 0.0);
     XYZ vup = XYZ(0.0, 1.0, 0.0);
 
-    constexpr int imageWidth = 100;
-    constexpr int imageHeight = 100;
+    constexpr int imageWidth = 800;
+    constexpr int imageHeight = 800;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, 40.0, aspectRatio);
 

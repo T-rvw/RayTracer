@@ -10,7 +10,7 @@ Well organized example projects to help you understand.
 
 `git clone https://github.com/T-rvw/RayTracer.git`
 
-Windows + VS2019 : Click Generate_vs2019_sln.bat
+Windows + VS2019 : Run Generate_vs2019_sln.bat
 
 Other platforms & IDEs : See [Premake document](https://premake.github.io/docs/Using-Premake).
 
