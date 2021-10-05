@@ -6,7 +6,7 @@
 class ExampleEmissive : public ExampleBase
 {
 public:
-    ExampleEmissive(int width, int height) : ExampleBase(width, height) {}
+    using ExampleBase::ExampleBase;
 
     virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
     {

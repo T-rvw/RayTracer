@@ -5,7 +5,7 @@
 class ExampleDiffuseMaterial : public ExampleBase
 {
 public:
-    ExampleDiffuseMaterial(int width, int height) : ExampleBase(width, height) {}
+    using ExampleBase::ExampleBase;
 
     virtual Color getRayColor(const Ray& ray, const HittableList& world, int depth) override
     {
