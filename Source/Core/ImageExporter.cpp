@@ -46,25 +46,24 @@ bool ImageExporter::generate(std::filesystem::path filePath, bool bOverwrite)
 		filePath = filePath.stem().string() + "_" + std::to_string(curTimeStamp) + filePath.extension().string();
 	}
 
-	stbi_write_bmp(filePath.string().c_str(), m_imageWidth, m_imageHeight, 3, m_imageData);
-
-	//if constexpr (ImageExportType::BMP == type)
-	//{
-	//	
-	//}
-	//else if constexpr (ImageExportType::JPG == type)
-	//{
-	//	stbi_write_jpg(filePath.string().c_str(), m_imageWidth, m_imageWidth, 3, m_imageData, 0);
-	//}
-	//else if constexpr (ImageExportType::PNG == type)
-	//{
-	//	stbi_write_png(filePath.string().c_str(), m_imageWidth, m_imageWidth, 3, m_imageData, 0);
-	//}
-	//else
-	//{
-	//	static_assert("Not supported file format. Please add it by yourself.");
-	//	return false;
-	//}
+	auto extension = filePath.extension();
+	if (0 == extension.compare(".bmp") || 0 == extension.compare(".BMP"))
+	{
+		stbi_write_bmp(filePath.string().c_str(), m_imageWidth, m_imageHeight, m_component, m_imageData);
+	}
+	else if (0 == extension.compare(".png") || 0 == extension.compare(".PNG"))
+	{
+		stbi_write_png(filePath.string().c_str(), m_imageWidth, m_imageHeight, m_component, m_imageData, 0);
+	}
+	else if (0 == extension.compare(".jpg") || 0 == extension.compare(".JPG"))
+	{
+		stbi_write_jpg(filePath.string().c_str(), m_imageWidth, m_imageHeight, m_component, m_imageData, 0);
+	}
+	else
+	{
+		printf("Not supported file format. Please add it by yourself.");
+		return false;
+	}
 
 	return true;
 }
