@@ -23,7 +23,8 @@ inline double radians2Degrees(double radians)
 
 inline int randomInt(int min, int max)
 {
-    return min + rand() % (max - min);
+    // [min, max]
+    return min + rand() % (max - min + 1);
 }
 
 inline double randomDouble()

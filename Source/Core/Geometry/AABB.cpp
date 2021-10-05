@@ -19,7 +19,7 @@ bool AABB::hit(const Ray& ray, double minT, double maxT) const
 
     for (int ii = 0; ii < 3; ++ii)
     {
-        double inverseDirection = 1 / direction[ii];
+        double inverseDirection = 1.0f / direction[ii];
         double minTi = (m_min[ii] - origin[ii]) * inverseDirection;
         double maxTi = (m_max[ii] - origin[ii]) * inverseDirection;
 

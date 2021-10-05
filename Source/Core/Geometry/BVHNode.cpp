@@ -1,5 +1,78 @@
 #include "BVHNode.h"
 
+bool compareBox(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs, int axis)
+{
+    std::optional<AABB> optLhsAABB = lhs->boundingBox(0, 0);
+    std::optional<AABB> optRhsAABB = rhs->boundingBox(0, 0);
+    if (!optLhsAABB.has_value() || !optRhsAABB.has_value())
+    {
+        return false;
+    }
+
+    return optLhsAABB.value().min()[axis] < optRhsAABB.value().min()[axis];
+}
+
+bool compareBoxInAxisX(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
+{
+    return compareBox(lhs, rhs, 0);
+}
+
+bool compareBoxInAxisY(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
+{
+    return compareBox(lhs, rhs, 1);
+}
+
+bool compareBoxInAxisZ(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs)
+{
+    return compareBox(lhs, rhs, 2);
+}
+
+BVHNode::BVHNode(HittableList& hitList, double t0, double t1)
+    : BVHNode(hitList.objects(), 0, hitList.size(), t0, t1)
+{
+}
+
+BVHNode::BVHNode(std::vector<std::shared_ptr<GeometryBase>>& vecHitObjects, size_t start, size_t end, double t0, double t1)
+{
+    int axis = randomInt(0, 2);
+    auto comparator = axis == 0 ? compareBoxInAxisX : (axis == 1 ? compareBoxInAxisY : compareBoxInAxisZ);
+    size_t objectSpan = end - start;
+
+    if (1 == objectSpan)
+    {
+        m_pLeft = vecHitObjects[start];
+        m_pRight = vecHitObjects[start];
+    }
+    else if (2 == objectSpan)
+    {
+        if (comparator(vecHitObjects[start], vecHitObjects[start + 1]))
+        {
+            m_pLeft = vecHitObjects[start];
+            m_pRight = vecHitObjects[start + 1];
+        }
+        else
+        {
+            m_pLeft = vecHitObjects[start + 1];
+            m_pRight = vecHitObjects[start];
+        }
+    }
+    else
+    {
+        std::sort(vecHitObjects.begin(), vecHitObjects.end(), comparator);
+
+        size_t mid = start + static_cast<size_t>(objectSpan * 0.5);
+        m_pLeft = std::make_shared<BVHNode>(vecHitObjects, start, mid, t0, t1);
+        m_pRight = std::make_shared<BVHNode>(vecHitObjects, mid, end, t0, t1);
+    }
+
+    std::optional<AABB> optLeftBox = m_pLeft->boundingBox(t0, t1);
+    std::optional<AABB> optRightBox = m_pRight->boundingBox(t0, t1);
+    if (optLeftBox.has_value() && optRightBox.has_value())
+    {
+        m_box = AABB::merge(optLeftBox.value(), optRightBox.value());
+    }
+}
+
 std::optional<AABB> BVHNode::boundingBox(double /*t0*/, double /*t1*/) const
 {
     return std::make_optional<AABB>(m_box);
@@ -13,9 +86,7 @@ std::optional<HitRecord> BVHNode::hit(const Ray& ray, double minT, double maxT) 
     }
 
     std::optional<HitRecord> optLeftHitRecord = m_pLeft->hit(ray, minT, maxT);
-    double newMaxT = optLeftHitRecord.has_value() ? optLeftHitRecord.value().rayT() : maxT;
-    std::optional<HitRecord> optRightHitRecord = m_pRight->hit(ray, minT, newMaxT);
-    return optRightHitRecord;
+    return optLeftHitRecord.has_value() ? optLeftHitRecord : m_pRight->hit(ray, minT, maxT);
 }
 
 UV BVHNode::uv(const XYZ& point) const

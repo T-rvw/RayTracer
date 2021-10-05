@@ -16,8 +16,9 @@ public:
     HittableList& operator=(const HittableList&) = delete;
     HittableList& operator=(HittableList&&) = delete;
 
-    size_t size() { return m_vecHittableObjects.size(); }
-    std::shared_ptr<GeometryBase> operator[](int index){ return m_vecHittableObjects[index]; }
+    size_t size() const { return m_vecHittableObjects.size(); }
+    std::vector<std::shared_ptr<GeometryBase>>& objects() { return m_vecHittableObjects; }
+    std::shared_ptr<GeometryBase> operator[](int index) const { return m_vecHittableObjects[index]; }
 
     void clear() { m_vecHittableObjects.clear(); }
     void reserve(size_t expectedSize) { m_vecHittableObjects.reserve(expectedSize); }
