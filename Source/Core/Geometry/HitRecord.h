@@ -19,7 +19,7 @@ public:
 
     XYZ& hitPointForWrite() { return m_hitPoint; }
     const XYZ& hitPoint() const { return m_hitPoint; }
-    UV hitPointUV() const { return m_hitPointUV; }
+    const UV& hitPointUV() const { return m_hitPointUV; }
     XYZ& normalForWrite() { return m_normal; }
     const XYZ& normal() const { return m_normal; }
     double rayT() const { return m_rayT; }
@@ -28,10 +28,10 @@ public:
     const GeometryBase* hitObject() const { return m_pHitObject; }
 
 private:
-    XYZ                 m_hitPoint;
-    UV                  m_hitPointUV;
-    XYZ                 m_normal;
-    double              m_rayT;
-    bool                m_isFront;
+    XYZ                     m_hitPoint;
+    UV                      m_hitPointUV;
+    XYZ                     m_normal;
+    double                  m_rayT;
+    bool                    m_isFront;
     const GeometryBase*     m_pHitObject;
 };

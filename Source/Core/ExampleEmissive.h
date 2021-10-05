@@ -31,7 +31,7 @@ public:
         {
             if (std::shared_ptr<Material> pMaterial = pHitObject->material())
             {
-                XYZ hitPoint = hitRecord.hitPoint();
+                const XYZ& hitPoint = hitRecord.hitPoint();
                 UV uv = pHitObject->uv(hitPoint);
                 emitted = pMaterial->emitted(uv.x(), uv.y(), hitPoint);
 

@@ -32,7 +32,6 @@ int main()
     // Boxes
     {
         std::shared_ptr<GeometryBase> pBox = std::make_shared<Box>(XYZ(0.0, 0.0, 0.0), XYZ(165.0, 330.0, 165.0));
-        pBox->setMaterial(white);
         pBox = std::make_shared<Rotate>(pBox, 15);
         pBox = std::make_shared<Translate>(pBox, XYZ(265.0, 0, 295.0));
         auto pIsotropicColor = std::make_shared<Isotropic>(std::make_shared<SolidColor>(Color(0.0, 0.0, 0.0)));
@@ -41,7 +40,6 @@ int main()
 
     {
         std::shared_ptr<GeometryBase> pBox = std::make_shared<Box>(XYZ(0.0, 0.0, 0.0), XYZ(165.0, 165.0, 165.0));
-        pBox->setMaterial(white);
         pBox = std::make_shared<Rotate>(pBox, -18);
         pBox = std::make_shared<Translate>(pBox, XYZ(130.0, 0, 65.0));
         auto pIsotropicColor = std::make_shared<Isotropic>(std::make_shared<SolidColor>(Color(1.0, 1.0, 1.0)));
@@ -55,8 +53,8 @@ int main()
     double distToFocus = 10.0;
     double aperture = 0.1;
 
-    constexpr int imageWidth = 600;
-    constexpr int imageHeight = 600;
+    constexpr int imageWidth = 300;
+    constexpr int imageHeight = 300;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
     Camera camera(lookFrom, lookAt, vup, aperture, distToFocus, 40.0, aspectRatio);
 

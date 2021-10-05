@@ -7,7 +7,7 @@ Box::Box(XYZ p0, XYZ p1) :
 	m_p1(p1)
 {
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p0.x()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p0.x()));
+    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p1.x()));
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'y', p0.y()));
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'y', p1.y()));
     m_hittableList.add(std::make_shared<AARect>(p0, p1, 'z', p0.z()));

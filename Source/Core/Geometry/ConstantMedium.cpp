@@ -30,12 +30,12 @@ std::optional<HitRecord> ConstantMedium::hit(const Ray& ray, double minT, double
         return std::nullopt;
     }
 
-    HitRecord& hitRecord2 = optHitResult2.value();
     if (hitRecord1.rayT() < minT)
     {
         hitRecord1.rayTForWrite() = minT;
     }
 
+    HitRecord& hitRecord2 = optHitResult2.value();
     if (hitRecord2.rayT() > maxT)
     {
         hitRecord2.rayTForWrite() = maxT;
