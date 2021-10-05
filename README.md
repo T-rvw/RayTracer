@@ -8,17 +8,11 @@ Well organized example projects to help you understand.
 
 ## Build
 
-1. `git clone https://github.com/T-rvw/RayTracer.git`
-2. click and open `RayTracer` folder
-3. open a bash window and input build command
+`git clone https://github.com/T-rvw/RayTracer.git`
 
-Windows + VS2019 : `./premake5 vs2019`
+Windows + VS2019 : Click Generate_vs2019_sln.bat
 
-Linux + gmake : `./premake5 gmake2`
-
-Mac + xcode : `./premake5 xcode4`
-
-If you want more build options, please see [Premake document](https://premake.github.io/docs/Using-Premake).
+Other platforms & IDEs : See [Premake document](https://premake.github.io/docs/Using-Premake).
 
 ## Performance
 
