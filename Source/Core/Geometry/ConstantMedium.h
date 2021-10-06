@@ -7,7 +7,7 @@
 class ConstantMedium : public GeometryBase
 {
 public:
-    ConstantMedium(std::shared_ptr<GeometryBase> pBoundary, double density);
+    ConstantMedium(GeometryBase* pBoundary, double density);
     virtual ~ConstantMedium() = default;
 
     ConstantMedium(const ConstantMedium& rhs) = delete;
@@ -20,6 +20,6 @@ public:
     virtual UV uv(const XYZ& point) const override;
 
 private:
-    double                          m_negativeInverseDensity;
-    std::shared_ptr<GeometryBase>   m_pBoundary;
+    double          m_negativeInverseDensity;
+    GeometryBase*   m_pBoundary;
 };

@@ -7,8 +7,8 @@ class Lambertian : public Material
 {
 public:
     Lambertian() = delete;
-    Lambertian(Color albedo) : m_pAlbedo(std::make_shared<SolidColor>(std::move(albedo))) {}
-	Lambertian(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
+    Lambertian(Color albedo) : m_pAlbedo(new SolidColor(std::move(albedo))) {}
+	Lambertian(Texture* pTexture) : m_pAlbedo(pTexture) {}
     virtual ~Lambertian() = default;
 
     Lambertian(const Lambertian&) = delete;
@@ -19,5 +19,5 @@ public:
     virtual bool scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const override;
 
 private:
-    std::shared_ptr<Texture> m_pAlbedo;
+    Texture* m_pAlbedo;
 };

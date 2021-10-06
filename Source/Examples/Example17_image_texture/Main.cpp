@@ -9,11 +9,11 @@ int main()
 {
     // World
     HittableList hittableList;
-    auto pCheckerTexture = std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
-    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(std::make_shared<Lambertian>(pCheckerTexture));
+    auto pCheckerTexture = new CheckerTexture(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
+    hittableList.add(new Sphere(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(new Lambertian(pCheckerTexture));
 
-    std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
-    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 1.2, 0.0), 1.0)).setMaterial(std::make_shared<Lambertian>(pEarthTexture));
+    auto pEarthTexture = new ImageTexture("..\\..\\Resources\\earthmap.jpg");
+    hittableList.add(new Sphere(XYZ(0.0, 1.2, 0.0), 1.0)).setMaterial(new Lambertian(pEarthTexture));
 
     // Camera
     XYZ lookFrom = XYZ(13.0, 2.0, 3.0);

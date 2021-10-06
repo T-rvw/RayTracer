@@ -29,7 +29,7 @@ public:
         const HitRecord& hitRecord = optHitRecord.value();
         if (const GeometryBase* pHitObject = hitRecord.hitObject())
         {
-            if (std::shared_ptr<Material> pMaterial = pHitObject->material())
+            if (Material* pMaterial = pHitObject->material())
             {
                 const XYZ& hitPoint = hitRecord.hitPoint();
                 UV uv = pHitObject->uv(hitPoint);

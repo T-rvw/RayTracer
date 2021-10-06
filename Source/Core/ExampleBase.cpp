@@ -4,8 +4,8 @@
 #include <atomic>
 #include <iostream>
 
-ExampleBase::ExampleBase(int imageWidth, int imageHeight) :
-    m_imageWidth(imageWidth),
+ExampleBase::ExampleBase(int imageWidth, int imageHeight)
+    : m_imageWidth(imageWidth),
     m_imageHeight(imageHeight),
     m_pixelNumber(imageWidth * imageHeight),
     m_imageExporter(imageWidth, imageHeight)
@@ -38,8 +38,8 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
             for (int sampleTimes = 0; sampleTimes < m_sampleTimes; ++sampleTimes)
             {
                 // Generate random rays in a cluster
-                double u = static_cast<double>(ii + MathUtils::randomDouble()) / (m_imageWidth - 1);
-                double v = static_cast<double>(jj + MathUtils::randomDouble()) / (m_imageHeight - 1);
+                double u = static_cast<double>(ii + MathUtils::randomDouble() / (m_imageWidth - 1));
+                double v = static_cast<double>(jj + MathUtils::randomDouble() / (m_imageHeight - 1));
                 Ray ray = camera.getRay(u, v);
                 pixelColor += getRayColor(ray, world, m_maxRecursiveDepth);
             }
@@ -78,7 +78,7 @@ Color ExampleBase::getRayColor(const Ray& ray, const HittableList& world, int cu
         {
             Ray scattered;
             Color attenuation;
-            if (std::shared_ptr<Material> pMaterial = pHitObject->material())
+            if (Material* pMaterial = pHitObject->material())
             {
                 if (pMaterial->scatter(ray, hitRecord, attenuation, scattered))
                 {

@@ -19,7 +19,7 @@ public:
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT = -10000000.0, double maxT = +10000000.0) const override;
     virtual UV uv(const XYZ& point) const override;
 
-    virtual void setMaterial(std::shared_ptr<Material> pMaterial) override;
+    virtual void setMaterial(Material* pMaterial) override;
 
 private:
     XYZ						    m_p0, m_p1;

@@ -7,8 +7,8 @@ class DiffuseLight : public Material
 {
 public:
     DiffuseLight() = delete;
-    DiffuseLight(Color c) : m_pEmit(std::make_shared<SolidColor>(std::move(c))) {}
-	DiffuseLight(std::shared_ptr<Texture> pTexture) : m_pEmit(pTexture) {}
+    DiffuseLight(Color c) : m_pEmit(new SolidColor(std::move(c))) {}
+	DiffuseLight(Texture* pTexture) : m_pEmit(pTexture) {}
     virtual ~DiffuseLight() = default;
 
     DiffuseLight(const DiffuseLight&) = delete;
@@ -27,5 +27,5 @@ public:
 	}
 
 private:
-    std::shared_ptr<Texture> m_pEmit;
+    Texture* m_pEmit;
 };

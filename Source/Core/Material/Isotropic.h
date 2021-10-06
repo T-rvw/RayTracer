@@ -7,8 +7,8 @@ class Isotropic : public Material
 {
 public:
     Isotropic() = delete;
-    Isotropic(Color color) : m_pAlbedo(std::make_shared<SolidColor>(color)) {}
-    Isotropic(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
+    Isotropic(Color color) : m_pAlbedo(new SolidColor(color)) {}
+    Isotropic(Texture* pTexture) : m_pAlbedo(pTexture) {}
     virtual ~Isotropic() = default;
 
     Isotropic(const Isotropic&) = delete;
@@ -19,5 +19,5 @@ public:
     virtual bool scatter(const Ray& ray, const HitRecord& hitRecord, Color& attenuation, Ray& scattered) const override;
 
 private:
-    std::shared_ptr<Texture> m_pAlbedo;
+    Texture* m_pAlbedo;
 };
