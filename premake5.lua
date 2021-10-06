@@ -4,24 +4,19 @@ local workSpaceName = "RayTracer"
 -- Workspace
 workspace(workSpaceName)
 	architecture(cpuArch)
-	configurations { "Release", "RelWithDbgInfo", "Debug" }
+	configurations { "Release", "Debug" }
 	location("Build")
 	startproject("Example1_output_image")
-	
+
 	-- Compile types
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		optimize "Off"
-		symbols "On"
-		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		optimize "On"
 		symbols "Off"
 
-	filter "configurations:RelWithDbgInfo"
-		defines { "NDEBUG" }
-		optimize "On"
+	filter "configurations:Debug"
+		defines { "DEBUG" }
+		optimize "Off"
 		symbols "On"
 
 local function setCppProject(projectName)

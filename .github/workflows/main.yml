@@ -24,6 +24,3 @@ jobs:
       
     - name: Build Releasex64
       run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=Release /p:Platform=x64
-      
-    - name: Build RelWithDbgInfo
-      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=RelWithDbgInfo /p:Platform=x64

@@ -73,14 +73,14 @@ int main()
 
     // Voxel rendering
     {
-        auto boundary = std::make_shared<Sphere>(XYZ(360, 150, 145), 70);
+        auto boundary = std::make_shared<Sphere>(XYZ(360.0, 150.0, 145.0), 70.0);
         boundary->setMaterial(pDielectricMaterial);
         auto pIsotropicColor = std::make_shared<Isotropic>(std::make_shared<SolidColor>(Color(0.2, 0.4, 0.9)));
         world.add(std::make_shared<ConstantMedium>(boundary, 0.2)).setMaterial(pIsotropicColor);
     }
     
     {
-        auto boundary = std::make_shared<Sphere>(XYZ(0, 0, 0), 5000);
+        auto boundary = std::make_shared<Sphere>(XYZ(0.0, 0.0, 0.0), 5000.0);
         boundary->setMaterial(pDielectricMaterial);
         auto pIsotropicColor = std::make_shared<Isotropic>(std::make_shared<SolidColor>(Color(1.0, 1.0, 1.0)));
         world.add(std::make_shared<ConstantMedium>(boundary, 0.0001)).setMaterial(pIsotropicColor);
