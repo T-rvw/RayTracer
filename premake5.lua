@@ -6,7 +6,7 @@ workspace(workSpaceName)
 	architecture(cpuArch)
 	configurations { "Release", "Debug" }
 	location("Build")
-	startproject("Example1_output_image")
+	startproject("Example01_output_image")
 
 	-- Compile types
 	filter "configurations:Release"
