@@ -42,7 +42,7 @@ std::optional<HitRecord> Rotate::hit(const Ray& ray, double minT, double maxT) c
 
         hitRecord.hitPointForWrite() = std::move(hitPoint);
 
-        bool isFront = dot(rotatedRay.direction(), normal) < 0;
+        bool isFront = XYZ::dot(rotatedRay.direction(), normal) < 0;
         hitRecord.normalForWrite() = isFront ? std::move(normal) : std::move(normal.inverse());
     }
 

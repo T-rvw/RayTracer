@@ -7,7 +7,7 @@ bool Lambertian::scatter(const Ray& ray, const HitRecord& hitRecord, Color& atte
 {
 	XYZ normal = hitRecord.normal();
 
-	XYZ scatterDirection = normal + unit(randomInUnitSphere());
+	XYZ scatterDirection = normal + randomInUnitSphere().normalize();
 	if (scatterDirection.isZero())
 	{
 		scatterDirection = hitRecord.normal();

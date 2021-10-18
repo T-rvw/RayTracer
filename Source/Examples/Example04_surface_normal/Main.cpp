@@ -7,7 +7,7 @@ std::optional<double> hitSphere(const XYZ& center, double radius, const Ray& ray
 {
     XYZ ray2Sphere = ray.origin() - center;
     double a = ray.direction().lengthSquare();
-    double half_b = dot(ray2Sphere, ray.direction());
+    double half_b = XYZ::dot(ray2Sphere, ray.direction());
     double c = ray2Sphere.lengthSquare() - radius * radius;
     double discriminant = half_b * half_b - a * c;
     
@@ -24,13 +24,16 @@ Color getRayColor(const Ray& ray)
     std::optional<double> t = hitSphere(XYZ(0.0, 0.0, -1.0), 0.5, ray);
     if (t.has_value())
     {
-        XYZ normal = unit(ray.at(t.value()) - XYZ(0.0, 0.0, -1.0));
+        XYZ normal = ray.at(t.value()) - XYZ(0.0, 0.0, -1.0);
+        normal.normalize();
+
         // Map normal's xyz to rgb
         return 0.5 * Color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
     }
 
     // background
-	XYZ unitDir = unit(ray.direction());
+	XYZ unitDir = ray.direction();
+    unitDir.normalize();
 	double factor = 0.5 * (unitDir.y() + 1.0);
 	return (1.0 - factor) * Color(1.0, 1.0, 1.0) + factor * Color(0.5, 0.7, 1.0);
 }

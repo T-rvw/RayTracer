@@ -15,39 +15,39 @@ Camera::Camera(double verticalFov, double aspectRatio) :
 	m_leftDownCorner = m_origin - m_horizontal * 0.5 - m_vertical * 0.5 - XYZ(0.0, 0.0, focalLength);
 }
 
-Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov, double aspectRatio) :
+Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov, double aspectRatio)
+	: m_origin(std::move(lookFrom)),
 	m_aspectRatio(aspectRatio)
 {
 	double theta = MathUtils::degrees2Radians(verticalFov);
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
-	XYZ w = unit(lookFrom - lookAt);
-	XYZ u = unit(cross(viewportUp, w));
-	XYZ v = cross(w, u);
+	m_w = std::move((m_origin - lookAt).normalize());
+	m_u = std::move(XYZ::cross(viewportUp, m_w).normalize());
+	m_v = std::move(XYZ::cross(m_w, m_u));
 
-	m_origin = lookFrom;
-	m_horizontal = viewPortWidth * u;
-	m_vertical = viewPortHeight * v;
-	m_leftDownCorner = m_origin - (m_vertical + m_horizontal) * 0.5 - w;
+	m_horizontal = viewPortWidth * m_u;
+	m_vertical = viewPortHeight * m_v;
+	m_leftDownCorner = m_origin - (m_vertical + m_horizontal) * 0.5 - m_w;
 }
 
-Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double focusDist, double verticalFov, double aspectRatio) :
-	m_aspectRatio(aspectRatio)
+Camera::Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double focusDist, double verticalFov, double aspectRatio)
+	: m_origin(lookFrom),
+	m_aspectRatio(aspectRatio),
+	m_lensRadius(aperture * 0.5)
 {
 	double theta = MathUtils::degrees2Radians(verticalFov);
 	double viewPortHeight = 2.0 * tan(theta * 0.5);
 	double viewPortWidth = aspectRatio * viewPortHeight;
 
-	m_w = unit(lookFrom - lookAt);
-	m_u = unit(cross(viewportUp, m_w));
-	m_v = cross(m_w, m_u);
+	m_w = std::move((m_origin - lookAt).normalize());
+	m_u = std::move(XYZ::cross(viewportUp, m_w).normalize());
+	m_v = std::move(XYZ::cross(m_w, m_u));
 
-	m_origin = lookFrom;
 	m_horizontal = focusDist * viewPortWidth * m_u;
 	m_vertical = focusDist * viewPortHeight * m_v;
 	m_leftDownCorner = m_origin - (m_vertical + m_horizontal) * 0.5 - focusDist * m_w;
-	m_lensRadius = aperture * 0.5;
 }
 
 Ray Camera::getRay(double u, double v) const

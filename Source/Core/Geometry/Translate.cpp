@@ -11,7 +11,7 @@ std::optional<HitRecord> Translate::hit(const Ray& ray, double minT, double maxT
         hitRecord.hitPointForWrite() += m_offset;
 
         XYZ outwardNormal = hitRecord.normal();
-        bool isFront = dot(movedRay.direction(), outwardNormal) < 0;
+        bool isFront = XYZ::dot(movedRay.direction(), outwardNormal) < 0;
         hitRecord.normalForWrite() = isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse());
     }
 

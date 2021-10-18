@@ -21,7 +21,7 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
 {
     XYZ ray2Sphere = ray.origin() - center(ray.delayTime());
     double a = ray.direction().lengthSquare();
-    double half_b = dot(ray2Sphere, ray.direction());
+    double half_b = XYZ::dot(ray2Sphere, ray.direction());
     double c = ray2Sphere.lengthSquare() - m_radius * m_radius;
     double discriminant = half_b * half_b - a * c;
 
@@ -52,7 +52,7 @@ std::optional<HitRecord> Sphere::hit(const Ray& ray, double minT, double maxT) c
     // Return final hit result.
     XYZ hitPoint = ray.at(root);
     XYZ outwardNormal = (hitPoint - center(ray.delayTime())) / m_radius;
-    bool isFront = dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
+    bool isFront = XYZ::dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
     return HitRecord(std::move(hitPoint), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), root, isFront, this);
 }
 

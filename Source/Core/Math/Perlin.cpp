@@ -71,7 +71,7 @@ double Perlin::noise(const XYZ& p) const
 			for (int kk = 0; kk < 2; ++kk)
 			{
 				XYZ weight(u - ii, v - jj, w - kk);
-				accumulation += dot(cacheResult[ii][jj][kk], weight) *
+				accumulation += XYZ::dot(cacheResult[ii][jj][kk], weight) *
 								(ii * u + (1 - ii) * (1 - u)) *
 								(jj * v + (1 - jj) * (1 - v)) *
 								(kk * w + (1 - kk) * (1 - w));

@@ -18,6 +18,8 @@ public:
     double y() const { return m_value[1]; }
     double z() const { return m_value[2]; }
 
+    XYZ& normalize() { *this /= length(); return *this; }
+
     double operator[](int index) const { return m_value[index]; }
     double& operator[](int index) { return m_value[index]; }
     XYZ operator-() const { return XYZ(-x(), -y(), -z()); }
@@ -75,6 +77,18 @@ public:
                m_value[2] * m_value[2];
     }
 
+    static double XYZ::dot(const XYZ& lhs, const XYZ& rhs)
+    {
+        return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z();
+    }
+
+    static XYZ XYZ::cross(const XYZ& lhs, const XYZ& rhs)
+    {
+        return XYZ(lhs.y() * rhs.z() - lhs.z() * rhs.y(),
+            lhs.z() * rhs.x() - lhs.x() * rhs.z(),
+            lhs.x() * rhs.y() - lhs.y() * rhs.x());
+    }
+
     static XYZ random()
     {
         return XYZ(MathUtils::randomDouble(), MathUtils::randomDouble(), MathUtils::randomDouble());
@@ -119,31 +133,14 @@ inline XYZ operator*(const XYZ& lhs, double t)
 
 inline XYZ operator/(const XYZ& lhs, double t)
 {
-    return (1 / t) * lhs;
+    return (1.0 / t) * lhs;
 }
 
 inline bool operator==(const XYZ& lhs, const XYZ& rhs)
 {
-    return lhs.x() == rhs.x() &&
-           lhs.y() == rhs.y() &&
-           lhs.z() == rhs.z();
-}
-
-inline double dot(const XYZ& lhs, const XYZ& rhs)
-{
-    return lhs.x() * rhs.x() + lhs.y() * rhs.y() + lhs.z() * rhs.z();
-}
-
-inline XYZ cross(const XYZ& lhs, const XYZ& rhs)
-{
-    return XYZ(lhs.y() * rhs.z() - lhs.z() * rhs.y(),
-               lhs.z() * rhs.x() - lhs.x() * rhs.z(),
-               lhs.x() * rhs.y() - lhs.y() * rhs.x());
-}
-
-inline XYZ unit(XYZ xyz)
-{
-    return xyz / xyz.length();
+    return std::abs(lhs.x() - rhs.x()) < DOUBLE_EPS &&
+           std::abs(lhs.y() - rhs.y()) < DOUBLE_EPS &&
+           std::abs(lhs.z() - rhs.z()) < DOUBLE_EPS;
 }
 
 inline XYZ randomInUnitSphere()
@@ -172,12 +169,12 @@ inline XYZ randomInUnitDisk()
 
 inline XYZ reflect(const XYZ& rayIn, const XYZ& normal)
 {
-    return rayIn - dot(rayIn, normal) * 2 * normal;
+    return rayIn - XYZ::dot(rayIn, normal) * 2 * normal;
 }
 
 inline XYZ refract(const XYZ& uv, const XYZ& normal, double etaiOverEtat)
 {
-    double cosTheta = fmin(dot(-uv, normal), 1.0);
+    double cosTheta = fmin(XYZ::dot(-uv, normal), 1.0);
     XYZ rayOutPerp = etaiOverEtat * (uv + cosTheta * normal);
     XYZ rayOutParallel = -std::sqrt(fabs(1.0 - rayOutPerp.lengthSquare())) * normal;
     return rayOutPerp + rayOutParallel;

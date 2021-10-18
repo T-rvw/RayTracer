@@ -19,7 +19,8 @@ public:
         }
 
         // background
-        XYZ unitDir = unit(ray.direction());
+        XYZ unitDir = ray.direction();
+        unitDir.normalize();
         double factor = 0.5 * (unitDir.y() + 1.0);
         return (1.0 - factor) * Color(1.0, 1.0, 1.0) + factor * Color(0.5, 0.7, 1.0);
     }

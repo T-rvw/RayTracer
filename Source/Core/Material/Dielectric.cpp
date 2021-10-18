@@ -8,9 +8,11 @@ bool Dielectric::scatter(const Ray& ray, const HitRecord& hitRecord, Color& atte
 	attenuation = Color(1.0, 1.0, 1.0);
 	double refractionRatio = hitRecord.isFront() ? 1.0 / m_refractionIndex : m_refractionIndex;
 
-	XYZ unitDirection = unit(ray.direction());
+	XYZ unitDirection = ray.direction();
+	unitDirection.normalize();
+
 	XYZ normal = hitRecord.normal();
-	double cosTheta = fmin(dot(unitDirection, normal), 1.0);
+	double cosTheta = fmin(XYZ::dot(unitDirection, normal), 1.0);
 	double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
 
 	constexpr bool bUseReflectance = false;

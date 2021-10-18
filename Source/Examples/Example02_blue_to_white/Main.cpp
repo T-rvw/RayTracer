@@ -5,7 +5,8 @@
 
 Color getRayColor(const Ray& ray)
 {
-	XYZ unitDir = unit(ray.direction());
+	XYZ unitDir = ray.direction();
+    unitDir.normalize();
 	double t = 0.5 * (unitDir.y() + 1.0);
 	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }

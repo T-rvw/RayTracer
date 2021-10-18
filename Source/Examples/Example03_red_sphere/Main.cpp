@@ -6,9 +6,9 @@
 bool hitSphere(const XYZ& center, double radius, const Ray& ray)
 {
     XYZ ray2Sphere = ray.origin() - center;
-    double a = dot(ray.direction(), ray.direction());
-    double b = 2.0 * dot(ray2Sphere, ray.direction());
-    double c = dot(ray2Sphere, ray2Sphere) - radius * radius;
+    double a = XYZ::dot(ray.direction(), ray.direction());
+    double b = 2.0 * XYZ::dot(ray2Sphere, ray.direction());
+    double c = XYZ::dot(ray2Sphere, ray2Sphere) - radius * radius;
     double discriminant = b * b - 4 * a * c;
     return discriminant > 0.0;
 }
@@ -20,7 +20,8 @@ Color getRayColor(const Ray& ray)
         return Color(1.0, 0.76, 0.80);
     }
 
-	XYZ unitDir = unit(ray.direction());
+	XYZ unitDir = ray.direction();
+    unitDir.normalize();
 	double t = 0.5 * (unitDir.y() + 1.0);
 	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }

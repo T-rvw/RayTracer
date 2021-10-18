@@ -2500,7 +2500,7 @@ static void stbi__idct_simd(stbi_uc *out, int out_stride, short data[64])
    __m128i row0, row1, row2, row3, row4, row5, row6, row7;
    __m128i tmp;
 
-   // dot product constant: even elems=x, odd elems=y
+   // XYZ::dot product constant: even elems=x, odd elems=y
    #define dct_const(x,y)  _mm_setr_epi16((x),(y),(x),(y),(x),(y),(x),(y))
 
    // out(0) = c0[even]*x + c0[odd]*y   (c0, x, y 16-bit, out 32-bit)

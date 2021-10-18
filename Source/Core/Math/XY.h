@@ -120,13 +120,3 @@ inline bool operator==(const XY& lhs, const XY& rhs)
     return lhs.x() == rhs.x() &&
            lhs.y() == rhs.y();
 }
-
-inline double dot(const XY& lhs, const XY& rhs)
-{
-    return lhs.x() * rhs.x() + lhs.y() * rhs.y();
-}
-
-inline XY unit(XY xy)
-{
-    return xy / xy.length();
-}

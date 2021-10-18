@@ -27,19 +27,20 @@ public:
             XYZ randomReflection = randomInUnitSphere();
             if constexpr (!bUseHemisphereScatter)
             {
-                XYZ target = hitPoint + normal + (bUseLambertian ? unit(randomReflection) : randomReflection);
+                XYZ target = hitPoint + normal + (bUseLambertian ? randomReflection.normalize() : randomReflection);
                 return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
             }
             else
             {
-                double reflectionDirection = dot(randomReflection, normal) > 0.0 ? 1.0 : -1.0;
+                double reflectionDirection = XYZ::dot(randomReflection, normal) > 0.0 ? 1.0 : -1.0;
                 XYZ target = hitPoint + reflectionDirection * randomReflection;
                 return 0.5 * getRayColor(Ray(hitPoint, target - hitPoint), world, depth - 1);
             }
         }
 
         // background
-        XYZ unitDir = unit(ray.direction());
+        XYZ unitDir = ray.direction();
+        unitDir.normalize();
         double factor = 0.5 * (unitDir.y() + 1.0);
         return (1.0 - factor) * Color(1.0, 1.0, 1.0) + factor * Color(0.5, 0.7, 1.0);
     }

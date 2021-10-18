@@ -59,7 +59,7 @@ std::optional<HitRecord> AARect::hit(const Ray& ray, double minT, double maxT) c
 	// The hitPoint should be equal to ray.at(t)
     XYZ outwardNormal;
 	outwardNormal[m_verticalAxisIndex] = 1.0;
-    bool isFront = dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
+    bool isFront = XYZ::dot(ray.direction(), outwardNormal) < DOUBLE_EPS;
     return HitRecord(std::move(hitPoint), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), t, isFront, this);
 }
 
