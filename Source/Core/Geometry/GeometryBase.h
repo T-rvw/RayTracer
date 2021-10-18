@@ -15,8 +15,8 @@ public:
     GeometryBase& operator=(const GeometryBase&) = delete;
     GeometryBase& operator=(GeometryBase&&) = delete;
 
-    virtual void setMaterial(Material* pMaterial) { m_pMaterial = pMaterial; }
-    Material* material() const { return m_pMaterial; }
+    virtual void setMaterial(std::shared_ptr<Material> pMaterial) { m_pMaterial = pMaterial; }
+    std::shared_ptr<Material> material() const { return m_pMaterial; }
 
     void setMoveInfo(XYZ endPos, double beginTime, double endTime)
     {
@@ -37,5 +37,5 @@ protected:
     double                      m_moveEndTime = 0.0;
 
     // style parameters
-    Material*   m_pMaterial;
+    std::shared_ptr<Material>   m_pMaterial;
 };

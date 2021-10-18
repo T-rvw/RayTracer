@@ -5,7 +5,7 @@
 class Translate : public GeometryBase
 {
 public:
-    Translate(GeometryBase* pObject, XYZ offset)
+    Translate(std::shared_ptr<GeometryBase> pObject, XYZ offset)
         : m_pObject(pObject), m_offset(std::move(offset))
     {
     }
@@ -16,5 +16,5 @@ public:
 
 private:
     XYZ m_offset;
-    GeometryBase* m_pObject;
+    std::shared_ptr<GeometryBase> m_pObject;
 };

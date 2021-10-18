@@ -2,7 +2,7 @@
 
 namespace
 {
-    bool compareBox(const GeometryBase* lhs, const GeometryBase* rhs, int axis)
+    bool compareBox(const std::shared_ptr<GeometryBase> lhs, const std::shared_ptr<GeometryBase> rhs, int axis)
     {
         std::optional<AABB> optLhsAABB = lhs->boundingBox(0.0, 0.0);
         std::optional<AABB> optRhsAABB = rhs->boundingBox(0.0, 0.0);
@@ -20,7 +20,7 @@ BVHNode::BVHNode(HittableList& hitList, double t0, double t1)
 {
 }
 
-BVHNode::BVHNode(std::vector<GeometryBase*>& vecHitObjects, size_t start, size_t end, double t0, double t1)
+BVHNode::BVHNode(std::vector<std::shared_ptr<GeometryBase>>& vecHitObjects, size_t start, size_t end, double t0, double t1)
 {
     int axis = MathUtils::randomInt(0, 2);
     auto comparator = std::bind(compareBox, std::placeholders::_1, std::placeholders::_2, axis);
@@ -49,8 +49,8 @@ BVHNode::BVHNode(std::vector<GeometryBase*>& vecHitObjects, size_t start, size_t
         std::sort(vecHitObjects.begin(), vecHitObjects.end(), comparator);
 
         size_t mid = start + static_cast<size_t>(objectSpan * 0.5);
-        m_pLeft = new BVHNode(vecHitObjects, start, mid, t0, t1);
-        m_pRight = new BVHNode(vecHitObjects, mid, end, t0, t1);
+        m_pLeft = std::make_shared<BVHNode>(vecHitObjects, start, mid, t0, t1);
+        m_pRight = std::make_shared<BVHNode>(vecHitObjects, mid, end, t0, t1);
     }
 
     std::optional<AABB> optLeftBox = m_pLeft->boundingBox(t0, t1);

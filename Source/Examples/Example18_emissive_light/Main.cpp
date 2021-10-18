@@ -11,15 +11,15 @@ int main()
 {
     // World
     HittableList hittableList;
-    auto pNoiseTexture = new NoiseTexture(4.0);
-    hittableList.add(new Sphere(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(new Lambertian(pNoiseTexture));
+    std::shared_ptr<NoiseTexture> pNoiseTexture = std::make_shared<NoiseTexture>(4.0);
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(std::make_shared<Lambertian>(pNoiseTexture));
 
-    auto pEarthTexture = new ImageTexture("..\\..\\Resources\\earthmap.jpg");
-    hittableList.add(new Sphere(XYZ(0.0, 2.0, 0.0), 2.0)).setMaterial(new Lambertian(pEarthTexture));
+    std::shared_ptr<ImageTexture> pEarthTexture = std::make_shared<ImageTexture>("..\\..\\Resources\\earthmap.jpg");
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 2.0, 0.0), 2.0)).setMaterial(std::make_shared<Lambertian>(pEarthTexture));
 
-    auto pDiffLightMaterial = new DiffuseLight(Color(4.0, 4.0, 4.0));
-    hittableList.add(new AARect(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), 'z', - 2.0)).setMaterial(pDiffLightMaterial);
-    hittableList.add(new Sphere(XYZ(0.0, 8.0, 0.0), 2.0)).setMaterial(pDiffLightMaterial);
+    std::shared_ptr<DiffuseLight> pDiffLightMaterial = std::make_shared<DiffuseLight>(Color(4.0, 4.0, 4.0));
+    hittableList.add(std::make_shared<AARect>(XYZ(3.0, 1.0, 0.0), XYZ(5.0, 3.0, 0.0), 'z', - 2.0)).setMaterial(pDiffLightMaterial);
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, 8.0, 0.0), 2.0)).setMaterial(pDiffLightMaterial);
 
     // Camera
     XYZ lookFrom = XYZ(26.0, 3.0, 6.0);

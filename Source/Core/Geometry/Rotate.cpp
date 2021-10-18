@@ -1,6 +1,6 @@
 #include "Rotate.h"
 
-Rotate::Rotate(GeometryBase* pGeometry, double angle)
+Rotate::Rotate(std::shared_ptr<GeometryBase> pGeometry, double angle)
     : m_pObject(pGeometry)
 {
     double radians = MathUtils::degrees2Radians(angle);

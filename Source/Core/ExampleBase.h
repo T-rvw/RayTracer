@@ -27,8 +27,8 @@ protected:
     int m_imageWidth;
     int m_imageHeight;
     int m_pixelNumber;
-    int m_maxRecursiveDepth = 50;
-    int m_sampleTimes = 100;
+    int m_maxRecursiveDepth;
+    int m_sampleTimes;
 
 private:
     ImageExporter m_imageExporter;

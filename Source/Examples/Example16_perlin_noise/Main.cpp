@@ -11,16 +11,16 @@ int main()
 {
     // World
     HittableList hittableList;
-    CheckerTexture* pCheckerTexture = new CheckerTexture(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
-    hittableList.add(new Sphere(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(new Lambertian(pCheckerTexture));
+    std::shared_ptr<CheckerTexture> pCheckerTexture = std::make_shared<CheckerTexture>(Color(0.2, 0.3, 0.1), Color(0.9, 0.9, 0.9));
+    hittableList.add(std::make_shared<Sphere>(XYZ(0.0, -1000, 0.0), 1000.0)).setMaterial(std::make_shared<Lambertian>(pCheckerTexture));
 
     constexpr double noiseScale = 4.0;
-    auto pNoiseTexture = new NoiseTexture(noiseScale);
-    auto pMarbledTexture = new MarbledTexture(noiseScale);
-    auto pTurbulenceTexture = new TurbulenceTexture(noiseScale);
-    hittableList.add(new Sphere(XYZ(1.0, 1.0, +2.1), 1.0)).setMaterial(new Lambertian(pNoiseTexture));
-    hittableList.add(new Sphere(XYZ(1.0, 1.0,  0.0), 1.0)).setMaterial(new Lambertian(pMarbledTexture));
-    hittableList.add(new Sphere(XYZ(1.0, 1.0, -2.1), 1.0)).setMaterial(new Lambertian(pTurbulenceTexture));
+    std::shared_ptr<NoiseTexture> pNoiseTexture = std::make_shared<NoiseTexture>(noiseScale);
+    std::shared_ptr<MarbledTexture> pMarbledTexture = std::make_shared<MarbledTexture>(noiseScale);
+    std::shared_ptr<TurbulenceTexture> pTurbulenceTexture = std::make_shared<TurbulenceTexture>(noiseScale);
+    hittableList.add(std::make_shared<Sphere>(XYZ(1.0, 1.0, +2.1), 1.0)).setMaterial(std::make_shared<Lambertian>(pNoiseTexture));
+    hittableList.add(std::make_shared<Sphere>(XYZ(1.0, 1.0,  0.0), 1.0)).setMaterial(std::make_shared<Lambertian>(pMarbledTexture));
+    hittableList.add(std::make_shared<Sphere>(XYZ(1.0, 1.0, -2.1), 1.0)).setMaterial(std::make_shared<Lambertian>(pTurbulenceTexture));
 
     // Camera
     XYZ lookFrom = XYZ(13.0, 2.0, 3.0);

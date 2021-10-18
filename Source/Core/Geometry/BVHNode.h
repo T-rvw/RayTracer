@@ -9,7 +9,7 @@ public:
     virtual ~BVHNode() = default;
 
     BVHNode(HittableList& hitList, double t0, double t1);
-    BVHNode(std::vector<GeometryBase*>& vecHitObjects,
+    BVHNode(std::vector<std::shared_ptr<GeometryBase>>& vecHitObjects,
             size_t start, size_t end, double t0, double t1);
 
     virtual std::optional<AABB> boundingBox(double t0, double t1) const override;
@@ -17,7 +17,7 @@ public:
     virtual UV uv(const XYZ& point) const override;
 
 private:
-    AABB            m_box;
-    GeometryBase*   m_pLeft;
-    GeometryBase*   m_pRight;
+    AABB                            m_box;
+    std::shared_ptr<GeometryBase>   m_pLeft;
+    std::shared_ptr<GeometryBase>   m_pRight;
 };
