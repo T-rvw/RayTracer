@@ -21,6 +21,7 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 		return std::nullopt;
 	}
 
+	// Check if the point is inside the triangle
 	XYZ pointInPlane = origin + direction * t;
 
 	XYZ pp0 = pointInPlane - m_p0;
@@ -35,15 +36,17 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 	double dotP0P1 = XYZ::dot(pp0, p1p0);
 	double dotP0P2 = XYZ::dot(pp0, p2p0);
 
+	// Calculate barycentric coordinates of triangle :
+	// P = w0P0 + w1P1 + w2P2
 	double w1 = factor * (dotP2Sqr * dotP0P1 - dotP1P2 * dotP0P2);
 	double w2 = factor * (-dotP1P2 * dotP0P1 + dotP1Sqr * dotP0P2);
 	double w0 = 1 - w1 - w2;
 
+	// If w0, w1, w2 are all nonnegative, the point is inside the triangle.
 	if (w0 > DOUBLE_EPS &&
 		w1 > DOUBLE_EPS &&
 		w2 > DOUBLE_EPS)
 	{
-		// hitted
 		bool isFront = XYZ::dot(direction, m_normal) < DOUBLE_EPS;
 		return HitRecord(std::move(pointInPlane), m_normal, t, isFront, this);
 	}
