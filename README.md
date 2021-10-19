@@ -22,6 +22,8 @@ Also, please use release build to render complex images to save your time.
 
 ## Reference links
 
+[Mathematics for 3D Game Programming and Computer Graphics, Third Edition](http://www.mathfor3dgameprogramming.com)
+
 [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 
 [Ray Tracing: The Next Week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)

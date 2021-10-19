@@ -9,9 +9,9 @@ public:
     AABB(XYZ p0, XYZ p1);
     virtual ~AABB() = default;
 
-    AABB(const AABB& rhs);
+    AABB(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; }
     AABB(AABB&& rhs) = default;
-    AABB& operator=(const AABB&) = default;
+    AABB& operator=(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; }
     AABB& operator=(AABB&&) = default;
 
     bool hit(const Ray& ray, double minT, double maxT) const;

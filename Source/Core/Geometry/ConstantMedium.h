@@ -12,7 +12,7 @@ public:
 
     ConstantMedium(const ConstantMedium& rhs) = delete;
     ConstantMedium(ConstantMedium&& rhs) = default;
-    ConstantMedium& operator=(const ConstantMedium&) = default;
+    ConstantMedium& operator=(const ConstantMedium&) = delete;
     ConstantMedium& operator=(ConstantMedium&&) = default;
 
     virtual std::optional<AABB> boundingBox(double t0, double t1) const override;

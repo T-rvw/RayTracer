@@ -2,17 +2,17 @@
 
 #include "GeometryBase.h"
 
-class AARect : public GeometryBase
+class Rect : public GeometryBase
 {
 public:
-    AARect() = delete;
-    AARect(XYZ p0, XYZ p1, char kIndex, double depth);
-    virtual ~AARect() = default;
+    Rect() = delete;
+    Rect(XYZ p0, XYZ p1, char kIndex, double depth);
+    virtual ~Rect() = default;
 
-    AARect(const AARect& rhs) = delete;
-    AARect(AARect&& rhs) = default;
-    AARect& operator=(const AARect&) = delete;
-    AARect& operator=(AARect&&) = default;
+    Rect(const Rect& rhs) = delete;
+    Rect(Rect&& rhs) = default;
+    Rect& operator=(const Rect&) = delete;
+    Rect& operator=(Rect&&) = default;
 
     virtual std::optional<AABB> boundingBox(double t0, double t1) const override;
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const override;

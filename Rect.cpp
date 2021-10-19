@@ -1,25 +1,14 @@
 #include "HitRecord.h"
-#include "AARect.h"
+#include "Rect.h"
 
-constexpr char axisIndexArr[] = { 'x', 'y', 'z' };
-constexpr int axisIndexArrSize = sizeof(axisIndexArr);
-
-AARect::AARect(XYZ p0, XYZ p1, char kIndex, double depth) :
+Rect::Rect(XYZ p0, XYZ p1, char kIndex, double depth) :
     m_p0(std::move(p0)),
 	m_p1(std::move(p1)),
     m_depth(depth)
 {
-	for (int ii = 0; ii < axisIndexArrSize; ++ii)
-	{
-		if (kIndex == axisIndexArr[ii])
-		{
-			m_verticalAxisIndex = ii;
-			break;
-		}
-	}
 }
 
-std::optional<HitRecord> AARect::hit(const Ray& ray, double minT, double maxT) const
+std::optional<HitRecord> Rect::hit(const Ray& ray, double minT, double maxT) const
 {
 	const XYZ& origin = ray.origin();
 	const XYZ& direction = ray.direction();
@@ -63,7 +52,7 @@ std::optional<HitRecord> AARect::hit(const Ray& ray, double minT, double maxT) c
     return HitRecord(std::move(hitPoint), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), t, isFront, this);
 }
 
-UV AARect::uv(const XYZ& point) const
+UV Rect::uv(const XYZ& point) const
 {
 	// u / (point.x() - m_x0) = 1.0 / (m_x1 - m_x0)
 	// v / (point.y() - m_y0) = 1.0 / (m_y1 - m_y0)
@@ -81,7 +70,7 @@ UV AARect::uv(const XYZ& point) const
     return uv;
 }
 
-std::optional<AABB> AARect::boundingBox(double /*t0*/, double /*t1*/) const
+std::optional<AABB> Rect::boundingBox(double /*t0*/, double /*t1*/) const
 {
 	return AABB(XYZ(m_p0.x(), m_p0.y(), m_depth - 0.0001),
 				XYZ(m_p1.x(), m_p1.y(), m_depth + 0.0001));
