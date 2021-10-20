@@ -67,7 +67,7 @@ Color ExampleBase::getRayColor(const Ray& ray, const HittableList& world, int cu
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (curDepth <= 0)
     {
-        return Color(0.0, 0.0, 0.0);
+        return Color(1.0, 1.0, 1.0);
     }
 
     std::optional<HitRecord> optHitRecord = world.hit(ray, DOUBLE_EPS, DOUBLE_INFINITY);
