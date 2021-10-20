@@ -1,17 +1,25 @@
 #include "HitRecord.h"
-#include "AARect.h"
 #include "Box.h"
+#include "Rect.h"
 
 Box::Box(XYZ p0, XYZ p1) :
     m_p0(std::move(p0)),
 	m_p1(std::move(p1))
 {
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p0.x()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'x', p1.x()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'y', p0.y()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'y', p1.y()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'z', p0.z()));
-    m_hittableList.add(std::make_shared<AARect>(p0, p1, 'z', p1.z()));
+    double x0 = m_p0.x();
+    double y0 = m_p0.y();
+    double z0 = m_p0.z();
+
+    double x1 = m_p1.x();
+    double y1 = m_p1.y();
+    double z1 = m_p1.z();
+
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x0, y0, z0), XYZ(x1, y0, z0), XYZ(x0, y1, z0)));
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x0, y0, z1), XYZ(x1, y0, z1), XYZ(x0, y1, z1)));
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x0, y0, z0), XYZ(x0, y0, z1), XYZ(x0, y1, z0)));
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x1, y0, z0), XYZ(x1, y0, z1), XYZ(x1, y1, z0)));
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x0, y0, z0), XYZ(x0, y0, z1), XYZ(x1, y0, z0)));
+    m_hittableList.add(std::make_shared<Rect>(XYZ(x0, y1, z0), XYZ(x0, y1, z1), XYZ(x1, y1, z0)));
 }
 
 std::optional<HitRecord> Box::hit(const Ray& ray, double minT, double maxT) const
@@ -21,7 +29,7 @@ std::optional<HitRecord> Box::hit(const Ray& ray, double minT, double maxT) cons
 
 UV Box::uv(const XYZ& /*point*/) const
 {
-    // UV coordinates is calculated by AARect
+    // UV coordinates is calculated by Rect
     return UV(0.0, 0.0);
 }
 

@@ -7,6 +7,7 @@ Triangle::Triangle(XYZ p0, XYZ p1, XYZ p2)
 	m_p2(std::move(p2))
 {
 	m_normal = XYZ::cross(m_p2 - m_p0, m_p1 - m_p0);
+	m_normal.normalize();
 	m_distance = -XYZ::dot(m_normal, m_p0);
 }
 
@@ -36,7 +37,6 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 	double dotP0P1 = XYZ::dot(pp0, p1p0);
 	double dotP0P2 = XYZ::dot(pp0, p2p0);
 
-	// Calculate barycentric coordinates of triangle :
 	// P = w0P0 + w1P1 + w2P2
 	double w1 = factor * (dotP2Sqr * dotP0P1 - dotP1P2 * dotP0P2);
 	double w2 = factor * (-dotP1P2 * dotP0P1 + dotP1Sqr * dotP0P2);
@@ -61,13 +61,13 @@ UV Triangle::uv(const XYZ&) const
 
 std::optional<AABB> Triangle::boundingBox(double /*t0*/, double /*t1*/) const
 {
-	XYZ min(std::min(std::min(m_p0.x(), m_p1.x()), m_p2.x()),
-			std::min(std::min(m_p0.y(), m_p1.y()), m_p2.y()),
-			std::min(std::min(m_p0.z(), m_p1.z()), m_p2.z()));
+	XYZ minPoint(std::min({ m_p0.x(), m_p1.x(), m_p2.x() }),
+				 std::min({ m_p0.y(), m_p1.y(), m_p2.y() }),
+				 std::min({ m_p0.z(), m_p1.z(), m_p2.z() }));
 
-	XYZ max(std::max(std::max(m_p0.x(), m_p1.x()), m_p2.x()),
-			std::max(std::max(m_p0.y(), m_p1.y()), m_p2.y()),
-			std::max(std::max(m_p0.z(), m_p1.z()), m_p2.z()));
+	XYZ maxPoint(std::max({ m_p0.x(), m_p1.x(), m_p2.x() }),
+				 std::max({ m_p0.y(), m_p1.y(), m_p2.y() }),
+				 std::max({ m_p0.z(), m_p1.z(), m_p2.z() }));
 
-	return AABB(std::move(min), std::move(max));
+	return AABB(std::move(minPoint), std::move(maxPoint));
 }

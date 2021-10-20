@@ -54,7 +54,7 @@ Ray Camera::getRay(double u, double v) const
 {
 	XYZ rd = m_lensRadius * randomInUnitDisk();
 	XYZ offset = m_u * rd.x() + m_v * rd.y();
-	XYZ rayDirection = m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin - offset;
+	XYZ rayDirection = m_leftDownCorner + u * m_horizontal + v * m_vertical - m_origin;
 	double rayDelayTime = MathUtils::randomDouble(m_shutterMinTime, m_shutterMaxTime);
-	return Ray(m_origin + offset, rayDirection, rayDelayTime);
+	return Ray(m_origin + offset, rayDirection - offset, rayDelayTime);
 }

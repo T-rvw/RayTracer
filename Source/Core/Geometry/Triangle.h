@@ -11,7 +11,7 @@ public:
 
     Triangle(const Triangle& rhs) = delete;
     Triangle(Triangle&& rhs) = default;
-    Triangle& operator=(const Triangle&) = default;
+    Triangle& operator=(const Triangle&) = delete;
     Triangle& operator=(Triangle&&) = default;
 
     virtual std::optional<AABB> boundingBox(double t0, double t1) const override;

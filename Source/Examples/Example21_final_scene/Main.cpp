@@ -1,4 +1,3 @@
-#include "AARect.h"
 #include "Box.h"
 #include "BVHNode.h"
 #include "Camera.h"
@@ -11,6 +10,7 @@
 #include "Lambertian.h"
 #include "Metal.h"
 #include "NoiseTexture.h"
+#include "Rect.h"
 #include "Sphere.h"
 #include "Rotate.h"
 #include "Translate.h"
@@ -46,7 +46,7 @@ int main()
 
     // Top light
     auto light = std::make_shared<DiffuseLight>(Color(7.0, 7.0, 7.0));
-    world.add(std::make_shared<AARect>(XYZ(123.0, 0.0, 147.0), XYZ(423.0, 0.0, 412.0), 'y', 554.0)).setMaterial(light);
+    world.add(std::make_shared<Rect>(XYZ(423.0, 554.0, 147.0), XYZ(123.0, 554.0, 147.0), XYZ(423.0, 554.0, 412.0))).setMaterial(light);
 
     // Motion blur ball
     {

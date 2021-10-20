@@ -1,9 +1,9 @@
-#include "AARect.h"
 #include "Box.h"
 #include "Camera.h"
 #include "DiffuseLight.h"
 #include "ExampleEmissive.h"
 #include "Lambertian.h"
+#include "Rect.h"
 #include "Rotate.h"
 #include "Translate.h"
 
@@ -18,14 +18,14 @@ int main()
     auto light = std::make_shared<DiffuseLight>(Color(30.0, 30.0, 30.0));
 
     // Five walls
-    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 555.0)).setMaterial(green);
-    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 555.0), 'x', 0.0)).setMaterial(red);
-    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 0.0)).setMaterial(white);
-    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 555.0), 'y', 555.0)).setMaterial(white);
-    hittableList.add(std::make_shared<AARect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 555.0, 0.0), 'z', 555.0)).setMaterial(white);
+    hittableList.add(std::make_shared<Rect>(XYZ(555.0, 0.0, 0.0), XYZ(555.0, 555.0, 0.0), XYZ(555.0, 0.0, 555.0))).setMaterial(green);
+    hittableList.add(std::make_shared<Rect>(XYZ(0.0, 0.0, 0.0), XYZ(0.0, 555.0, 0.0), XYZ(0.0, 0.0, 555.0))).setMaterial(red);
+    hittableList.add(std::make_shared<Rect>(XYZ(0.0, 0.0, 0.0), XYZ(555.0, 0.0, 0.0), XYZ(0.0, 0.0, 555.0))).setMaterial(white);
+    hittableList.add(std::make_shared<Rect>(XYZ(0.0, 555.0, 0.0), XYZ(0.0, 555.0, 555.0), XYZ(555.0, 555.0, 0.0))).setMaterial(white);
+    hittableList.add(std::make_shared<Rect>(XYZ(0.0, 0.0, 555.0), XYZ(555.0, 0.0, 555.0), XYZ(0.0, 555.0, 555.0))).setMaterial(white);
 
     // Top light
-    hittableList.add(std::make_shared<AARect>(XYZ(213.0, 0.0, 227.0), XYZ(343.0, 0.0, 332.0), 'y', 554.0)).setMaterial(light);
+    hittableList.add(std::make_shared<Rect>(XYZ(213.0, 554.0, 227.0), XYZ(213.0, 554.0, 332.0), XYZ(343.0, 554.0, 227.0))).setMaterial(light);
 
     // Boxes
     {
