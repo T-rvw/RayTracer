@@ -9,6 +9,15 @@ Triangle::Triangle(XYZ p0, XYZ p1, XYZ p2)
 	m_normal = XYZ::cross(m_p2 - m_p0, m_p1 - m_p0);
 	m_normal.normalize();
 	m_distance = -XYZ::dot(m_normal, m_p0);
+
+	m_p1p0 = m_p1 - m_p0;
+	m_p2p0 = m_p2 - m_p0;
+
+	m_dotP1Sqr = XYZ::dot(m_p1p0, m_p1p0);
+	m_dotP2Sqr = XYZ::dot(m_p2p0, m_p2p0);
+	m_dotP1P2 = XYZ::dot(m_p1p0, m_p2p0);
+
+	m_factor = 1 / (m_dotP1Sqr * m_dotP2Sqr - m_dotP1P2 * m_dotP1P2);
 }
 
 std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT) const
@@ -26,20 +35,12 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 	XYZ pointInPlane = origin + direction * t;
 
 	XYZ pp0 = pointInPlane - m_p0;
-	XYZ p1p0 = m_p1 - m_p0;
-	XYZ p2p0 = m_p2 - m_p0;
+	double dotP0P1 = XYZ::dot(pp0, m_p1p0);
+	double dotP0P2 = XYZ::dot(pp0, m_p2p0);
 
-	double dotP1Sqr = XYZ::dot(p1p0, p1p0);
-	double dotP2Sqr = XYZ::dot(p2p0, p2p0);
-	double dotP1P2 = XYZ::dot(p1p0, p2p0);
-	double factor = 1 / (dotP1Sqr * dotP2Sqr - dotP1P2 * dotP1P2);
-
-	double dotP0P1 = XYZ::dot(pp0, p1p0);
-	double dotP0P2 = XYZ::dot(pp0, p2p0);
-
-	// P = w0P0 + w1P1 + w2P2
-	double w1 = factor * (dotP2Sqr * dotP0P1 - dotP1P2 * dotP0P2);
-	double w2 = factor * (-dotP1P2 * dotP0P1 + dotP1Sqr * dotP0P2);
+	// P = w1P1 + w2P2
+	double w1 = m_factor * (m_dotP2Sqr * dotP0P1 - m_dotP1P2 * dotP0P2);
+	double w2 = m_factor * (-m_dotP1P2 * dotP0P1 + m_dotP1Sqr * dotP0P2);
 	double w0 = 1 - w1 - w2;
 
 	// If w0, w1, w2 are all nonnegative, the point is inside the triangle.
@@ -54,9 +55,17 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 	return std::nullopt;
  }
 
-UV Triangle::uv(const XYZ&) const
+UV Triangle::uv(const XYZ& point) const
 {
-	return UV(0.0, 0.0);
+	XYZ pp0 = point - m_p0;
+	double dotP0P1 = XYZ::dot(pp0, m_p1p0);
+	double dotP0P2 = XYZ::dot(pp0, m_p2p0);
+
+	// P = w1P1 + w2P2
+	double w1 = m_factor * (m_dotP2Sqr * dotP0P1 - m_dotP1P2 * dotP0P2);
+	double w2 = m_factor * (-m_dotP1P2 * dotP0P1 + m_dotP1Sqr * dotP0P2);
+
+	return UV(w1, w2);
 }
 
 std::optional<AABB> Triangle::boundingBox(double /*t0*/, double /*t1*/) const
