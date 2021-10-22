@@ -2,11 +2,11 @@
 
 #include "Texture.h"
 
-class SolidColor : public Texture
+class SolidColor final : public Texture
 {
 public:
     SolidColor() = default;
-    SolidColor(Color color) : m_color(std::move(color)) {}
+    explicit SolidColor(Color color) : m_color(std::move(color)) {}
     virtual ~SolidColor() = default;
 
     SolidColor(const SolidColor&) = delete;

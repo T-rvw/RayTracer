@@ -3,7 +3,7 @@
 #include "ExampleBase.h"
 #include "Material.h"
 
-class ExampleEmissive : public ExampleBase
+class ExampleEmissive final : public ExampleBase
 {
 public:
     using ExampleBase::ExampleBase;

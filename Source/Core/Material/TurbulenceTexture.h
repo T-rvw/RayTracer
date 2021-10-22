@@ -3,11 +3,11 @@
 #include "Perlin.h"
 #include "Texture.h"
 
-class TurbulenceTexture : public Texture
+class TurbulenceTexture final : public Texture
 {
 public:
     TurbulenceTexture() = default;
-    TurbulenceTexture(double scale) : m_scale(scale) {}
+    explicit TurbulenceTexture(double scale) : m_scale(scale) {}
     virtual ~TurbulenceTexture() = default;
 
     TurbulenceTexture(const TurbulenceTexture&) = delete;

@@ -4,11 +4,11 @@
 
 #include <vector>
 
-class HittableList
+class HittableList final
 {
 public:
     HittableList() = default;
-    HittableList(std::shared_ptr<GeometryBase> pHittableObject) { add(pHittableObject); }
+    explicit HittableList(std::shared_ptr<GeometryBase> pHittableObject) { add(pHittableObject); }
     virtual ~HittableList() = default;
 
     HittableList(const HittableList&) = delete;

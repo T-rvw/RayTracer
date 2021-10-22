@@ -3,12 +3,12 @@
 #include "Material.h"
 #include "SolidColor.h"
 
-class Lambertian : public Material
+class Lambertian final : public Material
 {
 public:
     Lambertian() = delete;
-    Lambertian(Color albedo) : m_pAlbedo(std::make_shared<SolidColor>(std::move(albedo))) {}
-	Lambertian(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
+    explicit Lambertian(Color albedo) : m_pAlbedo(std::make_shared<SolidColor>(std::move(albedo))) {}
+    explicit Lambertian(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
     virtual ~Lambertian() = default;
 
     Lambertian(const Lambertian&) = delete;

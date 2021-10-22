@@ -3,11 +3,11 @@
 #include "Perlin.h"
 #include "Texture.h"
 
-class NoiseTexture : public Texture
+class NoiseTexture final : public Texture
 {
 public:
     NoiseTexture() = default;
-    NoiseTexture(double scale) : m_scale(scale) {}
+    explicit NoiseTexture(double scale) : m_scale(scale) {}
     virtual ~NoiseTexture() = default;
 
     NoiseTexture(const NoiseTexture&) = delete;

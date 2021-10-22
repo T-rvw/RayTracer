@@ -6,7 +6,7 @@ class AABB
 {
 public:
     AABB() = default;
-    AABB(XYZ p0, XYZ p1);
+    explicit AABB(XYZ p0, XYZ p1);
     virtual ~AABB() = default;
 
     AABB(const AABB& rhs) { m_min = rhs.m_min; m_max = rhs.m_max; }

@@ -3,11 +3,11 @@
 #include "GeometryBase.h"
 #include "HittableList.h"
 
-class Box : public GeometryBase
+class Box final : public GeometryBase
 {
 public:
     Box() = delete;
-    Box(XYZ p0, XYZ p1);
+    explicit Box(XYZ p0, XYZ p1);
     virtual ~Box() = default;
 
     Box(const Box& rhs) = delete;

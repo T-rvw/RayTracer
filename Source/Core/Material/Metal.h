@@ -2,11 +2,11 @@
 
 #include "Material.h"
 
-class Metal : public Material
+class Metal final : public Material
 {
 public:
     Metal() = delete;
-    Metal(Color albedo, double fuzz = 0.0) : m_albedo(std::move(albedo)), m_fuzz(fuzz) {}
+    explicit Metal(Color albedo, double fuzz = 0.0) : m_albedo(std::move(albedo)), m_fuzz(fuzz) {}
     virtual ~Metal() = default;
 
     Metal(const Metal&) = delete;

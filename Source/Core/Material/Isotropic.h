@@ -3,12 +3,12 @@
 #include "Material.h"
 #include "SolidColor.h"
 
-class Isotropic : public Material
+class Isotropic final : public Material
 {
 public:
     Isotropic() = delete;
-    Isotropic(Color color) : m_pAlbedo(std::make_shared<SolidColor>(color)) {}
-    Isotropic(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
+    explicit Isotropic(Color color) : m_pAlbedo(std::make_shared<SolidColor>(color)) {}
+    explicit Isotropic(std::shared_ptr<Texture> pTexture) : m_pAlbedo(pTexture) {}
     virtual ~Isotropic() = default;
 
     Isotropic(const Isotropic&) = delete;

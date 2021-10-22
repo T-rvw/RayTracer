@@ -4,10 +4,10 @@
 #include "Material.h"
 #include "Texture.h"
 
-class ConstantMedium : public GeometryBase
+class ConstantMedium final : public GeometryBase
 {
 public:
-    ConstantMedium(std::shared_ptr<GeometryBase> pBoundary, double density);
+    explicit ConstantMedium(std::shared_ptr<GeometryBase> pBoundary, double density);
     virtual ~ConstantMedium() = default;
 
     ConstantMedium(const ConstantMedium& rhs) = delete;

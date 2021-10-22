@@ -2,18 +2,18 @@
 
 #include "SolidColor.h"
 
-class CheckerTexture : public Texture
+class CheckerTexture final : public Texture
 {
 public:
     CheckerTexture() = default;
 
-    CheckerTexture(std::shared_ptr<Texture> odd, std::shared_ptr<Texture> even) :
+    explicit CheckerTexture(std::shared_ptr<Texture> odd, std::shared_ptr<Texture> even) :
         m_pOddTexture(odd),
         m_pEvenTexture(even)
     {
     }
 
-    CheckerTexture(Color oddColor, Color evenColor) : 
+    explicit CheckerTexture(Color oddColor, Color evenColor) :
         m_pOddTexture(std::make_shared<SolidColor>(std::move(oddColor))),
         m_pEvenTexture(std::make_shared<SolidColor>(std::move(evenColor)))
     {

@@ -2,11 +2,11 @@
 
 #include "Material.h"
 
-class Dielectric : public Material
+class Dielectric final : public Material
 {
 public:
     Dielectric() = delete;
-    Dielectric(double refractionIndex) : m_refractionIndex(refractionIndex) {}
+    explicit Dielectric(double refractionIndex) : m_refractionIndex(refractionIndex) {}
     virtual ~Dielectric() = default;
 
     Dielectric(const Dielectric&) = delete;

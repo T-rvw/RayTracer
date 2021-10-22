@@ -5,9 +5,9 @@
 class Camera final
 {
 public:
-	Camera(double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
-	Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
-	Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double focusDist, double verticalFov, double aspectRatio);
+	explicit Camera(double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
+	explicit Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double verticalFov = 90.0, double aspectRatio = 16.0 / 9.0);
+	explicit Camera(XYZ lookFrom, XYZ lookAt, XYZ viewportUp, double aperture, double focusDist, double verticalFov, double aspectRatio);
 	~Camera() = default;
 
 	Camera(const Camera&) = delete;

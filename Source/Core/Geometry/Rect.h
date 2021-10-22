@@ -2,11 +2,11 @@
 
 #include "GeometryBase.h"
 
-class Rect : public GeometryBase
+class Rect final : public GeometryBase
 {
 public:
     Rect() = delete;
-    Rect(XYZ p0, XYZ p1, XYZ p2);
+    explicit Rect(XYZ p0, XYZ p1, XYZ p2);
     virtual ~Rect() = default;
 
     Rect(const Rect& rhs) = delete;

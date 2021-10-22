@@ -28,7 +28,7 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
 {
     uint64_t beginTimeStamp = ::time(nullptr);
     std::atomic<int> curPixelCount = 0;
-#pragma omp parallel for
+#pragma omp parallel for num_threads(4)
     for (int jj = m_imageHeight - 1; jj >= 0; --jj)
     {
         for (int ii = 0; ii < m_imageWidth; ++ii)

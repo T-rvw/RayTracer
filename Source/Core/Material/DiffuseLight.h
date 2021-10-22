@@ -3,12 +3,12 @@
 #include "Material.h"
 #include "SolidColor.h"
 
-class DiffuseLight : public Material
+class DiffuseLight final : public Material
 {
 public:
     DiffuseLight() = delete;
-    DiffuseLight(Color c) : m_pEmit(std::make_shared<SolidColor>(std::move(c))) {}
-	DiffuseLight(std::shared_ptr<Texture> pTexture) : m_pEmit(pTexture) {}
+    explicit DiffuseLight(Color c) : m_pEmit(std::make_shared<SolidColor>(std::move(c))) {}
+    explicit DiffuseLight(std::shared_ptr<Texture> pTexture) : m_pEmit(pTexture) {}
     virtual ~DiffuseLight() = default;
 
     DiffuseLight(const DiffuseLight&) = delete;

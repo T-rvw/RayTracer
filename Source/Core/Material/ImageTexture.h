@@ -2,10 +2,10 @@
 
 #include "Texture.h"
 
-class ImageTexture : public Texture
+class ImageTexture final : public Texture
 {
 public:
-    ImageTexture(const char* fileName);
+    explicit ImageTexture(const char* fileName);
 
     virtual ~ImageTexture() = default;
 

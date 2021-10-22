@@ -10,7 +10,7 @@ class ImageExporter final
 {
 public:	
 	ImageExporter() = delete;
-	ImageExporter(int width, int height, int component = 3);
+	explicit ImageExporter(int width, int height, int component = 3);
 	~ImageExporter();
 	
 	ImageExporter(const ImageExporter&) = delete;

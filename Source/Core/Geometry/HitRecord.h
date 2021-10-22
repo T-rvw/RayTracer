@@ -5,11 +5,11 @@
 
 class GeometryBase;
 
-class HitRecord
+class HitRecord final
 {
 public:
     HitRecord() = delete;
-    HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const GeometryBase* pHitObject);
+    explicit HitRecord(XYZ hitPoint, XYZ normal, double rayT, bool isFront, const GeometryBase* pHitObject);
     ~HitRecord() = default;
 
     HitRecord(const HitRecord&) = default;

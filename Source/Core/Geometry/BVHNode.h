@@ -2,7 +2,7 @@
 
 #include "HittableList.h"
 
-class BVHNode : public GeometryBase
+class BVHNode final : public GeometryBase
 {
 public:
     BVHNode() = default;

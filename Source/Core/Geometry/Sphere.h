@@ -2,11 +2,11 @@
 
 #include "GeometryBase.h"
 
-class Sphere : public GeometryBase
+class Sphere final : public GeometryBase
 {
 public:
     Sphere() = delete;
-    Sphere(XYZ center, double radius);
+    explicit Sphere(XYZ center, double radius);
     virtual ~Sphere() = default;
 
     Sphere(const Sphere& rhs) { m_center = rhs.center(); m_radius = rhs.radius(); }

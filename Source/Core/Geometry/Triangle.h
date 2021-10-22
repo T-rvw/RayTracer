@@ -6,7 +6,7 @@ class Triangle : public GeometryBase
 {
 public:
     Triangle() = delete;
-    Triangle(XYZ p0, XYZ p1, XYZ p2);
+    explicit Triangle(XYZ p0, XYZ p1, XYZ p2);
     virtual ~Triangle() = default;
 
     Triangle(const Triangle& rhs) = delete;

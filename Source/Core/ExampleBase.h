@@ -8,7 +8,7 @@ class ExampleBase
 {
 public:
     ExampleBase() = delete;
-    ExampleBase(int imageWidth, int imageHeight);
+    explicit ExampleBase(int imageWidth, int imageHeight);
     virtual ~ExampleBase() = default;
 
     ExampleBase(const ExampleBase&) = delete;
