@@ -20,6 +20,11 @@ Triangle::Triangle(XYZ p0, XYZ p1, XYZ p2)
 	m_factor = 1 / (m_dotP1Sqr * m_dotP2Sqr - m_dotP1P2 * m_dotP1P2);
 }
 
+bool Triangle::isHit(double w0, double w1, double w2) const
+{
+	return w0 > DOUBLE_EPS && w1 > DOUBLE_EPS && w2 > DOUBLE_EPS;
+}
+
 std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT) const
 {
 	const XYZ& origin = ray.origin();
@@ -44,12 +49,11 @@ std::optional<HitRecord> Triangle::hit(const Ray& ray, double minT, double maxT)
 	double w0 = 1 - w1 - w2;
 
 	// If w0, w1, w2 are all nonnegative, the point is inside the triangle.
-	if (w0 > DOUBLE_EPS &&
-		w1 > DOUBLE_EPS &&
-		w2 > DOUBLE_EPS)
+	if (isHit(w0, w1, w2))
 	{
 		bool isFront = XYZ::dot(direction, m_normal) < DOUBLE_EPS;
-		return HitRecord(std::move(pointInPlane), m_normal, t, isFront, this);
+		XYZ outwardNormal(m_normal);
+		return HitRecord(std::move(pointInPlane), isFront ? std::move(outwardNormal) : std::move(outwardNormal.inverse()), t, isFront, this);
 	}
 
 	return std::nullopt;

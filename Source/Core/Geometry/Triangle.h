@@ -18,10 +18,12 @@ public:
     virtual std::optional<HitRecord> hit(const Ray& ray, double minT, double maxT) const override;
     virtual UV uv(const XYZ& point) const override;
 
+    virtual bool isHit(double w0, double w1, double w2) const;
+
 private:
-    XYZ     m_p0, m_p1, m_p2;
-    XYZ     m_normal;
-    double  m_distance;
+    XYZ                 m_p0, m_p1, m_p2;
+    XYZ                 m_normal;
+    double              m_distance;
 
     // cahce
     XYZ                 m_p1p0;
