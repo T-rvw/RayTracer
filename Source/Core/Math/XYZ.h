@@ -6,7 +6,8 @@ class XYZ final
 {
 public:
     XYZ() : m_value{ 0, 0, 0 } {}
-    XYZ(double x, double y, double z) : m_value{ x, y, z } {}
+    explicit XYZ(double v) : m_value{ v, v, v } {}
+    explicit XYZ(double x, double y, double z) : m_value{ x, y, z } {}
     ~XYZ() = default;
 
     XYZ(const XYZ&) = default;
@@ -85,8 +86,8 @@ public:
     static XYZ XYZ::cross(const XYZ& lhs, const XYZ& rhs)
     {
         return XYZ(lhs.y() * rhs.z() - lhs.z() * rhs.y(),
-            lhs.z() * rhs.x() - lhs.x() * rhs.z(),
-            lhs.x() * rhs.y() - lhs.y() * rhs.x());
+                   lhs.z() * rhs.x() - lhs.x() * rhs.z(),
+                   lhs.x() * rhs.y() - lhs.y() * rhs.x());
     }
 
     static XYZ random()
