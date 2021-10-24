@@ -1,6 +1,6 @@
 # RayTracer
 
-![RayTracer](https://github.com/T-rvw/RayTracer/actions/workflows/main.yml/badge.svg?branch=main)
+![Windows](https://github.com/T-rvw/RayTracer/actions/workflows/Windows.yml/badge.svg?branch=main) ![MacOS](https://github.com/T-rvw/RayTracer/actions/workflows/MacOS.yml/badge.svg?branch=main)
 
 Easy to make and build in different platforms powered by [Premake](https://github.com/premake/premake-core).
 
@@ -10,7 +10,9 @@ Well organized example projects to help you understand.
 
 `git clone https://github.com/T-rvw/RayTracer.git`
 
-Windows + VS2019 : Run Generate_vs2019_sln.bat
+Windows + VS2019 : run `generate_vs2019.bat`.
+
+MacOS + XCode : run `generate_xcode.command`. Note : `chmod +x generate_xcode.command` before the first run.
 
 Other platforms & IDEs : See [Premake document](https://premake.github.io/docs/Using-Premake).
 
