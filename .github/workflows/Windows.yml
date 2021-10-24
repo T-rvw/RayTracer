@@ -1,4 +1,4 @@
-name: main
+name: Windows
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Build Debugx64
-      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=Debug /p:Platform=x64
+      run: msbuild ${{github.workspace}}/Build/RayTracer.sln /p:Configuration=Debug /p:Platform=x64
       
     - name: Build Releasex64
-      run: msbuild ${{github.workspace}}/build/RayTracer.sln /p:Configuration=Release /p:Platform=x64
+      run: msbuild ${{github.workspace}}/Build/RayTracer.sln /p:Configuration=Release /p:Platform=x64

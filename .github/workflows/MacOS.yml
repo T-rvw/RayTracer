@@ -1,0 +1,25 @@
+name: MacOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-mac:
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate XCode Project
+      run: |
+        chmod +x ${{github.workspace}}/generate_xcode.command
+        ${{github.workspace}}/generate_xcode.command
+
+    - name: Build Debugx64
+      run: xcodebuild -workspace ${{github.workspace}}/Build/RayTracer.xcworkspace -scheme Core -configuration Debug -arch x86_64 clean build
+      
+    - name: Build Releasex64
+      run: xcodebuild -workspace ${{github.workspace}}/Build/RayTracer.xcworkspace -scheme Core -configuration Release -arch x86_64 clean build
