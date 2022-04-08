@@ -61,7 +61,7 @@ end
 
 -- Core
 setCppProject("Core")
-	defines { "_CRT_SECURE_NO_WARNINGS" }
+	defines { "_CRT_SECURE_NO_WARNINGS", "WIN32_LEAN_AND_MEAN" }
 	kind "StaticLib"
 	openmp "On"
 

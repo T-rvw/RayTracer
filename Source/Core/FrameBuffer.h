@@ -49,33 +49,33 @@ public:
     int getHeight() const { return m_height; }
     const uint8_t* getData() const { return m_pData; }
 
-    void clear(const XYZ& value)
+    void clear(const XYZ& value, uint8_t alpha = 255)
     {
         for (int i = 0, num = m_width * m_height; i < num; ++i)
         {
             int rgbIndex = i * component;
-            fillInternal(rgbIndex, static_cast<uint8_t>(value.x()), static_cast<uint8_t>(value.y()), static_cast<uint8_t>(value.z()), 1);
+            fillInternal(rgbIndex, static_cast<uint8_t>(value.x()), static_cast<uint8_t>(value.y()), static_cast<uint8_t>(value.z()), alpha);
         }
     }
 
-    void fill(int index, const XYZ& value)
+    void fill(int index, const XYZ& value, uint8_t alpha = 255)
     {
         uint8_t r = static_cast<uint8_t>(255.999 * value.x());
         uint8_t g = static_cast<uint8_t>(255.999 * value.y());
         uint8_t b = static_cast<uint8_t>(255.999 * value.z());
 
         int rgbIndex = index * component;
-        fillInternal(rgbIndex, r, g, b, 255);
+        fillInternal(rgbIndex, r, g, b, alpha);
     }
 
-    int fill(int x, int y, const XYZ& value)
+    int fill(int x, int y, const XYZ& value, uint8_t alpha = 255)
     {
         uint8_t r = static_cast<uint8_t>(255.999 * value.x());
         uint8_t g = static_cast<uint8_t>(255.999 * value.y());
         uint8_t b = static_cast<uint8_t>(255.999 * value.z());
 
         int rgbIndex = (y * m_width + x) * component;
-        fillInternal(rgbIndex, r, g, b, 255);
+        fillInternal(rgbIndex, r, g, b, alpha);
 
         return rgbIndex;
     }
@@ -83,6 +83,9 @@ public:
 private:
     void fillInternal(int byteIndex, uint8_t a, uint8_t b, uint8_t c, uint8_t d)
     {
+        // sanity checks to avoid crash in experiments
+        if (byteIndex < 0 || byteIndex >= m_width * m_height * component) return;
+
         if constexpr (pixelFormat == PixelFormat::RGBA)
         {
             m_pData[byteIndex] = a;
