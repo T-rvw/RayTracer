@@ -7,7 +7,7 @@ int main()
     constexpr int imageWidth = 256;
     constexpr int imageHeight = 256;
     constexpr int pixelNumber = imageHeight * imageWidth;
-    FrameBuffer frameBuffer(imageWidth, imageHeight);
+    FrameBuffer<PixelFormat::RGBA> frameBuffer(imageWidth, imageHeight);
 
     int curPixelCount = 0;
 #pragma omp parallel for

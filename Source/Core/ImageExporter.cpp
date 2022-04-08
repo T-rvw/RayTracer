@@ -8,7 +8,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-bool ImageExporter::generate(const FrameBuffer& buffer, std::filesystem::path filePath, bool bOverwrite)
+bool ImageExporter::generate(const FrameBuffer<PixelFormat::RGBA>& buffer, std::filesystem::path filePath, bool bOverwrite)
 {
 	// If we don't want to overwrite image file with the same name, we can
 	// append time stamp in the end of file name.
@@ -21,20 +21,20 @@ bool ImageExporter::generate(const FrameBuffer& buffer, std::filesystem::path fi
 	int imageWidth = buffer.getWidth();
 	int imageHeight = buffer.getHeight();
 	const uint8_t* imageData = buffer.getData();
-	constexpr int component = 3;
+	constexpr int dataComponent = 4;
 	
 	auto extension = filePath.extension();
 	if (0 == extension.compare(".bmp") || 0 == extension.compare(".BMP"))
 	{
-		stbi_write_bmp(filePath.string().c_str(), imageWidth, imageHeight, component, imageData);
+		stbi_write_bmp(filePath.string().c_str(), imageWidth, imageHeight, dataComponent, imageData);
 	}
 	else if (0 == extension.compare(".png") || 0 == extension.compare(".PNG"))
 	{
-		stbi_write_png(filePath.string().c_str(), imageWidth, imageHeight, component, imageData, 0);
+		stbi_write_png(filePath.string().c_str(), imageWidth, imageHeight, dataComponent, imageData, 0);
 	}
 	else if (0 == extension.compare(".jpg") || 0 == extension.compare(".JPG"))
 	{
-		stbi_write_jpg(filePath.string().c_str(), imageWidth, imageHeight, component, imageData, 0);
+		stbi_write_jpg(filePath.string().c_str(), imageWidth, imageHeight, dataComponent, imageData, 0);
 	}
 	else
 	{

@@ -24,7 +24,7 @@ public:
     void process(const Camera& camera, const HittableList& world);
 
 protected:
-    FrameBuffer m_frameBuffer;
+    FrameBuffer<PixelFormat::RGBA> m_frameBuffer;
     int m_maxRecursiveDepth;
     int m_sampleTimes;
 };

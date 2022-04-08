@@ -17,7 +17,7 @@ int main()
     constexpr int imageHeight = 225;
     constexpr int pixelNumber = imageHeight * imageWidth;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
-    FrameBuffer frameBuffer(imageWidth, imageHeight);
+    FrameBuffer<PixelFormat::RGBA> frameBuffer(imageWidth, imageHeight);
     Color source(1.0, 1.0, 1.0);
     Color destination(0.5, 0.7, 1.0);
 

@@ -1,8 +1,6 @@
 #include "ExampleBase.h"
-#include "GeometryBase.h"
 #include "ImageExporter.h"
 
-#include <atomic>
 #include <iostream>
 
 ExampleBase::ExampleBase(int imageWidth, int imageHeight) :
