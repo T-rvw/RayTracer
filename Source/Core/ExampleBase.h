@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Camera.h"
+#include "FrameBuffer.h"
 #include "HittableList.h"
-#include "ImageExporter.h"
 
 class ExampleBase
 {
@@ -24,12 +24,7 @@ public:
     void process(const Camera& camera, const HittableList& world);
 
 protected:
-    int m_imageWidth;
-    int m_imageHeight;
-    int m_pixelNumber;
+    FrameBuffer m_frameBuffer;
     int m_maxRecursiveDepth;
     int m_sampleTimes;
-
-private:
-    ImageExporter m_imageExporter;
 };

@@ -28,7 +28,6 @@ int main()
     double distToFocus = (lookFrom - lookAt).length();
     constexpr double aperture = 2.0;
 
-    // ImageExporter
     constexpr int imageWidth = 400;
     constexpr int imageHeight = 225;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);

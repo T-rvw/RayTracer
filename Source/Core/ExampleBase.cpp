@@ -1,20 +1,18 @@
 #include "ExampleBase.h"
 #include "GeometryBase.h"
+#include "ImageExporter.h"
 
 #include <atomic>
 #include <iostream>
 
 ExampleBase::ExampleBase(int imageWidth, int imageHeight) :
-    m_imageWidth(imageWidth),
-    m_imageHeight(imageHeight),
-    m_pixelNumber(imageWidth * imageHeight),
-    m_imageExporter(imageWidth, imageHeight)
+    m_frameBuffer(imageWidth, imageHeight)
 {
 }
 
 void ExampleBase::generate(const char* fileName)
 {
-    if (m_imageExporter.generate(fileName))
+    if (ImageExporter::generate(m_frameBuffer, fileName))
     {
         std::cout << "Succeed to generate image." << std::endl;
     }
@@ -28,18 +26,22 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
 {
     uint64_t beginTimeStamp = ::time(nullptr);
     std::atomic<int> curPixelCount = 0;
-#pragma omp parallel for num_threads(4)
-    for (int jj = m_imageHeight - 1; jj >= 0; --jj)
+    const int frameBufferWidth = m_frameBuffer.getWidth();
+    const int frameBufferHeight = m_frameBuffer.getHeight();
+    const int frameBufferPixelNumber = frameBufferWidth * frameBufferHeight;
+
+#pragma omp parallel for
+    for (int jj = frameBufferHeight - 1; jj >= 0; --jj)
     {
-        for (int ii = 0; ii < m_imageWidth; ++ii)
+        for (int ii = 0; ii < frameBufferWidth; ++ii)
         {
             Color pixelColor(0.0, 0.0, 0.0);
 
             for (int sampleTimes = 0; sampleTimes < m_sampleTimes; ++sampleTimes)
             {
                 // Generate random rays in a cluster
-                double u = static_cast<double>(ii + MathUtils::randomDouble()) / (m_imageWidth - 1);
-                double v = static_cast<double>(jj + MathUtils::randomDouble()) / (m_imageHeight - 1);
+                double u = static_cast<double>(ii + MathUtils::randomDouble()) / (frameBufferWidth - 1);
+                double v = static_cast<double>(jj + MathUtils::randomDouble()) / (frameBufferHeight - 1);
                 Ray ray = camera.getRay(u, v);
                 pixelColor += getRayColor(ray, world, m_maxRecursiveDepth);
             }
@@ -51,10 +53,10 @@ void ExampleBase::process(const Camera& camera, const HittableList& world)
             pixelColor[2] = std::clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
 
             // size_t pixelIndex = (imageHeight - 1 - jj) * imageWidth + ii;
-            size_t pixelIndex = m_pixelNumber - (jj + 1) * m_imageWidth + ii;
-            m_imageExporter.fillColor(pixelIndex, pixelColor);
+            int pixelIndex = frameBufferPixelNumber - (jj + 1) * frameBufferWidth + ii;
+            m_frameBuffer.fill(pixelIndex, pixelColor);
 
-            printf("Fill color pixel placed at %d, progress = %d/%d.\n", static_cast<int>(pixelIndex), ++curPixelCount, m_pixelNumber);
+            printf("Fill color pixel placed at %d, progress = %d/%d.\n", static_cast<int>(pixelIndex), ++curPixelCount, frameBufferPixelNumber);
         }
     }
 

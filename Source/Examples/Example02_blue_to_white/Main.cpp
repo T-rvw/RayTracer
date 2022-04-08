@@ -3,12 +3,12 @@
 
 #include <iostream>
 
-Color getRayColor(const Ray& ray)
+Color getRayColor(const Ray& ray, const Color& srcColor, const Color& dstColor)
 {
 	XYZ unitDir = ray.direction();
     unitDir.normalize();
 	double t = 0.5 * (unitDir.y() + 1.0);
-	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
+	return (1.0 - t) * srcColor + t * dstColor;
 }
 
 int main()
@@ -17,7 +17,9 @@ int main()
     constexpr int imageHeight = 225;
     constexpr int pixelNumber = imageHeight * imageWidth;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
-    ImageExporter imageExporter(imageWidth, imageHeight);
+    FrameBuffer frameBuffer(imageWidth, imageHeight);
+    Color source(1.0, 1.0, 1.0);
+    Color destination(0.5, 0.7, 1.0);
 
 	// Camera
 	double viewPortHeight = 2.0;
@@ -42,14 +44,14 @@ int main()
 			Ray ray(origin, leftDownCorner + u * horizontal + v * vertical - origin);
 
             // (imageHeight - 1 - jj) * imageWidth + ii;
-            size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
-            imageExporter.fillColor(pixelIndex, getRayColor(ray));
+            int pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
+            frameBuffer.fill(pixelIndex, getRayColor(ray, source, destination));
 
             printf("Fill color pixel placed at %d, progress = %d/%d\n", static_cast<int>(pixelIndex), ++curPixelCount, pixelNumber);
         }
     }    
 	
-    if (imageExporter.generate("test.png"))
+    if (ImageExporter::generate(frameBuffer, "test.png"))
     {
         std::cout << "Succeed to generate image." << std::endl;
     }

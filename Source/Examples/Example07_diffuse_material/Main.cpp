@@ -48,12 +48,9 @@ public:
 
 int main()
 {
-    // ImageExporter
     constexpr int imageWidth = 400;
     constexpr int imageHeight = 225;
-    constexpr int pixelNumber = imageHeight * imageWidth;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
-    ImageExporter imageExporter(imageWidth, imageHeight);
 
     // Config
     constexpr int samplesPerPixel = 100;

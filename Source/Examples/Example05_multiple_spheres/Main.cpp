@@ -29,7 +29,7 @@ int main()
     constexpr int imageHeight = 225;
     constexpr int pixelNumber = imageHeight * imageWidth;
     constexpr double aspectRatio = static_cast<double>(imageWidth) / static_cast<double>(imageHeight);
-    ImageExporter imageExporter(imageWidth, imageHeight);
+    FrameBuffer frameBuffer(imageWidth, imageHeight);
 
     // World
     HittableList hittableList;
@@ -60,14 +60,14 @@ int main()
             Ray ray(origin, leftDownCorner + u * horizontal + v * vertical - origin);
 
             // (imageHeight - 1 - jj) * imageWidth + ii;
-            size_t pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
-            imageExporter.fillColor(pixelIndex, getRayColor(ray, hittableList));
+            int pixelIndex = pixelNumber - (jj + 1) * imageWidth + ii;
+            frameBuffer.fill(pixelIndex, getRayColor(ray, hittableList));
 
             printf("Fill color pixel placed at %d, progress = %d/%d\n", static_cast<int>(pixelIndex), ++curPixelCount, pixelNumber);
         }
     }
 	
-    if (imageExporter.generate("test.png"))
+    if (ImageExporter::generate(frameBuffer, "test.png"))
     {
         std::cout << "Succeed to generate image." << std::endl;
     }
