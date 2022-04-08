@@ -3,6 +3,8 @@
 #include "FrameBuffer.h"
 
 #include <inttypes.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 
 class Application

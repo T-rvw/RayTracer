@@ -58,7 +58,7 @@ int main()
 
     // Init example and run
     ExampleEmissive example(imageWidth, imageHeight);
-    example.setSampleTimes(200);
+    example.setSampleTimes(2000);
     example.setMaxRecursiveDepth(50);
     example.process(camera, hittableList);
     example.generate("test.png");

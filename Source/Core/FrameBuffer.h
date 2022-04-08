@@ -48,6 +48,7 @@ public:
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
     const uint8_t* getData() const { return m_pData; }
+    void setData(uint8_t* pData) { m_pData = pData; }
 
     void clear(const XYZ& value, uint8_t alpha = 255)
     {
