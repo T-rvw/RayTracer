@@ -1,12 +1,18 @@
 #include "ExampleWindows.h"
-#include "ImageExporter.h"
+#include "FrameBuffer.h"
 
 #include <iostream>
 
-ExampleWindows::ExampleWindows(FrameBuffer<PixelFormat::BGRA>* pFrameBuffer) :
-    m_pFrameBuffer(pFrameBuffer)
+ExampleWindows::ExampleWindows(FrameBuffer<PixelFormat::BGRA>* pFrameBuffer)
+    : m_pFrameBuffer(pFrameBuffer)
 {
     m_beginTimeStamp = ::time(nullptr);
+
+    m_samplerPixelBufferCache.resize(m_pFrameBuffer->getWidth() * m_pFrameBuffer->getHeight());
+}
+
+ExampleWindows::~ExampleWindows()
+{
 }
 
 bool ExampleWindows::process(const Camera& camera, const HittableList& world)
@@ -33,7 +39,8 @@ bool ExampleWindows::process(const Camera& camera, const HittableList& world)
             else
             {
                 // End one step sampler
-                m_currentProgressSamplerTimes += 10;
+                m_lastProgressSamplerTimes = m_currentProgressSamplerTimes;
+                m_currentProgressSamplerTimes += (m_sampleTimes / 3);
                 if (m_currentProgressSamplerTimes >= m_sampleTimes)
                 {
                     m_currentProgressSamplerTimes = m_sampleTimes;
@@ -52,8 +59,9 @@ bool ExampleWindows::process(const Camera& camera, const HittableList& world)
         }
     }
 
-    Color pixelColor(0.0, 0.0, 0.0);
-    for (int sampleTimes = 0; sampleTimes < m_currentProgressSamplerTimes; ++sampleTimes)
+    int cacheIndex = m_currentProgressI + m_currentProgressJ * m_pFrameBuffer->getWidth();
+    Color pixelColor = m_samplerPixelBufferCache[cacheIndex];
+    for (int sampleTimes = 0, numTotalTimes = m_currentProgressSamplerTimes - m_lastProgressSamplerTimes; sampleTimes < numTotalTimes; ++sampleTimes)
     {
         // Generate random rays in a cluster
         double u = static_cast<double>(m_currentProgressI + MathUtils::randomDouble()) / (frameBufferWidth - 1);
@@ -61,6 +69,9 @@ bool ExampleWindows::process(const Camera& camera, const HittableList& world)
         Ray ray = camera.getRay(u, v);
         pixelColor += getRayColor(ray, world, m_maxRecursiveDepth);
     }
+
+    // Cache previous sampler result
+    m_samplerPixelBufferCache[cacheIndex] = pixelColor;
 
     // sample && gamma-correct(1/2)
     double sampleScale = 1.0 / m_sampleTimes;

@@ -81,20 +81,35 @@ public:
         return rgbIndex;
     }
 
+    XYZ getValue(int x, int y) const
+    {
+        int rgbIndex = (y * m_width + x) * component;
+
+        if constexpr (PixelFormat::RGBA == pixelFormat)
+        {
+            // TODO alpha : 255
+            return XYZ(m_pData[rgbIndex], m_pData[rgbIndex + 1], m_pData[rgbIndex + 2]);
+        }
+        else if constexpr (PixelFormat::BGRA == pixelFormat)
+        {
+            return XYZ(m_pData[rgbIndex + 2], m_pData[rgbIndex + 1], m_pData[rgbIndex]);
+        }
+    }
+
 private:
     void fillInternal(int byteIndex, uint8_t a, uint8_t b, uint8_t c, uint8_t d)
     {
         // sanity checks to avoid crash in experiments
         if (byteIndex < 0 || byteIndex >= m_width * m_height * component) return;
 
-        if constexpr (pixelFormat == PixelFormat::RGBA)
+        if constexpr (PixelFormat::RGBA == pixelFormat)
         {
             m_pData[byteIndex] = a;
             m_pData[byteIndex + 1] = b;
             m_pData[byteIndex + 2] = c;
             m_pData[byteIndex + 3] = d;
         }
-        else if constexpr (pixelFormat == PixelFormat::BGRA)
+        else if constexpr (PixelFormat::BGRA == pixelFormat)
         {
             m_pData[byteIndex] = c;
             m_pData[byteIndex + 1] = b;

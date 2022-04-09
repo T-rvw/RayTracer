@@ -9,7 +9,7 @@ class ExampleWindows
 public:
     ExampleWindows() = delete;
     explicit ExampleWindows(FrameBuffer<PixelFormat::BGRA>* pFrameBuffer);
-    virtual ~ExampleWindows() = default;
+    virtual ~ExampleWindows();
 
     ExampleWindows(const ExampleWindows&) = delete;
     ExampleWindows(ExampleWindows&&) = delete;
@@ -28,10 +28,12 @@ protected:
     int m_sampleTimes;
 
 private:
-    uint64_t    m_beginTimeStamp = 0ULL;
-    int         m_curPixelCount = 0;
-    int         m_currentProgressI = 0;
-    int         m_currentProgressJ = 0;
-    int         m_currentProgressSamplerTimes = 1;
-    bool        m_finish = false;
+    std::vector<Color>                  m_samplerPixelBufferCache;
+    uint64_t                            m_beginTimeStamp = 0ULL;
+    int                                 m_curPixelCount = 0;
+    int                                 m_currentProgressI = 0;
+    int                                 m_currentProgressJ = 0;
+    int                                 m_lastProgressSamplerTimes = 0;
+    int                                 m_currentProgressSamplerTimes = 1;
+    bool                                m_finish = false;
 };
