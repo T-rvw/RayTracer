@@ -21,6 +21,10 @@ public:
     uint8_t* getFrameBuffer() { return m_pFrameBufferData; }
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
+    void setDebugOutput(const wchar_t* pOutputText) { m_pOutputDebugText = pOutputText; }
+    void setMousePos(int x, int y) { m_mouseX = x; m_mouseY = y; }
+    int getMouseX() const { return m_mouseX; }
+    int getMouseY() const { return m_mouseY; }
 
     Application(const Application&) = delete;
     Application(Application&&) = delete;
@@ -31,6 +35,10 @@ private:
     int                     m_width;
     int                     m_height;
     const wchar_t*          m_pTitle;
+
+    int                     m_mouseX = 0;
+    int                     m_mouseY = 0;
+    const wchar_t*          m_pOutputDebugText = L"Debug Output:";
 
     // Win32
     HWND                    m_windowHandle;

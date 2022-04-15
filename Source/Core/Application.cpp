@@ -1,9 +1,20 @@
 #include "Application.h"
 
-static Application* s_appliction = nullptr;
+static Application* s_pAppliction = nullptr;
 
 static LRESULT CALLBACK handleWin32Messages(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static POINTS mousePoint;
+	switch (msg)
+	{
+		case WM_MOUSEMOVE:
+			if (wParam & MK_LBUTTON)
+			{
+				mousePoint = MAKEPOINTS(lParam);
+				s_pAppliction->setMousePos(mousePoint.x, mousePoint.y);
+			}
+	}
+
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -12,7 +23,9 @@ Application::Application(int width, int height, const wchar_t* pTitle)
 	m_height(height),
 	m_pTitle(pTitle)
 {
-	s_appliction = this;
+	s_pAppliction = this;
+	m_mouseX = static_cast<int>(m_width * 0.5);
+	m_mouseY = static_cast<int>(m_height * 0.5);
 }
 
 Application::~Application()
@@ -112,18 +125,18 @@ void Application::init()
 
 void Application::present() const
 {
-	//LOGFONT logfont;
-	//ZeroMemory(&logfont, sizeof(LOGFONT));
-	//logfont.lfCharSet = ANSI_CHARSET;
-	//logfont.lfHeight = 20;
-	//HFONT hFont = CreateFontIndirect(&logfont);
+	LOGFONT logfont;
+	ZeroMemory(&logfont, sizeof(LOGFONT));
+	logfont.lfCharSet = ANSI_CHARSET;
+	logfont.lfHeight = 20;
+	HFONT hFont = CreateFontIndirect(&logfont);
 
 	HDC tempDC = GetDC(m_windowHandle);
-	//SelectObject(m_deviceContextHandle, hFont);
-	//SetTextColor(m_deviceContextHandle, RGB(190, 190, 190));
-	//SetBkColor(m_deviceContextHandle, RGB(80, 80, 80));
+	SelectObject(m_deviceContextHandle, hFont);
+	SetTextColor(m_deviceContextHandle, RGB(190, 190, 190));
+	SetBkColor(m_deviceContextHandle, RGB(80, 80, 80));
 
-	//TextOut(m_deviceContextHandle, 20, 20, L"Debug Output", sizeof("Debug Output"));
+	TextOut(m_deviceContextHandle, 20, 20, m_pOutputDebugText, static_cast<int>(wcslen(m_pOutputDebugText)));
 
 	BitBlt(tempDC, 0, 0, m_width, m_height, m_deviceContextHandle, 0, 0, SRCCOPY);
 	ReleaseDC(m_windowHandle, tempDC);
