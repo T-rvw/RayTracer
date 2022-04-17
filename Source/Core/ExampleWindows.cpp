@@ -74,7 +74,7 @@ bool ExampleWindows::process(const Camera& camera, const HittableList& world)
     m_samplerPixelBufferCache[cacheIndex] = pixelColor;
 
     // sample && gamma-correct(1/2)
-    double sampleScale = 1.0 / m_sampleTimes;
+    double sampleScale = 1.0 / m_currentProgressSamplerTimes;
     pixelColor[0] = std::clamp(pow(pixelColor.x() * sampleScale, 0.5), 0.0, 1.0);
     pixelColor[1] = std::clamp(pow(pixelColor.y() * sampleScale, 0.5), 0.0, 1.0);
     pixelColor[2] = std::clamp(pow(pixelColor.z() * sampleScale, 0.5), 0.0, 1.0);
