@@ -6,6 +6,7 @@ class XY final
 {
 public:
     XY() : m_value{ 0, 0 } {}
+    XY(double v) : m_value{ v, v } {}
     XY(double x, double y) : m_value{ x, y } {}
     ~XY() = default;
 
@@ -16,6 +17,8 @@ public:
 
     double x() const { return m_value[0]; }
     double y() const { return m_value[1]; }
+
+    XY& normalize() { *this /= length(); return *this; }
 
     double operator[](int index) const { return m_value[index]; }
     double& operator[](int index) { return m_value[index]; }
