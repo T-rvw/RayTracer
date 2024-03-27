@@ -25,6 +25,14 @@ public:
     double& operator[](int index) { return m_value[index]; }
     XYZ operator-() const { return XYZ(-x(), -y(), -z()); }
 
+    XYZ& operator+=(double v)
+    {
+        m_value[0] += v;
+        m_value[1] += v;
+        m_value[2] += v;
+        return *this;
+    }
+
     XYZ& operator+=(const XYZ& rhs)
     {
         m_value[0] += rhs.x();
